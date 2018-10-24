@@ -13,7 +13,7 @@ public class Main {
 		
 		color.setColorIdMode();
 		color.setFloodLight(false);
-		int i = 100;
+		int i = 10;
 		while (i != 0) {
 			LCD.clearDisplay();
 			LCD.drawString("" + color.getColorID(), 0, 0);
