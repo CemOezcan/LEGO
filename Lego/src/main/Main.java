@@ -16,6 +16,7 @@ public class Main {
 		//4 = Druck links
 		//2 = infrarot
 		//3 = ultraschall
+		//Hallo
 		ColorSensor color = new ColorSensor(SensorPort.S2);
 		
 		color.setColorIdMode();
