@@ -9,14 +9,6 @@ public class Main {
 	public static void main(String[] args) {
 		LCD.clearDisplay();
 		LCD.drawString("Hello-World", 0, 0);
-		//D = links 
-		//C = rechts
-		//A = Drehmotor
-		//1 = Druck rechts
-		//4 = Druck links
-		//2 = infrarot
-		//3 = ultraschall
-		//Hallo
 		ColorSensor color = new ColorSensor(SensorPort.S2);
 		
 		color.setColorIdMode();
