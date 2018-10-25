@@ -1,14 +1,14 @@
 package main;
 
 import robot.Robot;
-import mission.TaskMenu;
+import robot.GUI;
 
 public class Main {
 
 	public static void main(String[] Args) {
 		
 		Robot robot = new Robot();
-		TaskMenu menu = new TaskMenu();
+		GUI menu = new GUI();
 		menu.showMenu();
 	}
 }
