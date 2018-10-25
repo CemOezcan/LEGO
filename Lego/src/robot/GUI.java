@@ -1,5 +1,6 @@
 package robot;
 
+import lejos.hardware.Button;
 import lejos.utility.TextMenu;
 import mission.Task;
 
@@ -10,7 +11,14 @@ public class GUI extends TextMenu{
 	}
 	
 	public void showMenu() {
-		
+		while (Button.ESCAPE.isUp()) {
+			
+			lcd.clear();
+			
+			switch(this.select()) {
+			
+			}
+		}
 	}
 
 }
