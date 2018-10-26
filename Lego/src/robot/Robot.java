@@ -37,31 +37,51 @@ public class Robot {
 		
 	}
 	
+	/**
+	 * Robot starts driving forward.
+	 */
 	public void forward() {
 		this.pilot.stop();
 		this.pilot.forward();
 	}
 	
+	/**
+	 * Robot starts driving forward.
+	 */
 	public void backward() {
 		this.pilot.stop();
 		this.pilot.backward();
 	}
 	
+	/**
+	 * Robot turns left by 90 degrees with zero radius.
+	 */
 	public void turnLeft() {
 		this.pilot.stop();
 		this.pilot.steer(200, 90);
 	}
 	
+	/**
+	 * Robot turns right by 90 degrees with zero radius.
+	 */
 	public void turnRight() {
 		this.pilot.stop();
 		this.pilot.steer(-200, 90);
 	}
 	
+	/**
+	 * Robot turns left with zero radius.
+	 * @param degree turning degree
+	 */
 	public void RotateLeft(double degree) {
 		this.pilot.stop();
 		this.pilot.steer(200, degree);
 	}
 	
+	/**
+	 * Robot turns right with zero radius.
+	 * @param degree turning degree
+	 */
 	public void RotateRight(double degree) {
 		this.pilot.stop();
 		this.pilot.steer(-200, degree);
