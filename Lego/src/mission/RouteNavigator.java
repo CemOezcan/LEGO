@@ -21,13 +21,8 @@ public class RouteNavigator implements Mission {
 		
 		boolean end = false;
 		while (Button.LEFT.isUp() && !end) {
-			while(true) { //while
+			//algorithm for the line follower
 				
-			}
-			
-			
-			
-			
 		}
 		
 	}
