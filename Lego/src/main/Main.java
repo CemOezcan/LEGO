@@ -1,14 +1,15 @@
 package main;
 
 import robot.Robot;
-import mission.TaskMenu;
+import robot.GUI;
+import lejos.hardware.Sound;
 
 public class Main {
 
 	public static void main(String[] Args) {
-		
+		Sound.beep();
 		Robot robot = new Robot();
-		TaskMenu menu = new TaskMenu();
-		menu.showMenu();
+		GUI menu = new GUI();
+		menu.showMenu(robot);
 	}
 }
