@@ -1,18 +1,15 @@
 package sensor;
 
 import lejos.hardware.port.Port;
+import lejos.hardware.sensor.EV3IRSensor;
 
 public class InfraRedSensor extends Sensor {
+	
+	private EV3IRSensor sensor;
 
 	public InfraRedSensor(Port port) {
 		super(port);
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	protected void switchMode(int mode) {
-		// TODO Auto-generated method stub
-		
+		this.sensor = new EV3IRSensor(this.port);
 	}
 
 }

@@ -11,10 +11,21 @@ public class ColorSensor extends Sensor {
 		super(port);
 		this.sensor = new EV3ColorSensor(this.port);
 	}
-
-	@Override
-	protected void switchMode(int mode) {
-		this.sensor.setCurrentMode(mode);
+	
+	public void setClorIDMode() {
+		this.switchMode(this.sensor, "ColorID");
+	}
+	
+	public void setRedMode() {
+		this.switchMode(this.sensor, "Red");
+	}
+	
+	public void setRGBMode() {
+		this.switchMode(this.sensor, "RGB");
+	}
+	
+	public void setAmbientMode() {
+		this.switchMode(this.sensor, "Ambient");
 	}
 	
 }

@@ -9,13 +9,7 @@ public class UltraSonicSensor extends Sensor {
 
 	public UltraSonicSensor(Port port) {
 		super(port);
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	protected void switchMode(int mode) {
-		// TODO Auto-generated method stub
-		
+		this.sensor = new EV3UltrasonicSensor(this.port);
 	}
 
 }

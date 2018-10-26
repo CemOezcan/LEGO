@@ -1,6 +1,7 @@
 package sensor;
 
 import lejos.hardware.port.Port;
+import lejos.hardware.sensor.BaseSensor;
 
 public abstract class Sensor {
 	
@@ -10,6 +11,8 @@ public abstract class Sensor {
 		this.port = port;
 	}
 	
-	protected abstract void switchMode(int mode);
+	protected void switchMode(BaseSensor sensor, String mode) {
+		sensor.setCurrentMode(mode);
+	}
 	
 }
