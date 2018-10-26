@@ -50,4 +50,5 @@ public class Robot {
 	public void RotateRight(int degree) {
 		
 	}
+	
 }
