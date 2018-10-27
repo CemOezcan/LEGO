@@ -13,7 +13,7 @@ public class Robot {
 	private DifferentialPilot pilot;
 
 	private final Port MOTOR_LEFT = MotorPort.C;
-	private final Port MOTOR_Right = MotorPort.D;
+	private final Port MOTOR_RIGHT = MotorPort.D;
 	private final Port MOTOR_ULTRA_SONIC = MotorPort.A;
 	
 	private final Port SENSOR_COLOR = SensorPort.S1;
@@ -21,7 +21,7 @@ public class Robot {
 	private final Port SENSOR_TOUCH_RIGHT = SensorPort.S3;
 	private final Port SENSOR_ULTRA_SONIC = SensorPort.S4;
 	
-	private RegulatedMotor motorRight = new EV3LargeRegulatedMotor(MOTOR_Right);
+	private RegulatedMotor motorRight = new EV3LargeRegulatedMotor(MOTOR_RIGHT);
 	private RegulatedMotor motorLeft = new EV3LargeRegulatedMotor(MOTOR_LEFT);
 	private RegulatedMotor motorUltraSonic = new EV3MediumRegulatedMotor(MOTOR_LEFT);
 	
@@ -34,7 +34,6 @@ public class Robot {
 		boolean reverse = false;
 		
 		this.pilot = new DifferentialPilot(leftWheel, rightWheel, trackWidth, this.motorLeft, this.motorRight, reverse);
-		
 	}
 	
 	/**
