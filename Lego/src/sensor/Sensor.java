@@ -11,6 +11,11 @@ public abstract class Sensor {
 		this.port = port;
 	}
 	
+	/**
+	 * Switch mode of the sensor
+	 * @param sensor represented sensor
+	 * @param mode new mode
+	 */
 	protected void switchMode(BaseSensor sensor, String mode) {
 		sensor.setCurrentMode(mode);
 	}
