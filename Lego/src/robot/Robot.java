@@ -49,6 +49,22 @@ public class Robot {
 		this.pressureSensorRight = new PressureSensor(this.SENSOR_TOUCH_RIGHT);
 	}
 	
+	public ColorSensor getColorSensor() {
+		return this.colorSensor;
+	}
+	
+	public UltraSonicSensor getUltraSonicSensor() {
+		return this.ultraSonicSensor;
+	}
+	
+	public PressureSensor getPressureSensorLeft() {
+		return this.pressureSensorLeft;
+	}
+	
+	public PressureSensor getPressureSensorRight() {
+		return this.pressureSensorRight;
+	}
+	
 	/**
 	 * Robot starts driving forward.
 	 */
