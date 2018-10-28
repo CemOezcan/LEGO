@@ -8,7 +8,7 @@ public class Main {
 	public static void main(String[] Args) {
 		
 		Robot robot = new Robot();
-		GUI menu = new GUI();
+		GUI menu = new GUI(robot);
 		menu.showMenu();
 	}
 }

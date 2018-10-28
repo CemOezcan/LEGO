@@ -12,14 +12,17 @@ import mission.Task;
 
 public class GUI extends TextMenu{
 	
+	private final Robot robot;
 	private RouteNavigator routeNavigator;
 	private BridgeCrosser bridgeCrosser;
 	private BoxShifter boxShifter;
 	private MazeRunner mazeRunner;
 	private TreasureHunter tresureHunter;
 	
-	public GUI() {
+	public GUI(Robot robot) {
 		super(Task.getTaskList());
+		
+		this.robot = robot;
 		
 		routeNavigator = new RouteNavigator();
 		bridgeCrosser = new BridgeCrosser();
@@ -31,11 +34,23 @@ public class GUI extends TextMenu{
 	public void showMenu() {
 		while (Button.ESCAPE.isUp()) {
 			
-			lcd.clear();
-			
 			switch(this.select()) {
-			case 1:
+			
+			case 1:		
+				lcd.clear();
+				break;
+			
+			case 2:
+				break;
+			
+			case 3:
+				break;
+			
+			case 4:
+				break;
 				
+			default:
+				break;
 			}
 		}
 	}
