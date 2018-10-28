@@ -8,7 +8,6 @@ import lejos.hardware.port.SensorPort;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.navigation.DifferentialPilot;
 import sensor.ColorSensor;
-import sensor.InfraRedSensor;
 import sensor.PressureSensor;
 import sensor.UltraSonicSensor;
 
@@ -41,12 +40,13 @@ public class Robot {
 		double leftWheel = 0;
 		double trackWidth = 0;
 		boolean reverse = false;
-		
 		this.pilot = new DifferentialPilot(leftWheel, rightWheel, trackWidth, this.motorLeft, this.motorRight, reverse);
+		
 		this.colorSensor = new ColorSensor(this.SENSOR_COLOR);
 		this.ultraSonicSensor = new UltraSonicSensor(this.SENSOR_ULTRA_SONIC);
 		this.pressureSensorLeft = new PressureSensor(this.SENSOR_TOUCH_LEFT);
 		this.pressureSensorRight = new PressureSensor(this.SENSOR_TOUCH_RIGHT);
+		
 	}
 	
 	/**
