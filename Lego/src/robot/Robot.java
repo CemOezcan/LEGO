@@ -49,18 +49,34 @@ public class Robot {
 		this.pressureSensorRight = new PressureSensor(this.SENSOR_TOUCH_RIGHT);
 	}
 	
+	/**
+	 * 
+	 * @return the color sensor
+	 */
 	public ColorSensor getColorSensor() {
 		return this.colorSensor;
 	}
 	
+	/**
+	 * 
+	 * @return the ultrasonic sensor
+	 */
 	public UltraSonicSensor getUltraSonicSensor() {
 		return this.ultraSonicSensor;
 	}
 	
+	/**
+	 * 
+	 * @return the left touch sensor
+	 */
 	public PressureSensor getPressureSensorLeft() {
 		return this.pressureSensorLeft;
 	}
 	
+	/**
+	 * 
+	 * @return the right touch sensor
+	 */
 	public PressureSensor getPressureSensorRight() {
 		return this.pressureSensorRight;
 	}
