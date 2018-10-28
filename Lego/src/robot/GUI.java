@@ -33,7 +33,7 @@ public class GUI extends TextMenu{
 		tresureHunter = new TreasureHunter(robot);
 	}
 	
-	public void showMenu(Robot robot) {
+	public void showMenu() {
 		RouteNavigator routeNavigator = new RouteNavigator(robot);
 		
 		while (Button.ESCAPE.isUp()) {

@@ -1,5 +1,6 @@
 package mission;
 
+import lejos.hardware.lcd.LCD;
 import robot.Robot;
 
 public class MazeRunner implements Mission {
@@ -12,9 +13,10 @@ public class MazeRunner implements Mission {
 	
 	@Override
 	public void executeMission() {
-
 		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < 10; i--) {
+			LCD.drawString("MazeRunnerAlgorithm", 0, 0);
+		}
 	}
 
 }

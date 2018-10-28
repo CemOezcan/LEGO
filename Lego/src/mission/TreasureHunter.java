@@ -1,5 +1,6 @@
 package mission;
 
+import lejos.hardware.lcd.LCD;
 import robot.Robot;
 
 public class TreasureHunter implements Mission {
@@ -13,7 +14,9 @@ public class TreasureHunter implements Mission {
 	@Override
 	public void executeMission() {
 		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < 10; i--) {
+			LCD.drawString("TreasureHunterAlgorithm", 0, 0);
+		}
 	}
 
 }

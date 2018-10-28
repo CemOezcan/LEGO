@@ -1,5 +1,6 @@
 package mission;
 
+import lejos.hardware.lcd.LCD;
 import robot.Robot;
 
 public class BoxShifter implements Mission {
@@ -14,7 +15,7 @@ public class BoxShifter implements Mission {
 	public void executeMission() {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < 10; i--) {
-			//Endlosschleife zum Testen des Abbruchs
+			LCD.drawString("BoxShifterAlgorithm", 0, 0);
 		}
 	}
 
