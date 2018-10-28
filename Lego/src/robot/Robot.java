@@ -7,19 +7,28 @@ import lejos.hardware.port.Port;
 import lejos.hardware.port.SensorPort;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.navigation.DifferentialPilot;
+import sensor.ColorSensor;
+import sensor.InfraRedSensor;
+import sensor.PressureSensor;
+import sensor.UltraSonicSensor;
 
 public class Robot {
 	
 	private DifferentialPilot pilot;
 
-	private final Port MOTOR_LEFT = MotorPort.C;
-	private final Port MOTOR_RIGHT = MotorPort.D;
+	private final Port MOTOR_LEFT = MotorPort.D;
+	private final Port MOTOR_RIGHT = MotorPort.C;
 	private final Port MOTOR_ULTRA_SONIC = MotorPort.A;
 	
-	private final Port SENSOR_COLOR = SensorPort.S1;
-	private final Port SENSOR_TOUCH_LEFT = SensorPort.S2;
-	private final Port SENSOR_TOUCH_RIGHT = SensorPort.S3;
-	private final Port SENSOR_ULTRA_SONIC = SensorPort.S4;
+	private final Port SENSOR_COLOR = SensorPort.S2;
+	private final Port SENSOR_ULTRA_SONIC = SensorPort.S3;
+	private final Port SENSOR_TOUCH_LEFT = SensorPort.S4;
+	private final Port SENSOR_TOUCH_RIGHT = SensorPort.S1;
+	
+	private ColorSensor colorSensor;
+	private UltraSonicSensor ultraSonicSensor;
+	private PressureSensor pressureSensorLeft;
+	private PressureSensor pressureSensorRight;
 	
 	private RegulatedMotor motorRight = new EV3LargeRegulatedMotor(MOTOR_RIGHT);
 	private RegulatedMotor motorLeft = new EV3LargeRegulatedMotor(MOTOR_LEFT);
@@ -34,6 +43,10 @@ public class Robot {
 		boolean reverse = false;
 		
 		this.pilot = new DifferentialPilot(leftWheel, rightWheel, trackWidth, this.motorLeft, this.motorRight, reverse);
+		this.colorSensor = new ColorSensor(this.SENSOR_COLOR);
+		this.ultraSonicSensor = new UltraSonicSensor(this.SENSOR_ULTRA_SONIC);
+		this.pressureSensorLeft = new PressureSensor(this.SENSOR_TOUCH_LEFT);
+		this.pressureSensorRight = new PressureSensor(this.SENSOR_TOUCH_RIGHT);
 	}
 	
 	/**
