@@ -4,7 +4,7 @@ import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.Color;
 
-public class ColorSensor extends Sensor {
+public class ColorSensor extends UARTSensor {
 	
 	private EV3ColorSensor sensor;
 	
@@ -23,7 +23,7 @@ public class ColorSensor extends Sensor {
 	 * This mode measures colors and returns a single numerical value.
 	 */
 	public void setClorIDMode() {
-		this.switchMode(this.sensor, "ColorID");
+		this.switchMode(this.sensor.getColorIDMode());
 		this.sensor.setFloodlight(true);
 	}
 	
@@ -32,7 +32,7 @@ public class ColorSensor extends Sensor {
 	 * This mode measures the brightness of reflected red light.
 	 */
 	public void setRedMode() {
-		this.switchMode(this.sensor, "Red");
+		this.switchMode(this.sensor.getRedMode());
 		this.sensor.setFloodlight(Color.RED);
 	}
 	
@@ -41,7 +41,7 @@ public class ColorSensor extends Sensor {
 	 * This mode measures the brightness of reflected red, green and blue light.
 	 */
 	public void setRGBMode() {
-		this.switchMode(this.sensor, "RGB");
+		this.switchMode(this.sensor.getRGBMode());
 		this.sensor.setFloodlight(Color.WHITE);
 	}
 	
@@ -50,7 +50,7 @@ public class ColorSensor extends Sensor {
 	 * This mode measures the ambient light level.
 	 */
 	public void setAmbientMode() {
-		this.switchMode(this.sensor, "Ambient");
+		this.switchMode(this.sensor.getAmbientMode());
 		this.sensor.setFloodlight(false);
 	}
 	
