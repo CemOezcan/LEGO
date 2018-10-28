@@ -19,7 +19,7 @@ public enum Task {
 	}
 
 	public static String[] getTaskList() {
-		String[] list = {LineFollower.getName(),Bridge.getName(), PointFinder.getName(), ObstacleMoving.getName()};
+		String[] list = {LineFollower.getName(), Bridge.getName(), PointFinder.getName(), ObstacleMoving.getName()};
 		return list;
 	}
 }
