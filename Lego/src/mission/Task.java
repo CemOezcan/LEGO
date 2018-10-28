@@ -1,8 +1,8 @@
 package mission;
 
 public enum Task {
-	LineFollower("Line follow"), Bridge("Bridge"), PointFinder("Pointfinder"),
-	ObstacleMoving("Obstacle moving");
+	RouteNavigator("Route Navigator"), BoxShifter("BoxShifter"), BridgeCrosser("Bridge Crosser"), TreasureHunter("Treasure Hunter"),
+	MazeRunner("Maze Runner");
 	
 	private String name;
 	
@@ -19,8 +19,13 @@ public enum Task {
 	}
 
 	public static String[] getTaskList() {
-		String[] list = {LineFollower.getName(), Bridge.getName(), PointFinder.getName(), ObstacleMoving.getName()};
-		return list;
+		String[] taskList = new String[Task.values().length];
+		int i = 0;
+		for(Task task : Task.values()) {
+			taskList[i] = task.getName();
+			i++;
+		}
+		return taskList;
 	}
 }
 
