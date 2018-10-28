@@ -9,9 +9,11 @@ public class RouteNavigator implements Mission {
 
 	private final Robot robot;
 	
+	//TODO: color values
 	private final float BLACK = 0.0f;
 	private final float WHITE = 0.0f;
 	private final float BLUE= 0.0f;
+	private final float OFFSET = 10f; 
 
 	public RouteNavigator(Robot robot) {
 		this.robot = robot;
@@ -22,19 +24,24 @@ public class RouteNavigator implements Mission {
 		Sound.beep();
 		
 		boolean end = false;
+		int degree = 0;
 		while (Button.LEFT.isUp() && !end) {
 			if (robot.getColorSensor().getColor()[0] == BLUE) {
 				end = true;
 			} else if (robot.getPressureSensorLeft().equals(null)) { //touchsensordata
-				driveAroundObstacle();
-			} else if (robot.getColorSensor().getColor()[0] > BLACK) {
+				this.driveAroundObstacle();
+			} else if (robot.getColorSensor().getColor()[0] > BLACK + OFFSET) {
 				robot.RotateLeft(10);
-			} else if (robot.getColorSensor().getColor()[0] < WHITE) {
+				degree += 10;
+				if (degree > 90) {
+					this.findLineAfterGap();
+				}
+			} else if (robot.getColorSensor().getColor()[0] < WHITE - OFFSET ) {
 				robot.RotateRight(10);
+				degree = 0;
 			}
 		}
 		Sound.beep();
-		
 	}
 	
 	public void driveAroundObstacle() {
