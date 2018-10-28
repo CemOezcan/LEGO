@@ -8,7 +8,6 @@ import mission.MazeRunner;
 import mission.RouteNavigator;
 import mission.Task;
 import mission.TreasureHunter;
-import mission.Task;
 
 public class GUI extends TextMenu{
 	
@@ -34,20 +33,34 @@ public class GUI extends TextMenu{
 	public void showMenu() {
 		while (Button.ESCAPE.isUp()) {
 			
-			switch(this.select()) {
+			String[] itemList = this.getItems();
 			
-			case 1:		
+			switch(itemList[this.select()]) {
+			
+			case "Route Navigator":
 				lcd.clear();
+				routeNavigator.executeMission();
 				break;
 			
-			case 2:
+			case "Box Shifter":
+				lcd.clear();
+				boxShifter.executeMission();
 				break;
-			
-			case 3:
+				
+			case "Bridge Crosser":
+				lcd.clear();
+				bridgeCrosser.executeMission();
 				break;
-			
-			case 4:
+				
+			case "Treasure Hunter":
+				lcd.clear();
+				tresureHunter.executeMission();
 				break;
+				
+			case "Maze Runner":
+				lcd.clear();
+				mazeRunner.executeMission();
+				break;	
 				
 			default:
 				break;
