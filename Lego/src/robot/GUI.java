@@ -7,6 +7,9 @@ import mission.BridgeCrosser;
 import mission.MazeRunner;
 import mission.RouteNavigator;
 import mission.Task;
+import mission.RouteNavigator;
+import mission.BoxShifter;
+import mission.BridgeCrosser;
 import mission.TreasureHunter;
 
 public class GUI extends TextMenu{
@@ -30,7 +33,9 @@ public class GUI extends TextMenu{
 		tresureHunter = new TreasureHunter(robot);
 	}
 	
-	public void showMenu() {
+	public void showMenu(Robot robot) {
+		RouteNavigator routeNavigator = new RouteNavigator(robot);
+		
 		while (Button.ESCAPE.isUp()) {
 			
 			String[] itemList = this.getItems();
@@ -41,7 +46,7 @@ public class GUI extends TextMenu{
 				lcd.clear();
 				routeNavigator.executeMission();
 				break;
-			
+
 			case "Box Shifter":
 				lcd.clear();
 				boxShifter.executeMission();

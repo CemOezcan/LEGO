@@ -1,5 +1,15 @@
 package sensor;
 
-public class UltraSonicSensor implements Sensor {
+import lejos.hardware.port.Port;
+import lejos.hardware.sensor.EV3UltrasonicSensor;
+
+public class UltraSonicSensor extends Sensor {
+	
+	private EV3UltrasonicSensor sensor;
+
+	public UltraSonicSensor(Port port) {
+		super(port);
+		this.sensor = new EV3UltrasonicSensor(this.port);
+	}
 
 }
