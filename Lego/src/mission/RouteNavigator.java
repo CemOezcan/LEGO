@@ -34,6 +34,7 @@ public class RouteNavigator implements Mission {
 				robot.RotateLeft(10);
 				degree += 10;
 				if (degree > 90) {
+					robot.RotateRight(100);
 					this.findLineAfterGap();
 				}
 			} else if (robot.getColorSensor().getColor()[0] < WHITE - OFFSET ) {
