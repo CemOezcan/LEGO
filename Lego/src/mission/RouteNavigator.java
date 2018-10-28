@@ -9,22 +9,31 @@ public class RouteNavigator implements Mission {
 
 	private final Robot robot;
 	
-	private final double BLACK = 0.0;
-	private final double WHITE = 0.0;
-	private final double BLUE= 0.0;
+	private final float BLACK = 0.0f;
+	private final float WHITE = 0.0f;
+	private final float BLUE= 0.0f;
 
 	public RouteNavigator(Robot robot) {
 		this.robot = robot;
 	}
 
+	@Override
 	public void executeMission() {
 		Sound.beep();
 		
 		boolean end = false;
 		while (Button.LEFT.isUp() && !end) {
-			//algorithm for the line follower
-				
+			if (robot.getColorSensor().getColor()[0] == BLUE) {
+				end = true;
+			} else if (robot.getPressureSensorLeft().equals(null)) { //touchsensordata
+				driveAroundObstacle();
+			} else if (robot.getColorSensor().getColor()[0] > BLACK) {
+				robot.RotateLeft(10);
+			} else if (robot.getColorSensor().getColor()[0] < WHITE) {
+				robot.RotateRight(10);
+			}
 		}
+		Sound.beep();
 		
 	}
 	
