@@ -1,7 +1,15 @@
 package mission;
 
+import robot.Robot;
+
 public class BoxShifter implements Mission {
 
+	private final Robot robot;
+	
+	public BoxShifter(Robot robot) {
+		this.robot = robot;
+	}
+	
 	@Override
 	public void executeMission() {
 		// TODO Auto-generated method stub

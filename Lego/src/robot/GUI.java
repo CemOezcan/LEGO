@@ -23,11 +23,11 @@ public class GUI extends TextMenu{
 		
 		this.robot = robot;
 		
-		routeNavigator = new RouteNavigator();
-		bridgeCrosser = new BridgeCrosser();
-		boxShifter = new BoxShifter();
-		mazeRunner = new MazeRunner();
-		tresureHunter = new TreasureHunter();
+		routeNavigator = new RouteNavigator(robot);
+		bridgeCrosser = new BridgeCrosser(robot);
+		boxShifter = new BoxShifter(robot);
+		mazeRunner = new MazeRunner(robot);
+		tresureHunter = new TreasureHunter(robot);
 	}
 	
 	public void showMenu() {
