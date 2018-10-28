@@ -1,5 +1,6 @@
 package mission;
 
+import lejos.hardware.Sound;
 import lejos.hardware.lcd.LCD;
 import robot.Robot;
 
@@ -14,6 +15,7 @@ public class BridgeCrosser implements Mission {
 	@Override
 	public void executeMission() {
 		// TODO Auto-generated method stub
+		Sound.beep();
 		for (int i = 0; i < 10; i--) {
 			LCD.drawString("BridgeCrosserAlgorithm", 0, 0);
 		}
