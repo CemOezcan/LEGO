@@ -109,7 +109,7 @@ public class Robot {
 	 */
 	public void turnRight() {
 		this.pilot.stop();
-		this.pilot.steer(-200, 90);
+		this.pilot.steer(200, -90);
 	}
 	
 	/**
@@ -127,7 +127,7 @@ public class Robot {
 	 */
 	public void RotateRight(double degree) {
 		this.pilot.stop();
-		this.pilot.steer(-200, degree);
+		this.pilot.steer(200, -degree);
 	}
 	
 	/**
