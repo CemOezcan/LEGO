@@ -7,6 +7,7 @@ import lejos.robotics.Color;
 public class ColorSensor extends UARTSensor {
 	
 	private EV3ColorSensor sensor;
+	private float[] sample;
 	
 	/**
 	 * Creates new ColorSensor-Object, representing a EV3ColorSensor.
@@ -24,6 +25,7 @@ public class ColorSensor extends UARTSensor {
 	 */
 	public void setColorIDMode() {
 		this.sensor.setCurrentMode("ColorID");
+		sample = new float[this.sensor.sampleSize()];
 		//this.switchMode(this.sensor.getColorIDMode());
 		this.sensor.setFloodlight(false);
 	}
@@ -33,7 +35,9 @@ public class ColorSensor extends UARTSensor {
 	 * This mode measures the brightness of reflected red light.
 	 */
 	public void setRedMode() {
-		this.switchMode(this.sensor.getRedMode());
+		this.sensor.setCurrentMode("Red");
+		sample = new float[this.sensor.sampleSize()];
+		//this.switchMode(this.sensor.getRedMode());
 		this.sensor.setFloodlight(Color.RED);
 	}
 	
@@ -42,7 +46,9 @@ public class ColorSensor extends UARTSensor {
 	 * This mode measures the brightness of reflected red, green and blue light.
 	 */
 	public void setRGBMode() {
-		this.switchMode(this.sensor.getRGBMode());
+		this.sensor.setCurrentMode("RGB");
+		sample = new float[this.sensor.sampleSize()];
+		//this.switchMode(this.sensor.getRGBMode());
 		this.sensor.setFloodlight(Color.WHITE);
 	}
 	
@@ -51,7 +57,9 @@ public class ColorSensor extends UARTSensor {
 	 * This mode measures the ambient light level.
 	 */
 	public void setAmbientMode() {
-		this.switchMode(this.sensor.getAmbientMode());
+		this.sensor.setCurrentMode("Ambient");
+		sample = new float[this.sensor.sampleSize()];
+		//this.switchMode(this.sensor.getAmbientMode());
 		this.sensor.setFloodlight(false);
 	}
 	
@@ -60,8 +68,8 @@ public class ColorSensor extends UARTSensor {
 	 * @return array of numerical values, representing detected colors.
 	 */
 	public float[] getColor() {
-		float[] sample = new float[this.sensor.sampleSize()];
-		this.sensor.fetchSample(sample, 0);
+		//float[] sample = new float[this.sensor.sampleSize()];
+		this.sensor.fetchSample(this.sample, 0);
 		return sample;
 	}
 	
