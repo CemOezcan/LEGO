@@ -23,12 +23,13 @@ public class RouteNavigator implements Mission {
 	public void executeMission() {
 		Sound.beep();
 		
+		robot.getColorSensor().setColorIDMode();
 		boolean end = false;
 		int degree = 0;
 		while (Button.LEFT.isUp() && !end) {
 			if (robot.getColorSensor().getColor()[0] == BLUE) {
 				end = true;
-			} else if (robot.getPressureSensorLeft().equals(null)) { //touchsensordata
+			} else if (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched()) {
 				this.driveAroundObstacle();
 			} else if (robot.getColorSensor().getColor()[0] > BLACK + OFFSET) {
 				robot.RotateLeft(10);
@@ -46,7 +47,7 @@ public class RouteNavigator implements Mission {
 	}
 	
 	public void driveAroundObstacle() {
-		
+		Sound.beepSequence();
 	}
 	
 	public void findLineAfterGap() {
