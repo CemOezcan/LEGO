@@ -130,4 +130,11 @@ public class Robot {
 		this.pilot.steer(-200, degree);
 	}
 	
+	/**
+	 * Stops any movement.
+	 */
+	public void stop() {
+		this.pilot.stop();
+	}
+	
 }
