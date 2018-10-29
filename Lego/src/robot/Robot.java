@@ -84,7 +84,6 @@ public class Robot {
 	 * Robot starts driving forward.
 	 */
 	public void forward() {
-		this.pilot.stop();
 		this.pilot.forward();
 	}
 	

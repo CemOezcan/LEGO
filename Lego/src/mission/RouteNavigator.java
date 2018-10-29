@@ -1,6 +1,7 @@
 package mission;
 
 import lejos.hardware.lcd.LCD;
+import lejos.utility.Delay;
 import robot.Robot;
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
@@ -24,34 +25,15 @@ public class RouteNavigator implements Mission {
 		Sound.beep();
 		
 		robot.getColorSensor().setRedMode();
-		
-		boolean end = false;
+		robot.forward();
 		int degree = 0;
-		while (Button.LEFT.isUp() && !end) {
-			while(robot.getColorSensor().getColor()[0] > 0.2) {
-				robot.forward();
-			}
-			this.align();
-		}
-		Sound.beep();
+		while (Button.LEFT.isUp()) {
 			
-		/**
-			if (robot.getColorSensor().getColor()[0] == BLUE) {
-				end = true;
-			} else if (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched()) {
-				this.driveAroundObstacle();
-			} else if (robot.getColorSensor().getColor()[0] > BLACK + OFFSET) {
-				robot.RotateLeft(10);
-				degree += 10;
-				if (degree > 200) { //90 for 90 degreeö lklöö 09.
-					robot.RotateRight(100);
-					this.findLineAfterGap();
-				}
-			} else if (robot.getColorSensor().getColor()[0] < WHITE - OFFSET ) {
-				robot.RotateRight(10);
-				degree = 0;
+			if (robot.getColorSensor().getColor()[0] < 0.2) {
+				this.align();
 			}
-			*/
+		}
+		robot.stop();
 	}
 	
 	public void driveAroundObstacle() {
@@ -63,6 +45,10 @@ public class RouteNavigator implements Mission {
 	}
 	
 	public void align() {
-		Sound.beepSequenceUp();
+		robot.stop();
+		
+		//TODO: implement align method
+		
+		robot.forward();
 	}
 }
