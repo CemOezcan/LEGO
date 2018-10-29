@@ -33,7 +33,7 @@ public class RouteNavigator implements Mission {
 		while (Button.LEFT.isUp()) {
 			
 			if (robot.getColorSensor().getColor()[0] < 0.3) {
-				nextDirection = this.align(nextDirection, 10S0);
+				nextDirection = this.align(nextDirection, 100);
 			}
 		}
 		robot.stop();
