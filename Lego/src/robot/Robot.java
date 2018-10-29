@@ -15,8 +15,8 @@ public class Robot {
 	
 	private DifferentialPilot pilot;
 
-	private final double TRAVEL_SPEED = 1;
-	private final double ROTATE_SPEED = 1;
+	private final double TRAVEL_SPEED = 4;
+	private final double ROTATE_SPEED = 4;
 	
 	private final Port MOTOR_LEFT = MotorPort.D;
 	private final Port MOTOR_RIGHT = MotorPort.C;

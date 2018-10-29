@@ -25,12 +25,15 @@ public class RouteNavigator implements Mission {
 		Sound.beep();
 		
 		robot.getColorSensor().setRedMode();
+		
 		robot.forward();
-		int degree = 0;
+		
+		boolean nextDirection = true;
+		
 		while (Button.LEFT.isUp()) {
 			
-			if (robot.getColorSensor().getColor()[0] < 0.2) {
-				this.align();
+			if (robot.getColorSensor().getColor()[0] < 0.3) {
+				nextDirection = this.align(nextDirection, 10S0);
 			}
 		}
 		robot.stop();
@@ -41,14 +44,29 @@ public class RouteNavigator implements Mission {
 	}
 	
 	public void findLineAfterGap() {
-		
+		Sound.beepSequence();
 	}
 	
-	public void align() {
+	/**
+	 * align the robot and returns the turned direction from the robot
+	 * 
+	 * @param directionLeft if the last direction was left
+	 * @return the last direction
+	 */
+	public boolean align(boolean directionLeft, int degree) {
 		robot.stop();
+		boolean newDirection = !directionLeft;
+		if (directionLeft) {
+			robot.RotateLeft(degree);
+		} else {
+			robot.RotateRight(degree * 2);
+		}
+		if (robot.getColorSensor().getColor()[0] > 0.3) {
+			robot.forward();
+			return newDirection;
+		}
+		return newDirection;
+	} 
 		
-		//TODO: implement align method
-		
-		robot.forward();
-	}
+	
 }
