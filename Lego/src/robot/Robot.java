@@ -38,7 +38,7 @@ public class Robot {
 		//TODO: real values
 		double rightWheel = 0.3;
 		double leftWheel = 0.3;
-		boolean reverse = false;
+		boolean reverse = true;
 		this.pilot = new DifferentialPilot(leftWheel, rightWheel, this.motorLeft, this.motorRight, reverse);
 		
 		this.colorSensor = new ColorSensor(this.SENSOR_COLOR);
