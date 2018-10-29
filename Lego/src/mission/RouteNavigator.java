@@ -10,10 +10,10 @@ public class RouteNavigator implements Mission {
 	private final Robot robot;
 	
 	//TODO: color values
-	private final float BLACK = 0.0f;
-	private final float WHITE = 48.0f;
-	private final float BLUE = 25.0f;
-	private final float OFFSET = 10f; 
+	private final float BLACK = 0.08f;
+	private final float WHITE = 0.48f;
+	private final float BLUE = 0.0f; //TODO: add value
+	private final float OFFSET = 0.1f; 
 
 	public RouteNavigator(Robot robot) {
 		this.robot = robot;
