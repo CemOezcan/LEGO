@@ -31,7 +31,7 @@ public class Robot {
 	
 	private RegulatedMotor motorRight = new EV3LargeRegulatedMotor(MOTOR_RIGHT);
 	private RegulatedMotor motorLeft = new EV3LargeRegulatedMotor(MOTOR_LEFT);
-	private RegulatedMotor motorUltraSonic = new EV3MediumRegulatedMotor(MOTOR_LEFT);
+	private RegulatedMotor motorUltraSonic = new EV3MediumRegulatedMotor(MOTOR_ULTRA_SONIC);
 	
 	
 	public Robot() {
