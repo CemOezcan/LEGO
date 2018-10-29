@@ -39,8 +39,8 @@ public class Robot {
 	
 	public Robot() {
 		//TODO: real values
-		double rightWheel = 0.3;
-		double leftWheel = 0.3;
+		double rightWheel = 1.1811;
+		double leftWheel = 1.1811;
 		boolean reverse = true;
 		this.pilot = new DifferentialPilot(leftWheel, rightWheel, this.motorLeft, this.motorRight, reverse);
 		this.pilot.setTravelSpeed(this.TRAVEL_SPEED);
