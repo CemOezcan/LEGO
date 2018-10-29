@@ -15,6 +15,9 @@ public class Robot {
 	
 	private DifferentialPilot pilot;
 
+	private final double TRAVEL_SPEED = 2;
+	private final double ROTATE_SPEED = 2;
+	
 	private final Port MOTOR_LEFT = MotorPort.D;
 	private final Port MOTOR_RIGHT = MotorPort.C;
 	private final Port MOTOR_ULTRA_SONIC = MotorPort.A;
@@ -40,6 +43,8 @@ public class Robot {
 		double leftWheel = 0.3;
 		boolean reverse = true;
 		this.pilot = new DifferentialPilot(leftWheel, rightWheel, this.motorLeft, this.motorRight, reverse);
+		this.pilot.setTravelSpeed(this.TRAVEL_SPEED);
+		this.pilot.setRotateSpeed(this.ROTATE_SPEED);
 		
 		this.colorSensor = new ColorSensor(this.SENSOR_COLOR);
 		this.ultraSonicSensor = new UltraSonicSensor(this.SENSOR_ULTRA_SONIC);
