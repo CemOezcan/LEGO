@@ -28,6 +28,14 @@ public class RouteNavigator implements Mission {
 		boolean end = false;
 		int degree = 0;
 		while (Button.LEFT.isUp() && !end) {
+			while(robot.getColorSensor().getColor()[0] > 0.2) {
+				robot.forward();
+			}
+			this.align();
+		}
+		Sound.beep();
+			
+		/**
 			if (robot.getColorSensor().getColor()[0] == BLUE) {
 				end = true;
 			} else if (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched()) {
@@ -43,8 +51,7 @@ public class RouteNavigator implements Mission {
 				robot.RotateRight(10);
 				degree = 0;
 			}
-		}
-		Sound.beep();
+			*/
 	}
 	
 	public void driveAroundObstacle() {
@@ -53,5 +60,9 @@ public class RouteNavigator implements Mission {
 	
 	public void findLineAfterGap() {
 		
+	}
+	
+	public void align() {
+		Sound.beepSequenceUp();
 	}
 }
