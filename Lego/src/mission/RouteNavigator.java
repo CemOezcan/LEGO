@@ -23,7 +23,7 @@ public class RouteNavigator implements Mission {
 	public void executeMission() {
 		Sound.beep();
 		
-		robot.getColorSensor().setColorIDMode();
+		robot.getColorSensor().setRedMode();
 		
 		boolean end = false;
 		int degree = 0;
