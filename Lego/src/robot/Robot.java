@@ -38,9 +38,8 @@ public class Robot {
 		//TODO: real values
 		double rightWheel = 0.3;
 		double leftWheel = 0.3;
-		double trackWidth = 13.5;
-		boolean reverse = false;
-		this.pilot = new DifferentialPilot(leftWheel, rightWheel, trackWidth, this.motorLeft, this.motorRight, reverse);
+		boolean reverse = true;
+		this.pilot = new DifferentialPilot(leftWheel, rightWheel, this.motorLeft, this.motorRight, reverse);
 		
 		this.colorSensor = new ColorSensor(this.SENSOR_COLOR);
 		this.ultraSonicSensor = new UltraSonicSensor(this.SENSOR_ULTRA_SONIC);
@@ -129,6 +128,13 @@ public class Robot {
 	public void RotateRight(double degree) {
 		this.pilot.stop();
 		this.pilot.steer(-200, degree);
+	}
+	
+	/**
+	 * Stops any movement.
+	 */
+	public void stop() {
+		this.pilot.stop();
 	}
 	
 }
