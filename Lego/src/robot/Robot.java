@@ -36,9 +36,9 @@ public class Robot {
 	
 	public Robot() {
 		//TODO: real values
-		double rightWheel = 30;
-		double leftWheel = 30;
-		double trackWidth = 135;
+		double rightWheel = 0.3;
+		double leftWheel = 0.3;
+		double trackWidth = 13.5;
 		boolean reverse = false;
 		this.pilot = new DifferentialPilot(leftWheel, rightWheel, trackWidth, this.motorLeft, this.motorRight, reverse);
 		

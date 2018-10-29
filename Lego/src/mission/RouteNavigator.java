@@ -24,6 +24,7 @@ public class RouteNavigator implements Mission {
 		Sound.beep();
 		
 		robot.getColorSensor().setColorIDMode();
+		
 		boolean end = false;
 		int degree = 0;
 		while (Button.LEFT.isUp() && !end) {

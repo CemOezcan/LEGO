@@ -23,8 +23,9 @@ public class ColorSensor extends UARTSensor {
 	 * This mode measures colors and returns a single numerical value.
 	 */
 	public void setColorIDMode() {
-		this.switchMode(this.sensor.getColorIDMode());
-		this.sensor.setFloodlight(true);
+		this.sensor.setCurrentMode("ColorID");
+		//this.switchMode(this.sensor.getColorIDMode());
+		this.sensor.setFloodlight(false);
 	}
 	
 	/**
