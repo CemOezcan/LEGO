@@ -11,8 +11,8 @@ public class RouteNavigator implements Mission {
 	
 	//TODO: color values
 	private final float BLACK = 0.0f;
-	private final float WHITE = 0.0f;
-	private final float BLUE= 0.0f;
+	private final float WHITE = 48.0f;
+	private final float BLUE = 25.0f;
 	private final float OFFSET = 10f; 
 
 	public RouteNavigator(Robot robot) {
@@ -33,7 +33,7 @@ public class RouteNavigator implements Mission {
 			} else if (robot.getColorSensor().getColor()[0] > BLACK + OFFSET) {
 				robot.RotateLeft(10);
 				degree += 10;
-				if (degree > 90) {
+				if (degree > 200) { //90 for 90 degreeö lklöö 09.
 					robot.RotateRight(100);
 					this.findLineAfterGap();
 				}
