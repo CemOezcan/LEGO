@@ -13,7 +13,6 @@ public class RouteNavigator implements Mission {
 	//TODO: color values
 	private final float BLACK = 0.08f;
 	private final float WHITE = 0.48f;
-	private final float BLUE = 0.0f; //TODO: add value
 	private final float OFFSET = 0.01f; 
 	private final float OPTIMALVALUE = (WHITE + BLACK) / 2;
 	
@@ -49,7 +48,7 @@ public class RouteNavigator implements Mission {
 			float rightMotorSpeed = 0;
 			
 			
-			//the touchsensors are touched and the robot has to drive around the obstacle
+			//the touch sensors are touched and the robot has to drive around the obstacle
 			if (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched()) {
 				driveAroundObstacle();
 				
