@@ -55,13 +55,18 @@ public class RouteNavigator implements Mission {
 				
 				
 			} else if (actualValue > WHITE - 2 * OFFSET) { //90 degree turn
+				
+				// findLine() ausführen ist vermutlich besser.
+				
 				leftMotorSpeed = -1.2f * tempo;
 				rightMotorSpeed = 1.2f * tempo;
 
 				// adjust the robot's speed
-				//this.robot.adjustRobotSpeed(leftMotorSpeed, rightMotorSpeed);
+				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
 				
 			} else if (actualValue < BLACK + OFFSET) { //LineGap
+				// nur ausführen wenn der Robot nichts nach dem umschauen gefunden hat
+				// also in findLine() ausführen
 				findLineAfterGap();
 				
 			} else { //normal case calculate the new speeds for both motors
@@ -72,10 +77,10 @@ public class RouteNavigator implements Mission {
 				rightMotorSpeed = tempo + y;
 				
 				//RobotMotorGeschwindigkeit anpassen mit den übergebenen Werten left right Motor speed
-				//this.robot.adjustRobotSpeed(leftMotorSpeed, rightMotorSpeed);
+				
+				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
 			}
 		}
-		
 		robot.stop();
 	}
 
@@ -87,6 +92,15 @@ public class RouteNavigator implements Mission {
 		Sound.beepSequence();
 	}
 	
+	
+	public void findLine() {
+		Sound.beep();
+		this.robot.stop();
 		
+		// links/rechts schauen bis die Linie wieder gefunden wurde
+		// wenn nichts gefunden wurde -> finLineAfterGab()
+		
+		this.robot.forward();
+	}
 	
 }

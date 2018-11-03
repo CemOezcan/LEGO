@@ -141,4 +141,14 @@ public class Robot {
 		this.pilot.stop();
 	}
 	
+	public void adjustMotorspeed(float leftMotorSpeed, float rightMotorSpeed) {
+		
+		int speedLeft = Math.round(leftMotorSpeed);
+		int speedRight = Math.round(rightMotorSpeed);
+		
+		this.motorLeft.setSpeed(speedLeft);
+		this.motorRight.setSpeed(speedRight);
+	}
+	
+	
 }
