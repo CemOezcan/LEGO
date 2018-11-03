@@ -19,6 +19,7 @@ public class RouteNavigator implements Mission {
 	
 	private final float tempo = 220f;
 	
+	
 	private final float kp = (tempo / WHITE - OPTIMALVALUE);
 
 	public RouteNavigator(Robot robot) {
@@ -33,34 +34,44 @@ public class RouteNavigator implements Mission {
 		
 		robot.forward();
 		
-		boolean nextDirection = true;
 		boolean end = false;
 		
 		float lastDifference = 0f;
 		
 		while (Button.LEFT.isUp() && !end) {
+			float actualValue = robot.getColorSensor().getColor()[0];
+			
+			LCD.drawString("color = " + actualValue, 0, 0);
+			LCD.drawString("TS1 = " + this.robot.getPressureSensorLeft().isTouched(), 1, 0);
+			LCD.drawString("TS1 = " + this.robot.getPressureSensorRight().isTouched(), 2, 0);
 			
 			float leftMotorSpeed = 0;
 			float rightMotorSpeed = 0;
 			
-			float actualValue = robot.getColorSensor().getColor()[0];
 			
 			//the touchsensors are touched and the robot has to drive around the obstacle
 			if (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched()) {
 				driveAroundObstacle();
 				
+				
 			} else if (actualValue > WHITE - 2 * OFFSET) { //90 degree turn
+				leftMotorSpeed = -1.2f * tempo;
+				rightMotorSpeed = 1.2f * tempo;
+
+				// adjust the robot's speed
+				//this.robot.adjustRobotSpeed(leftMotorSpeed, rightMotorSpeed);
 				
 			} else if (actualValue < BLACK + OFFSET) { //LineGap
 				findLineAfterGap();
-			} else { //normal case
+				
+			} else { //normal case calculate the new speeds for both motors
 				lastDifference = actualValue - OPTIMALVALUE;
 				float y = kp * lastDifference;
 				
 				leftMotorSpeed = tempo - y;;
 				rightMotorSpeed = tempo + y;
 				
-				//RobotMotorGEschwindigkeit anpassen mit den übergebenen Werten left right Motor speed
+				//RobotMotorGeschwindigkeit anpassen mit den übergebenen Werten left right Motor speed
 				//robot.setSpeed(leftMotorSpeed, rightMotorSpeed);
 			}
 		}
