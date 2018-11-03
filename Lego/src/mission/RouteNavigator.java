@@ -53,7 +53,7 @@ public class RouteNavigator implements Mission {
 				driveAroundObstacle();
 				
 				
-			} else if (actualValue > WHITE - 2 * OFFSET) { //90 degree turn
+			} else if (actualValue < BLACK + 2 * OFFSET) { //90 degree turn
 				leftMotorSpeed = -1.2f * tempo;
 				rightMotorSpeed = 1.2f * tempo;
 
