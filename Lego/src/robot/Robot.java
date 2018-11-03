@@ -147,7 +147,7 @@ public class Robot {
 	}
 	
 	public void adjustMotorspeed(float leftMotorSpeed, float rightMotorSpeed) {
-		
+		this.pilotStop();
 		int speedLeft = Math.round(leftMotorSpeed);
 		int speedRight = Math.round(rightMotorSpeed);
 		this.motorLeft.startSynchronization();
