@@ -72,7 +72,7 @@ public class RouteNavigator implements Mission {
 				rightMotorSpeed = tempo + y;
 				
 				//RobotMotorGeschwindigkeit anpassen mit den übergebenen Werten left right Motor speed
-				//robot.setSpeed(leftMotorSpeed, rightMotorSpeed);
+				//this.robot.adjustRobotSpeed(leftMotorSpeed, rightMotorSpeed);
 			}
 		}
 		
@@ -87,26 +87,6 @@ public class RouteNavigator implements Mission {
 		Sound.beepSequence();
 	}
 	
-	/**
-	 * align the robot and returns the turned direction from the robot
-	 * 
-	 * @param directionLeft if the last direction was left
-	 * @return the last direction
-	 */
-	public boolean align(boolean directionLeft, int degree) {
-		robot.stop();
-		boolean newDirection = !directionLeft;
-		if (directionLeft) {
-			robot.RotateLeft(degree);
-		} else {
-			robot.RotateRight(degree * 2);
-		}
-		if (robot.getColorSensor().getColor()[0] > 0.3) {
-			robot.forward();
-			return newDirection;
-		}
-		return newDirection;
-	} 
 		
 	
 }
