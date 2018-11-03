@@ -145,9 +145,10 @@ public class Robot {
 		
 		int speedLeft = Math.round(leftMotorSpeed);
 		int speedRight = Math.round(rightMotorSpeed);
-		
+		this.motorLeft.startSynchronization();
 		this.motorLeft.setSpeed(speedLeft);
 		this.motorRight.setSpeed(speedRight);
+		this.motorLeft.endSynchronization();
 	}
 	
 	
