@@ -81,7 +81,7 @@ public class RouteNavigator implements Mission {
 				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
 			}
 		}
-		robot.stop();
+		robot.pilotStop();
 	}
 
 	public void driveAroundObstacle() {
@@ -95,7 +95,7 @@ public class RouteNavigator implements Mission {
 	
 	public void findLine() {
 		Sound.beep();
-		this.robot.stop();
+		this.robot.pilotStop();
 		
 		// links/rechts schauen bis die Linie wieder gefunden wurde
 		// wenn nichts gefunden wurde -> finLineAfterGab()
