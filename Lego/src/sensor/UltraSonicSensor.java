@@ -13,6 +13,16 @@ public class UltraSonicSensor extends AnalogSensor {
 		this.switchMode(this.sensor.getDistanceMode());
 		
 	}
+	
+	/**
+	 * Calculates distance to any object the sensor is facing.
+	 * @return the distance
+	 */
+	public float getDistance() {
+		float[] value = this.getSample();
+		return value[0];
+		
+	}
 
 	@Override
 	protected void update() {
