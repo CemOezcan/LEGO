@@ -12,4 +12,10 @@ public class UltraSonicSensor extends AnalogSensor {
 		this.sensor = new EV3UltrasonicSensor(this.port);
 	}
 
+	@Override
+	protected void update() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

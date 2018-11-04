@@ -7,7 +7,6 @@ import lejos.robotics.Color;
 public class ColorSensor extends UARTSensor {
 	
 	private EV3ColorSensor sensor;
-	private float[] sample;
 	
 	/**
 	 * Creates new ColorSensor-Object, representing a EV3ColorSensor.
@@ -17,6 +16,7 @@ public class ColorSensor extends UARTSensor {
 		super(port);
 		this.sensor = new EV3ColorSensor(this.port);
 		this.setAmbientMode();
+		
 	}
 	
 	/**
@@ -25,9 +25,8 @@ public class ColorSensor extends UARTSensor {
 	 */
 	public void setColorIDMode() {
 		this.sensor.setCurrentMode("ColorID");
-		sample = new float[this.sensor.sampleSize()];
-		//this.switchMode(this.sensor.getColorIDMode());
 		this.sensor.setFloodlight(false);
+		
 	}
 	
 	/**
@@ -36,9 +35,8 @@ public class ColorSensor extends UARTSensor {
 	 */
 	public void setRedMode() {
 		this.sensor.setCurrentMode("Red");
-		sample = new float[this.sensor.sampleSize()];
-		//this.switchMode(this.sensor.getRedMode());
 		this.sensor.setFloodlight(Color.RED);
+		
 	}
 	
 	/**
@@ -47,9 +45,8 @@ public class ColorSensor extends UARTSensor {
 	 */
 	public void setRGBMode() {
 		this.sensor.setCurrentMode("RGB");
-		sample = new float[this.sensor.sampleSize()];
-		//this.switchMode(this.sensor.getRGBMode());
 		this.sensor.setFloodlight(Color.WHITE);
+		
 	}
 	
 	/**
@@ -58,9 +55,8 @@ public class ColorSensor extends UARTSensor {
 	 */
 	public void setAmbientMode() {
 		this.sensor.setCurrentMode("Ambient");
-		sample = new float[this.sensor.sampleSize()];
-		//this.switchMode(this.sensor.getAmbientMode());
 		this.sensor.setFloodlight(false);
+		
 	}
 	
 	/**
@@ -68,9 +64,23 @@ public class ColorSensor extends UARTSensor {
 	 * @return array of numerical values, representing detected colors.
 	 */
 	public float[] getColor() {
-		//float[] sample = new float[this.sensor.sampleSize()];
+		return this.getSample();
+		
+	}
+
+	@Override
+	protected void switchMode(String newSensorMode) {
+		this.sensorMode = newSensorMode;
+		this.sensor.setCurrentMode(this.sensorMode);
+		this.update();
+		
+	}
+
+	@Override
+	protected void update() {
+		this.sample = new float[this.sensor.sampleSize()];
 		this.sensor.fetchSample(this.sample, 0);
-		return sample;
+		
 	}
 	
 }
