@@ -32,6 +32,8 @@ public class RouteNavigator implements Mission {
 		
 		robot.getColorSensor().setRedMode();
 		
+		//whats the startconfiguration??
+		//should we make a method for startconfiguration?
 		robot.forward();
 		
 		boolean end = false;
@@ -42,8 +44,8 @@ public class RouteNavigator implements Mission {
 			float actualValue = robot.getColorSensor().getColor()[0];
 			
 			LCD.drawString("color = " + actualValue, 0, 0);
-			LCD.drawString("TS1 = " + this.robot.getPressureSensorLeft().isTouched(), 1, 0);
-			LCD.drawString("TS1 = " + this.robot.getPressureSensorRight().isTouched(), 2, 0);
+			LCD.drawString("TouchLeft = " + this.robot.getPressureSensorLeft().isTouched(), 1, 0);
+			LCD.drawString("TouchRight = " + this.robot.getPressureSensorRight().isTouched(), 2, 0);
 			
 			float leftMotorSpeed = 0;
 			float rightMotorSpeed = 0;
@@ -81,6 +83,8 @@ public class RouteNavigator implements Mission {
 				
 				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
 			}
+			
+			//after f.e findGab switch to rgb mode to find the end of the line with the blue strip
 		}
 		robot.pilotStop();
 	}

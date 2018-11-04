@@ -151,13 +151,20 @@ public class Robot {
 	}
 	
 	public void adjustMotorspeed(float leftMotorSpeed, float rightMotorSpeed) {
-		this.pilotStop();
+		//this.pilotStop();
 		int speedLeft = Math.round(leftMotorSpeed);
 		int speedRight = Math.round(rightMotorSpeed);
 		this.motorLeft.startSynchronization();
+		this.motorRight.startSynchronization();
+		
 		this.motorLeft.setSpeed(speedLeft);
 		this.motorRight.setSpeed(speedRight);
+		
+		this.motorRight.forward();
+		this.motorLeft.forward();
+		
 		this.motorLeft.endSynchronization();
+		this.motorRight.endSynchronization();
 	}
 	
 	
