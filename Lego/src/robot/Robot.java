@@ -36,6 +36,7 @@ public class Robot {
 	private RegulatedMotor motorLeft = new EV3LargeRegulatedMotor(MOTOR_LEFT);
 	private RegulatedMotor motorUltraSonic = new EV3MediumRegulatedMotor(MOTOR_ULTRA_SONIC);
 	
+	private boolean motorUltraSonicIsUp = false;
 	
 	public Robot() {
 		//TODO: real values
@@ -165,9 +166,12 @@ public class Robot {
 	 * @param rightMotorSpeed the new speed of the right motor
 	 */
 	public void adjustMotorspeed(float leftMotorSpeed, float rightMotorSpeed) {
-		//this.pilotStop();
+		this.pilotStop();
+		
+		//Braucht man das?
 		int speedLeft = Math.round(leftMotorSpeed);
 		int speedRight = Math.round(rightMotorSpeed);
+		
 		this.motorLeft.startSynchronization();
 		this.motorRight.startSynchronization();
 		
@@ -181,5 +185,24 @@ public class Robot {
 		this.motorRight.endSynchronization();
 	}
 	
+	/**
+	 * Turns ultrasonic sensor to the left.
+	 * Useful to navigate around obstacles.
+	 */
+	public void ultraSonicSensorUp() {
+		if (!this.motorUltraSonicIsUp) {
+			this.motorUltraSonic.rotateTo(90);
+		}
+	}
+	
+	/**
+	 * Turns ultrasonic sensor so that it faces down.
+	 * Useful to measure the distance to the ground.
+	 */
+	public void ultraSonicSensorDown() {
+		if (this.motorUltraSonicIsUp) {
+			this.motorUltraSonic.rotateTo(-90);
+		}
+	}
 	
 }
