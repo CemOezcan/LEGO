@@ -18,7 +18,7 @@ public abstract class AnalogSensor extends Sensor {
 	 */
 	protected void switchMode(SampleProvider newSampleProvider) {
 		this.sampleProvider = newSampleProvider;
-		this.sample = new float[this.sampleProvider.sampleSize()];
+		this.update();
 		
 	}
 	

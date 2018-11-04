@@ -10,11 +10,14 @@ public class UltraSonicSensor extends AnalogSensor {
 	public UltraSonicSensor(Port port) {
 		super(port);
 		this.sensor = new EV3UltrasonicSensor(this.port);
+		this.switchMode(this.sensor.getDistanceMode());
+		
 	}
 
 	@Override
 	protected void update() {
-		// TODO Auto-generated method stub
+		this.sample = new float[this.sensor.sampleSize()];
+		this.sensor.fetchSample(this.sample, 0);
 		
 	}
 
