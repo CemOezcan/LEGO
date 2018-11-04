@@ -137,8 +137,24 @@ public class Robot {
 	/**
 	 * Stops any movement.
 	 */
-	public void stop() {
+	public void pilotStop() {
 		this.pilot.stop();
 	}
+	
+	public void motorsStop() {
+		this.motorLeft.stop();
+		this.motorRight.stop();
+	}
+	
+	public void adjustMotorspeed(float leftMotorSpeed, float rightMotorSpeed) {
+		this.pilotStop();
+		int speedLeft = Math.round(leftMotorSpeed);
+		int speedRight = Math.round(rightMotorSpeed);
+		this.motorLeft.startSynchronization();
+		this.motorLeft.setSpeed(speedLeft);
+		this.motorRight.setSpeed(speedRight);
+		this.motorLeft.endSynchronization();
+	}
+	
 	
 }

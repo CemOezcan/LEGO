@@ -13,6 +13,7 @@ public class RouteNavigator implements Mission {
 	//TODO: color values
 	private final float BLACK = 0.08f;
 	private final float WHITE = 0.48f;
+	private final float BLUE = 0.0f; //TODO: add value
 	private final float OFFSET = 0.01f; 
 	private final float OPTIMALVALUE = (WHITE + BLACK) / 2;
 	
@@ -48,19 +49,24 @@ public class RouteNavigator implements Mission {
 			float rightMotorSpeed = 0;
 			
 			
-			//the touch sensors are touched and the robot has to drive around the obstacle
+			//the touchsensors are touched and the robot has to drive around the obstacle
 			if (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched()) {
 				driveAroundObstacle();
 				
 				
-			} else if (actualValue < BLACK + 2 * OFFSET) { //90 degree turn
+			} else if (actualValue > WHITE - 2 * OFFSET) { //90 degree turn
+				
+				// findLine() ausführen ist vermutlich besser.
+				
 				leftMotorSpeed = -1.2f * tempo;
 				rightMotorSpeed = 1.2f * tempo;
 
 				// adjust the robot's speed
-				//this.robot.adjustRobotSpeed(leftMotorSpeed, rightMotorSpeed);
+				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
 				
 			} else if (actualValue < BLACK + OFFSET) { //LineGap
+				// nur ausführen wenn der Robot nichts nach dem umschauen gefunden hat
+				// also in findLine() ausführen
 				findLineAfterGap();
 				
 			} else { //normal case calculate the new speeds for both motors
@@ -71,11 +77,11 @@ public class RouteNavigator implements Mission {
 				rightMotorSpeed = tempo + y;
 				
 				//RobotMotorGeschwindigkeit anpassen mit den übergebenen Werten left right Motor speed
-				//this.robot.adjustRobotSpeed(leftMotorSpeed, rightMotorSpeed);
+				
+				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
 			}
 		}
-		
-		robot.stop();
+		robot.pilotStop();
 	}
 
 	public void driveAroundObstacle() {
@@ -86,6 +92,15 @@ public class RouteNavigator implements Mission {
 		Sound.beepSequence();
 	}
 	
+	
+	public void findLine() {
+		Sound.beep();
+		this.robot.pilotStop();
 		
+		// links/rechts schauen bis die Linie wieder gefunden wurde
+		// wenn nichts gefunden wurde -> finLineAfterGab()
+		
+		this.robot.forward();
+	}
 	
 }
