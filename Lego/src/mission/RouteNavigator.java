@@ -10,7 +10,9 @@ public class RouteNavigator implements Mission {
 
 	private final Robot robot;
 	
-	//TODO: color values
+	/*
+	 * the final color values of the colors
+	 */
 	private final float BLACK = 0.08f;
 	private final float WHITE = 0.48f;
 	private final float BLUE = 0.0f; //TODO: add value
@@ -19,9 +21,14 @@ public class RouteNavigator implements Mission {
 	
 	private final float tempo = 220f;
 	
-	
+	/*
+	 * the constant for the p-controller
+	 */
 	private final float kp = (tempo / WHITE - OPTIMALVALUE);
 
+	/*
+	 * constructs a new route navigator
+	 */
 	public RouteNavigator(Robot robot) {
 		this.robot = robot;
 	}
@@ -89,6 +96,9 @@ public class RouteNavigator implements Mission {
 		robot.pilotStop();
 	}
 
+	/**
+	 * the robot drives around the obstacle
+	 */
 	public void driveAroundObstacle() {
 		Sound.beepSequence();
 	}
@@ -97,11 +107,15 @@ public class RouteNavigator implements Mission {
 		Sound.beepSequence();
 	}
 	
-	
+
+	/*
+	 * the robot searches for the line
+	 */
 	public void findLine() {
 		Sound.beep();
 		LCD.clear();
 		LCD.drawString("Find Line", 0, 0);
+		
 		this.robot.pilotStop();
 		
 		boolean found = false;

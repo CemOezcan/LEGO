@@ -141,15 +141,29 @@ public class Robot {
 		this.pilot.stop();
 	}
 	
+	/**
+	 * the robot travels the distance
+	 * 
+	 * @param distance the distance
+	 */
 	public void pilotTravel(double distance) {
 		this.pilot.travel(distance);
 	}
 	
+	/**
+	 * stops the robot
+	 */
 	public void motorsStop() {
 		this.motorLeft.stop();
 		this.motorRight.stop();
 	}
 	
+	/**
+	 * adjust the speed of the robot
+	 * 
+	 * @param leftMotorSpeed the new speed of the left motor
+	 * @param rightMotorSpeed the new speed of the right motor
+	 */
 	public void adjustMotorspeed(float leftMotorSpeed, float rightMotorSpeed) {
 		//this.pilotStop();
 		int speedLeft = Math.round(leftMotorSpeed);
