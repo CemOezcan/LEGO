@@ -141,6 +141,10 @@ public class Robot {
 		this.pilot.stop();
 	}
 	
+	public void pilotTravel(double distance) {
+		this.pilot.travel(distance);
+	}
+	
 	public void motorsStop() {
 		this.motorLeft.stop();
 		this.motorRight.stop();

@@ -66,8 +66,9 @@ public class RouteNavigator implements Mission {
 				
 			} else if (actualValue < BLACK + OFFSET) { //LineGap
 				// nur ausführen wenn der Robot nichts nach dem umschauen gefunden hat
+				//muss sich eig nicht umschauen, da wenn plötzlich Schwarz wird, aufjedenfall Lücke kommt
 				// also in findLine() ausführen
-				findLineAfterGap();
+				findLine();
 				
 			} else { //normal case calculate the new speeds for both motors
 				lastDifference = actualValue - OPTIMALVALUE;
@@ -95,10 +96,22 @@ public class RouteNavigator implements Mission {
 	
 	public void findLine() {
 		Sound.beep();
+		LCD.clear();
+		LCD.drawString("Find Line", 0, 0);
 		this.robot.pilotStop();
 		
-		// links/rechts schauen bis die Linie wieder gefunden wurde
-		// wenn nichts gefunden wurde -> finLineAfterGab()
+		boolean found = false;
+		while (!found) {
+			this.robot.pilotTravel(9);
+			int arc = 0;
+			while (arc < 90 && !found) {
+				this.robot.RotateRight(10);
+				found = this.robot.getColorSensor().getColor()[0] > BLACK + 2 * OFFSET;
+				arc += 10;
+			}
+			if (!found)
+				this.robot.RotateLeft(arc);
+		}
 		
 		this.robot.forward();
 	}
