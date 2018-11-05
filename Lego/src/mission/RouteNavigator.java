@@ -101,7 +101,7 @@ public class RouteNavigator implements Mission {
 		// P Regler Abstand messen
 		robot.forward();
 		boolean end = false;
-		while (actualColorValue < WHITE - 2 * OFFSET) {
+		while (!end) {
 		
 			actualColorValue = this.robot.getColorSensor().getColor()[0];
 			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
@@ -110,17 +110,12 @@ public class RouteNavigator implements Mission {
 				end = true;
 			} else {
 				reg.regulate(actualSonicValue);
-				
-				//RobotMotorGeschwindigkeit anpassen mit den übergebenen Werten left right Motor speed
-				
-				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
 			}
 		}
 
 		// ende
 		LCD.drawString("Ende", 0, 0);
 		this.robot.pilotTravel(1);
-		this.robot.RotateRight(200);
 
 	}
 	
