@@ -24,7 +24,7 @@ public class RouteNavigator implements Mission {
 	/*
 	 * the constant for the p-controller
 	 */
-	private final float kp = (tempo / WHITE - OPTIMALVALUE);
+	private final float kp = 1;
 
 	/*
 	 * constructs a new route navigator
@@ -47,12 +47,12 @@ public class RouteNavigator implements Mission {
 		
 		float lastDifference = 0f;
 		
+		robot.adjustMotorspeed(tempo, tempo);
+		
 		while (Button.LEFT.isUp() && !end) {
 			float actualValue = robot.getColorSensor().getColor()[0];
 			
 			LCD.drawString("color = " + actualValue, 0, 0);
-			LCD.drawString("TouchLeft = " + this.robot.getPressureSensorLeft().isTouched(), 1, 0);
-			LCD.drawString("TouchRight = " + this.robot.getPressureSensorRight().isTouched(), 2, 0);
 			
 			float leftMotorSpeed = 0;
 			float rightMotorSpeed = 0;
@@ -67,8 +67,8 @@ public class RouteNavigator implements Mission {
 				
 				// findLine() ausführen ist vermutlich besser.
 				
-				leftMotorSpeed = -1.2f * tempo;
-				rightMotorSpeed = 1.2f * tempo;
+				leftMotorSpeed =  tempo;
+				rightMotorSpeed = tempo;
 
 				// adjust the robot's speed
 				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
@@ -89,6 +89,7 @@ public class RouteNavigator implements Mission {
 				//RobotMotorGeschwindigkeit anpassen mit den übergebenen Werten left right Motor speed
 				
 				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
+				LCD.drawString("PPPPPPP", 0, 0);
 			}
 			
 			//after f.e findGab switch to rgb mode to find the end of the line with the blue strip
@@ -127,8 +128,18 @@ public class RouteNavigator implements Mission {
 				found = this.robot.getColorSensor().getColor()[0] > BLACK + 2 * OFFSET;
 				arc += 10;
 			}
-			if (!found)
+			if (!found) {
 				this.robot.RotateLeft(arc);
+				arc = 0;
+				while (arc < 90 && !found) {
+					this.robot.RotateLeft(10);
+					found = this.robot.getColorSensor().getColor()[0] > BLACK + 2 * OFFSET;
+					arc += 10;
+				}
+			}
+			if (!found) {
+				LCD.drawString("Line not found", 0, 0);
+			}
 		}
 		
 		this.robot.forward();
