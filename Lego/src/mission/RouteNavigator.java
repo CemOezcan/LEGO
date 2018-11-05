@@ -62,6 +62,8 @@ public class RouteNavigator implements Mission {
 			
 			//the touchsensors are touched and the robot has to drive around the obstacle
 			if (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched()) {
+				robot.pilotStop();
+				robot.motorsStop();
 				driveAroundObstacle();
 				
 				
@@ -79,6 +81,8 @@ public class RouteNavigator implements Mission {
 				// nur ausführen wenn der Robot nichts nach dem umschauen gefunden hat
 				//muss sich eig nicht umschauen, da wenn plötzlich Schwarz wird, aufjedenfall Lücke kommt
 				// also in findLine() ausführen
+				robot.pilotStop();
+				robot.motorsStop();
 				findLine();
 				
 			} else { //normal case calculate the new speeds for both motors
@@ -119,11 +123,11 @@ public class RouteNavigator implements Mission {
 		
 		this.robot.pilotStop();
 		this.robot.motorsStop();
-		
+		boolean fromRight = false;
 		boolean found = false;
 		while (!found) {
 			int arc = 0;
-			while (arc < 360 && !found) {
+			while (arc <= 440 && !found) {
 				this.robot.RotateRight(40);
 				found = this.robot.getColorSensor().getColor()[0] > BLACK + 2 * OFFSET;
 				arc += 40;
@@ -131,20 +135,25 @@ public class RouteNavigator implements Mission {
 			if (!found) {
 				this.robot.RotateLeft(arc);
 				arc = 0;
-				while (arc < 360 && !found) {
+				while (arc <= 440 && !found) {
 					this.robot.RotateLeft(40);
 					found = this.robot.getColorSensor().getColor()[0] > BLACK + 2 * OFFSET;
+					if (found) {
+						fromRight = true;
+					}
 					arc += 40;
 				}
 			}
 			if (!found) {
 				this.robot.RotateRight(arc);
 				LCD.drawString("Line not found", 0, 0);
-				this.robot.pilotTravel(5);
+				this.robot.pilotTravel(6);
 			}
 		}
 		
-		this.robot.forward();
+		if (fromRight) {
+			robot.RotateLeft(100);
+		}
 	}
 	
 }
