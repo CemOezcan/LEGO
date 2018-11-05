@@ -97,7 +97,6 @@ public class Robot {
 	 * Robot starts driving forward.
 	 */
 	public void backward() {
-		this.pilot.stop();
 		this.pilot.backward();
 	}
 	
@@ -105,7 +104,6 @@ public class Robot {
 	 * Robot turns left by 90 degrees with zero radius.
 	 */
 	public void turnLeft() {
-		this.pilot.stop();
 		this.pilot.steer(200, 90);
 	}
 	
@@ -113,7 +111,6 @@ public class Robot {
 	 * Robot turns right by 90 degrees with zero radius.
 	 */
 	public void turnRight() {
-		this.pilot.stop();
 		this.pilot.steer(200, -90);
 	}
 	
@@ -122,7 +119,6 @@ public class Robot {
 	 * @param degree turning degree
 	 */
 	public void RotateLeft(double degree) {
-		this.pilot.stop();
 		this.pilot.steer(200, degree);
 	}
 	
@@ -131,7 +127,6 @@ public class Robot {
 	 * @param degree turning degree
 	 */
 	public void RotateRight(double degree) {
-		this.pilot.stop();
 		this.pilot.steer(200, -degree);
 	}
 	
@@ -166,20 +161,32 @@ public class Robot {
 	 * @param rightMotorSpeed the new speed of the right motor
 	 */
 	public void adjustMotorspeed(float leftMotorSpeed, float rightMotorSpeed) {
-		this.pilotStop();
-		
 		//Braucht man das?
-		int speedLeft = Math.round(leftMotorSpeed);
-		int speedRight = Math.round(rightMotorSpeed);
+		int speedLeft = Math.abs(Math.round(leftMotorSpeed));
+		int speedRight = Math.abs(Math.round(rightMotorSpeed));
 		
 		this.motorLeft.startSynchronization();
 		this.motorRight.startSynchronization();
 		
-		this.motorLeft.setSpeed(speedLeft);
-		this.motorRight.setSpeed(speedRight);
 		
-		this.motorRight.forward();
-		this.motorLeft.forward();
+		if (rightMotorSpeed < 0) {
+			this.motorRight.setSpeed(3 * speedRight);
+			this.motorLeft.setSpeed(speedLeft);
+			this.motorRight.forward();
+			this.motorLeft.backward();
+		} else if (leftMotorSpeed < 0) {
+			this.motorRight.setSpeed(speedRight);
+			this.motorLeft.setSpeed(3 * speedLeft);
+			this.motorRight.backward();
+			this.motorLeft.forward();
+		} else {
+			this.motorLeft.setSpeed(speedLeft);
+			this.motorRight.setSpeed(speedRight);
+			
+			this.motorRight.backward();
+			this.motorLeft.backward();
+		}
+		
 		
 		this.motorLeft.endSynchronization();
 		this.motorRight.endSynchronization();

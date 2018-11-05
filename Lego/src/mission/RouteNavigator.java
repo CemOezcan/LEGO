@@ -19,12 +19,12 @@ public class RouteNavigator implements Mission {
 	private final float OFFSET = 0.01f; 
 	private final float OPTIMALVALUE = (WHITE + BLACK) / 2;
 	
-	private final float tempo = 220f;
+	private final float tempo = 150f;
 	
 	/*
 	 * the constant for the p-controller
 	 */
-	private final float kp = (tempo / WHITE - OPTIMALVALUE);
+	private final float kp = 1200;
 
 	/*
 	 * constructs a new route navigator
@@ -47,15 +47,17 @@ public class RouteNavigator implements Mission {
 		
 		float lastDifference = 0f;
 		
+		robot.adjustMotorspeed(tempo, tempo);
+		
+		float leftMotorSpeed = 0;
+		float rightMotorSpeed = 0;
+		
 		while (Button.LEFT.isUp() && !end) {
 			float actualValue = robot.getColorSensor().getColor()[0];
 			
-			LCD.drawString("color = " + actualValue, 0, 0);
-			LCD.drawString("TouchLeft = " + this.robot.getPressureSensorLeft().isTouched(), 1, 0);
-			LCD.drawString("TouchRight = " + this.robot.getPressureSensorRight().isTouched(), 2, 0);
+			LCD.drawString("speed = " + leftMotorSpeed + ", " + rightMotorSpeed, 0, 0);
+			LCD.drawString("color = " + actualValue, 10 ,0);
 			
-			float leftMotorSpeed = 0;
-			float rightMotorSpeed = 0;
 			
 			
 			//the touchsensors are touched and the robot has to drive around the obstacle
@@ -63,17 +65,17 @@ public class RouteNavigator implements Mission {
 				driveAroundObstacle();
 				
 				
-			} else if (actualValue > WHITE - 2 * OFFSET) { //90 degree turn
+			} /**else if (actualValue < WHITE - 2 * OFFSET) { //90 degree turn
 				
 				// findLine() ausführen ist vermutlich besser.
 				
-				leftMotorSpeed = -1.2f * tempo;
-				rightMotorSpeed = 1.2f * tempo;
+				leftMotorSpeed =  tempo;
+				rightMotorSpeed = tempo;
 
 				// adjust the robot's speed
 				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
 				
-			} else if (actualValue < BLACK + OFFSET) { //LineGap
+			} */else if (actualValue < BLACK + OFFSET) { //LineGap
 				// nur ausführen wenn der Robot nichts nach dem umschauen gefunden hat
 				//muss sich eig nicht umschauen, da wenn plötzlich Schwarz wird, aufjedenfall Lücke kommt
 				// also in findLine() ausführen
@@ -83,7 +85,7 @@ public class RouteNavigator implements Mission {
 				lastDifference = actualValue - OPTIMALVALUE;
 				float y = kp * lastDifference;
 				
-				leftMotorSpeed = tempo - y;;
+				leftMotorSpeed = tempo - y;
 				rightMotorSpeed = tempo + y;
 				
 				//RobotMotorGeschwindigkeit anpassen mit den übergebenen Werten left right Motor speed
@@ -112,23 +114,34 @@ public class RouteNavigator implements Mission {
 	 * the robot searches for the line
 	 */
 	public void findLine() {
-		Sound.beep();
 		LCD.clear();
 		LCD.drawString("Find Line", 0, 0);
 		
 		this.robot.pilotStop();
+		this.robot.motorsStop();
 		
 		boolean found = false;
 		while (!found) {
-			this.robot.pilotTravel(9);
 			int arc = 0;
-			while (arc < 90 && !found) {
-				this.robot.RotateRight(10);
+			while (arc < 360 && !found) {
+				this.robot.RotateRight(40);
 				found = this.robot.getColorSensor().getColor()[0] > BLACK + 2 * OFFSET;
-				arc += 10;
+				arc += 40;
 			}
-			if (!found)
+			if (!found) {
 				this.robot.RotateLeft(arc);
+				arc = 0;
+				while (arc < 360 && !found) {
+					this.robot.RotateLeft(40);
+					found = this.robot.getColorSensor().getColor()[0] > BLACK + 2 * OFFSET;
+					arc += 40;
+				}
+			}
+			if (!found) {
+				this.robot.RotateRight(arc);
+				LCD.drawString("Line not found", 0, 0);
+				this.robot.pilotTravel(5);
+			}
 		}
 		
 		this.robot.forward();
