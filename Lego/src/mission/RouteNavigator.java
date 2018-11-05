@@ -111,6 +111,7 @@ public class RouteNavigator implements Mission {
 		// ende
 		LCD.drawString("Ende", 0, 0);
 		this.robot.pilotTravel(1);
+		this.robot.RotateRight(400);
 
 	}
 	
