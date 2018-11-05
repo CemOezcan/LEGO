@@ -24,7 +24,7 @@ public class RouteNavigator implements Mission {
 	/*
 	 * the constant for the p-controller
 	 */
-	private final float kp = 1;
+	private final float kp = 1000;
 
 	/*
 	 * constructs a new route navigator
@@ -49,13 +49,14 @@ public class RouteNavigator implements Mission {
 		
 		robot.adjustMotorspeed(tempo, tempo);
 		
+		float leftMotorSpeed = 0;
+		float rightMotorSpeed = 0;
+		
 		while (Button.LEFT.isUp() && !end) {
 			float actualValue = robot.getColorSensor().getColor()[0];
 			
-			LCD.drawString("color = " + actualValue, 0, 0);
+			LCD.drawString("speed = " + leftMotorSpeed + ", " + rightMotorSpeed, 0, 0);
 			
-			float leftMotorSpeed = 0;
-			float rightMotorSpeed = 0;
 			
 			
 			//the touchsensors are touched and the robot has to drive around the obstacle
@@ -63,7 +64,7 @@ public class RouteNavigator implements Mission {
 				driveAroundObstacle();
 				
 				
-			} else if (actualValue > WHITE - 2 * OFFSET) { //90 degree turn
+			} /**else if (actualValue > WHITE - 2 * OFFSET) { //90 degree turn
 				
 				// findLine() ausführen ist vermutlich besser.
 				
@@ -79,17 +80,17 @@ public class RouteNavigator implements Mission {
 				// also in findLine() ausführen
 				findLine();
 				
-			} else { //normal case calculate the new speeds for both motors
+			} */else { //normal case calculate the new speeds for both motors
 				lastDifference = actualValue - OPTIMALVALUE;
 				float y = kp * lastDifference;
 				
-				leftMotorSpeed = tempo - y;;
+				leftMotorSpeed = tempo - y;
 				rightMotorSpeed = tempo + y;
 				
 				//RobotMotorGeschwindigkeit anpassen mit den übergebenen Werten left right Motor speed
 				
 				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
-				LCD.drawString("PPPPPPP", 0, 0);
+				LCD.drawString("" + tempo, 1, 0);
 			}
 			
 			//after f.e findGab switch to rgb mode to find the end of the line with the blue strip
@@ -113,32 +114,32 @@ public class RouteNavigator implements Mission {
 	 * the robot searches for the line
 	 */
 	public void findLine() {
-		Sound.beep();
 		LCD.clear();
 		LCD.drawString("Find Line", 0, 0);
 		
 		this.robot.pilotStop();
+		this.robot.motorsStop();
 		
 		boolean found = false;
 		while (!found) {
-			this.robot.pilotTravel(9);
 			int arc = 0;
 			while (arc < 90 && !found) {
-				this.robot.RotateRight(10);
+				this.robot.RotateLeft(100);
 				found = this.robot.getColorSensor().getColor()[0] > BLACK + 2 * OFFSET;
 				arc += 10;
 			}
 			if (!found) {
-				this.robot.RotateLeft(arc);
+				this.robot.RotateRight(arc);
 				arc = 0;
 				while (arc < 90 && !found) {
-					this.robot.RotateLeft(10);
+					this.robot.RotateRight(10);
 					found = this.robot.getColorSensor().getColor()[0] > BLACK + 2 * OFFSET;
 					arc += 10;
 				}
 			}
 			if (!found) {
 				LCD.drawString("Line not found", 0, 0);
+				this.robot.pilotTravel(9);
 			}
 		}
 		
