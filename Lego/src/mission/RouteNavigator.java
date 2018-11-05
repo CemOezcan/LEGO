@@ -2,6 +2,7 @@ package mission;
 
 import lejos.hardware.lcd.LCD;
 import lejos.utility.Delay;
+import robot.RegulatorP;
 import robot.Robot;
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
@@ -38,6 +39,7 @@ public class RouteNavigator implements Mission {
 		Sound.beep();
 		
 		robot.getColorSensor().setRedMode();
+		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, this.kp, this.OPTIMALVALUE);
 		
 		robot.forward();
 		
@@ -68,16 +70,8 @@ public class RouteNavigator implements Mission {
 				findLine();
 				
 			} else { //normal case calculate the new speeds for both motors
-				lastDifference = actualValue - OPTIMALVALUE;
-				float y = kp * lastDifference;
-				
-				leftMotorSpeed = tempo - y;
-				rightMotorSpeed = tempo + y;
-				
-				//change robot speed
-				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
+				regulator.regulate(actualValue);
 			}
-			
 			//after f.e findGab switch to rgb mode to find the end of the line with the blue strip
 		}
 		robot.pilotStop();
