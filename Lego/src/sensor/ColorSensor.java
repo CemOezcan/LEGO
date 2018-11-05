@@ -16,15 +16,17 @@ public class ColorSensor extends UARTSensor {
 		super(port);
 		this.sensor = new EV3ColorSensor(this.port);
 		this.setAmbientMode();
+		
 	}
 	
 	/**
 	 * Set sensor mode to "ColorID". 
 	 * This mode measures colors and returns a single numerical value.
 	 */
-	public void setClorIDMode() {
-		this.switchMode(this.sensor.getColorIDMode());
-		this.sensor.setFloodlight(true);
+	public void setColorIDMode() {
+		this.sensor.setCurrentMode("ColorID");
+		this.sensor.setFloodlight(false);
+		
 	}
 	
 	/**
@@ -32,8 +34,9 @@ public class ColorSensor extends UARTSensor {
 	 * This mode measures the brightness of reflected red light.
 	 */
 	public void setRedMode() {
-		this.switchMode(this.sensor.getRedMode());
+		this.sensor.setCurrentMode("Red");
 		this.sensor.setFloodlight(Color.RED);
+		
 	}
 	
 	/**
@@ -41,8 +44,9 @@ public class ColorSensor extends UARTSensor {
 	 * This mode measures the brightness of reflected red, green and blue light.
 	 */
 	public void setRGBMode() {
-		this.switchMode(this.sensor.getRGBMode());
+		this.sensor.setCurrentMode("RGB");
 		this.sensor.setFloodlight(Color.WHITE);
+		
 	}
 	
 	/**
@@ -50,8 +54,9 @@ public class ColorSensor extends UARTSensor {
 	 * This mode measures the ambient light level.
 	 */
 	public void setAmbientMode() {
-		this.switchMode(this.sensor.getAmbientMode());
+		this.sensor.setCurrentMode("Ambient");
 		this.sensor.setFloodlight(false);
+		
 	}
 	
 	/**
@@ -59,9 +64,23 @@ public class ColorSensor extends UARTSensor {
 	 * @return array of numerical values, representing detected colors.
 	 */
 	public float[] getColor() {
-		float[] sample = new float[this.sensor.sampleSize()];
-		this.sensor.fetchSample(sample, 0);
-		return sample;
+		return this.getSample();
+		
+	}
+
+	@Override
+	protected void switchMode(String newSensorMode) {
+		this.sensorMode = newSensorMode;
+		this.sensor.setCurrentMode(this.sensorMode);
+		this.update();
+		
+	}
+
+	@Override
+	protected void update() {
+		this.sample = new float[this.sensor.sampleSize()];
+		this.sensor.fetchSample(this.sample, 0);
+		
 	}
 	
 }

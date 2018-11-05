@@ -4,7 +4,7 @@ import lejos.hardware.port.Port;
 import lejos.hardware.sensor.SensorMode;
 import lejos.robotics.SampleProvider;
 
-public class AnalogSensor extends Sensor {
+public abstract class AnalogSensor extends Sensor {
 
 	protected SampleProvider sampleProvider;
 	
@@ -12,9 +12,14 @@ public class AnalogSensor extends Sensor {
 		super(port);
 	}
 
-	@Override
-	protected void switchMode(SensorMode newSensorMode) {
-		this.sampleProvider = (SampleProvider) newSensorMode;
+	/**
+	 * Switch current mode.
+	 * @param newSensorMode the new mode
+	 */
+	protected void switchMode(SampleProvider newSampleProvider) {
+		this.sampleProvider = newSampleProvider;
+		this.update();
+		
 	}
 	
 }

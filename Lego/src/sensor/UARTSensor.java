@@ -2,18 +2,20 @@ package sensor;
 
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.SensorMode;
+import lejos.robotics.SampleProvider;
 
-public class UARTSensor extends Sensor {
+public abstract class UARTSensor extends Sensor {
 	
-	protected SensorMode sensorMode;
+	protected String sensorMode;
 
 	public UARTSensor(Port port) {
 		super(port);
 	}
 
-	@Override
-	protected void switchMode(SensorMode newSensorMode) {
-		this.sensorMode = newSensorMode;		
-	}
+	/**
+	 * Switch current mode using its name.
+	 * @param newSensorMode the new mode
+	 */
+	protected abstract void switchMode(String newSensorMode);
 
 }

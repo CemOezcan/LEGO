@@ -1,6 +1,7 @@
 package mission;
 
 import lejos.hardware.lcd.LCD;
+import lejos.utility.Delay;
 import robot.Robot;
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
@@ -9,30 +10,128 @@ public class RouteNavigator implements Mission {
 
 	private final Robot robot;
 	
-	private final double BLACK = 0.0;
-	private final double WHITE = 0.0;
-	private final double BLUE= 0.0;
+	/*
+	 * the final color values of the colors
+	 */
+	private final float BLACK = 0.08f;
+	private final float WHITE = 0.48f;
+	private final float BLUE = 0.0f; //TODO: add value
+	private final float OFFSET = 0.01f; 
+	private final float OPTIMALVALUE = (WHITE + BLACK) / 2;
+	
+	private final float tempo = 220f;
+	
+	/*
+	 * the constant for the p-controller
+	 */
+	private final float kp = (tempo / WHITE - OPTIMALVALUE);
 
+	/*
+	 * constructs a new route navigator
+	 */
 	public RouteNavigator(Robot robot) {
 		this.robot = robot;
 	}
 
+	@Override
 	public void executeMission() {
 		Sound.beep();
 		
+		robot.getColorSensor().setRedMode();
+		
+		//whats the startconfiguration??
+		//should we make a method for startconfiguration?
+		robot.forward();
+		
 		boolean end = false;
+		
+		float lastDifference = 0f;
+		
 		while (Button.LEFT.isUp() && !end) {
-			//algorithm for the line follower
+			float actualValue = robot.getColorSensor().getColor()[0];
+			
+			LCD.drawString("color = " + actualValue, 0, 0);
+			LCD.drawString("TouchLeft = " + this.robot.getPressureSensorLeft().isTouched(), 1, 0);
+			LCD.drawString("TouchRight = " + this.robot.getPressureSensorRight().isTouched(), 2, 0);
+			
+			float leftMotorSpeed = 0;
+			float rightMotorSpeed = 0;
+			
+			
+			//the touchsensors are touched and the robot has to drive around the obstacle
+			if (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched()) {
+				driveAroundObstacle();
 				
+				
+			} else if (actualValue > WHITE - 2 * OFFSET) { //90 degree turn
+				
+				// findLine() ausführen ist vermutlich besser.
+				
+				leftMotorSpeed = -1.2f * tempo;
+				rightMotorSpeed = 1.2f * tempo;
+
+				// adjust the robot's speed
+				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
+				
+			} else if (actualValue < BLACK + OFFSET) { //LineGap
+				// nur ausführen wenn der Robot nichts nach dem umschauen gefunden hat
+				//muss sich eig nicht umschauen, da wenn plötzlich Schwarz wird, aufjedenfall Lücke kommt
+				// also in findLine() ausführen
+				findLine();
+				
+			} else { //normal case calculate the new speeds for both motors
+				lastDifference = actualValue - OPTIMALVALUE;
+				float y = kp * lastDifference;
+				
+				leftMotorSpeed = tempo - y;;
+				rightMotorSpeed = tempo + y;
+				
+				//RobotMotorGeschwindigkeit anpassen mit den übergebenen Werten left right Motor speed
+				
+				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
+			}
+			
+			//after f.e findGab switch to rgb mode to find the end of the line with the blue strip
 		}
-		
+		robot.pilotStop();
 	}
-	
+
+	/**
+	 * the robot drives around the obstacle
+	 */
 	public void driveAroundObstacle() {
-		
+		Sound.beepSequence();
 	}
 	
 	public void findLineAfterGap() {
-		
+		Sound.beepSequence();
 	}
+	
+
+	/*
+	 * the robot searches for the line
+	 */
+	public void findLine() {
+		Sound.beep();
+		LCD.clear();
+		LCD.drawString("Find Line", 0, 0);
+		
+		this.robot.pilotStop();
+		
+		boolean found = false;
+		while (!found) {
+			this.robot.pilotTravel(9);
+			int arc = 0;
+			while (arc < 90 && !found) {
+				this.robot.RotateRight(10);
+				found = this.robot.getColorSensor().getColor()[0] > BLACK + 2 * OFFSET;
+				arc += 10;
+			}
+			if (!found)
+				this.robot.RotateLeft(arc);
+		}
+		
+		this.robot.forward();
+	}
+	
 }

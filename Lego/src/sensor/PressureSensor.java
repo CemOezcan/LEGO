@@ -9,9 +9,9 @@ public class PressureSensor extends AnalogSensor {
 	
 	public PressureSensor(Port port) {
 		super(port);
-		
 		this.sensor = new EV3TouchSensor(this.port);
 		this.switchMode(this.sensor.getTouchMode());
+		
 	}
 	
 	/**
@@ -19,10 +19,16 @@ public class PressureSensor extends AnalogSensor {
 	 * @return true, exactly when sensor detects touch 
 	 */
 	public boolean isTouched() {
-		float[] sample = new float[this.sampleProvider.sampleSize()];
-		this.sampleProvider.fetchSample(sample, 0);
+		float[] value = this.getSample();
+		return (value[0] == 0) ? (false) : (true);
 		
-		return (sample[0] == 0) ? (false) : (true);
+	}
+
+	@Override
+	protected void update() {
+		this.sample = new float[this.sampleProvider.sampleSize()];
+		this.sampleProvider.fetchSample(this.sample, 0);
+		
 	}
 	
 }
