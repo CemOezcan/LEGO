@@ -56,6 +56,7 @@ public class RouteNavigator implements Mission {
 			float actualValue = robot.getColorSensor().getColor()[0];
 			
 			LCD.drawString("speed = " + leftMotorSpeed + ", " + rightMotorSpeed, 0, 0);
+			LCD.drawString("color = " + actualValue, 10 ,0);
 			
 			
 			
@@ -64,7 +65,7 @@ public class RouteNavigator implements Mission {
 				driveAroundObstacle();
 				
 				
-			} /**else if (actualValue > WHITE - 2 * OFFSET) { //90 degree turn
+			} /**else if (actualValue < WHITE - 2 * OFFSET) { //90 degree turn
 				
 				// findLine() ausführen ist vermutlich besser.
 				
@@ -74,13 +75,13 @@ public class RouteNavigator implements Mission {
 				// adjust the robot's speed
 				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
 				
-			} else if (actualValue < BLACK + OFFSET) { //LineGap
+			} */else if (actualValue < BLACK + OFFSET) { //LineGap
 				// nur ausführen wenn der Robot nichts nach dem umschauen gefunden hat
 				//muss sich eig nicht umschauen, da wenn plötzlich Schwarz wird, aufjedenfall Lücke kommt
 				// also in findLine() ausführen
 				findLine();
 				
-			} */else { //normal case calculate the new speeds for both motors
+			} else { //normal case calculate the new speeds for both motors
 				lastDifference = actualValue - OPTIMALVALUE;
 				float y = kp * lastDifference;
 				
@@ -122,23 +123,24 @@ public class RouteNavigator implements Mission {
 		boolean found = false;
 		while (!found) {
 			int arc = 0;
-			while (arc < 90 && !found) {
-				this.robot.RotateLeft(100);
+			while (arc < 360 && !found) {
+				this.robot.RotateRight(40);
 				found = this.robot.getColorSensor().getColor()[0] > BLACK + 2 * OFFSET;
-				arc += 10;
+				arc += 40;
 			}
 			if (!found) {
-				this.robot.RotateRight(arc);
+				this.robot.RotateLeft(arc);
 				arc = 0;
-				while (arc < 90 && !found) {
-					this.robot.RotateRight(10);
+				while (arc < 360 && !found) {
+					this.robot.RotateLeft(40);
 					found = this.robot.getColorSensor().getColor()[0] > BLACK + 2 * OFFSET;
-					arc += 10;
+					arc += 40;
 				}
 			}
 			if (!found) {
+				this.robot.RotateRight(arc);
 				LCD.drawString("Line not found", 0, 0);
-				this.robot.pilotTravel(9);
+				this.robot.pilotTravel(5);
 			}
 		}
 		
