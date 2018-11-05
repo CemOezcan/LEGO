@@ -92,6 +92,7 @@ public class RouteNavigator implements Mission {
 		this.robot.pilotStop();
 		Sound.beepSequence();
 		LCD.drawString("Block umfahren", 0, 0);
+		RegulatorP reg = new RegulatorP(this.robot, this.tempo, kpSonic, FARAWAY);
 		
 		// start()
 		this.robot.pilotTravel(-4);
@@ -108,9 +109,7 @@ public class RouteNavigator implements Mission {
 			if (actualColorValue > WHITE - 2 * OFFSET) {
 				end = true;
 			} else {
-				float y = kpSonic * (actualSonicValue - FARAWAY);
-				leftMotorSpeed = tempo - y;
-				rightMotorSpeed = tempo + y;
+				reg.regulate(actualSonicValue);
 				
 				//RobotMotorGeschwindigkeit anpassen mit den übergebenen Werten left right Motor speed
 				
