@@ -147,9 +147,7 @@ public class RouteNavigator implements Mission {
 			if (!found) {
 				this.robot.RotateRight(arc);
 				LCD.drawString("Line not found", 0, 0);
-				this.robot.forward();
-				Delay.msDelay(1500);
-				robot.pilotStop();
+				this.robot.pilotTravel(6);
 			}
 		}
 		
