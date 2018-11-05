@@ -46,13 +46,10 @@ public class RouteNavigator implements Mission {
 		
 		robot.adjustMotorspeed(tempo, tempo);
 		
-		float leftMotorSpeed = 0;
-		float rightMotorSpeed = 0;
-		
 		while (Button.LEFT.isUp() && !end) {
 			float actualValue = robot.getColorSensor().getColor()[0];
 			
-			LCD.drawString("speed = " + leftMotorSpeed + ", " + rightMotorSpeed + " color: " + actualValue, 0, 0);
+			LCD.drawString(" color: " + actualValue, 0, 0);
 			
 			//the touchsensors are touched and the robot has to drive around the obstacle
 			if (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched()) {
@@ -82,8 +79,6 @@ public class RouteNavigator implements Mission {
 		float FARAWAY = 0.1f;
 		float actualSonicValue = 0.0f;
 		float actualColorValue = 0.0f;
-		float leftMotorSpeed = 0.0f;
-		float rightMotorSpeed = 0.0f;
 		
 		float kpSonic = 500;
 
