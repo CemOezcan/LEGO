@@ -39,8 +39,6 @@ public class RouteNavigator implements Mission {
 		
 		robot.getColorSensor().setRedMode();
 		
-		//whats the startconfiguration??
-		//should we make a method for startconfiguration?
 		robot.forward();
 		
 		boolean end = false;
@@ -67,20 +65,7 @@ public class RouteNavigator implements Mission {
 				driveAroundObstacle();
 				
 				
-			} /**else if (actualValue < WHITE - 2 * OFFSET) { //90 degree turn
-				
-				// findLine() ausführen ist vermutlich besser.
-				
-				leftMotorSpeed =  tempo;
-				rightMotorSpeed = tempo;
-
-				// adjust the robot's speed
-				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
-				
-			} */else if (actualValue < BLACK + OFFSET) { //LineGap
-				// nur ausführen wenn der Robot nichts nach dem umschauen gefunden hat
-				//muss sich eig nicht umschauen, da wenn plötzlich Schwarz wird, aufjedenfall Lücke kommt
-				// also in findLine() ausführen
+			} else if (actualValue < BLACK + OFFSET) { //find line
 				robot.pilotStop();
 				robot.motorsStop();
 				findLine();
@@ -92,8 +77,7 @@ public class RouteNavigator implements Mission {
 				leftMotorSpeed = tempo - y;
 				rightMotorSpeed = tempo + y;
 				
-				//RobotMotorGeschwindigkeit anpassen mit den übergebenen Werten left right Motor speed
-				
+				//change robot speed
 				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
 			}
 			
