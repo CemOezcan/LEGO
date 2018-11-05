@@ -46,13 +46,10 @@ public class RouteNavigator implements Mission {
 		
 		robot.adjustMotorspeed(tempo, tempo);
 		
-		float leftMotorSpeed = 0;
-		float rightMotorSpeed = 0;
-		
 		while (Button.LEFT.isUp() && !end) {
 			float actualValue = robot.getColorSensor().getColor()[0];
 			
-			LCD.drawString("speed = " + leftMotorSpeed + ", " + rightMotorSpeed + " color: " + actualValue, 0, 0);
+			LCD.drawString(" color: " + actualValue, 0, 0);
 			
 			//the touchsensors are touched and the robot has to drive around the obstacle
 			if (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched()) {
@@ -78,7 +75,44 @@ public class RouteNavigator implements Mission {
 	 * the robot drives around the obstacle
 	 */
 	public void driveAroundObstacle() {
+
+		float FARAWAY = 0.1f;
+		float actualSonicValue = 0.0f;
+		float actualColorValue = 0.0f;
+		
+		float kpSonic = 500;
+
+		// enter()
+		this.robot.motorsStop();
+		this.robot.pilotStop();
 		Sound.beepSequence();
+		LCD.drawString("Block umfahren", 0, 0);
+		RegulatorP reg = new RegulatorP(this.robot, this.tempo, kpSonic, FARAWAY);
+		
+		// start()
+		this.robot.pilotTravel(-4);
+		this.robot.RotateRight(550); // 90 grad
+
+		// P Regler Abstand messen
+		robot.forward();
+		boolean end = false;
+		while (!end) {
+		
+			actualColorValue = this.robot.getColorSensor().getColor()[0];
+			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
+			
+			if (actualColorValue > WHITE - 2 * OFFSET) {
+				end = true;
+			} else {
+				reg.regulate(actualSonicValue);
+			}
+		}
+
+		// ende
+		LCD.drawString("Ende", 0, 0);
+		this.robot.pilotTravel(1);
+		this.robot.RotateRight(400);
+
 	}
 	
 	/*
