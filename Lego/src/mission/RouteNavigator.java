@@ -152,7 +152,7 @@ public class RouteNavigator implements Mission {
 		}
 		
 		if (fromRight) {
-			robot.RotateLeft(40);
+			robot.RotateLeft(100);
 		}
 	}
 	
