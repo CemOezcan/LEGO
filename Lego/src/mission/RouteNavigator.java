@@ -93,11 +93,6 @@ public class RouteNavigator implements Mission {
 		Sound.beepSequence();
 	}
 	
-	public void findLineAfterGap() {
-		Sound.beepSequence();
-	}
-	
-
 	/*
 	 * the robot searches for the line
 	 */
