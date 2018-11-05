@@ -199,6 +199,7 @@ public class Robot {
 	public void ultraSonicSensorUp() {
 		if (!this.motorUltraSonicIsUp) {
 			this.motorUltraSonic.rotateTo(90);
+			this.motorUltraSonicIsUp = true;
 		}
 	}
 	
@@ -209,6 +210,7 @@ public class Robot {
 	public void ultraSonicSensorDown() {
 		if (this.motorUltraSonicIsUp) {
 			this.motorUltraSonic.rotateTo(-90);
+			this.motorUltraSonicIsUp = false;
 		}
 	}
 	
