@@ -1,7 +1,6 @@
 package mission;
 
 import lejos.hardware.lcd.LCD;
-import lejos.utility.Delay;
 import robot.RegulatorP;
 import robot.Robot;
 import lejos.hardware.Button;
@@ -44,8 +43,6 @@ public class RouteNavigator implements Mission {
 		robot.forward();
 		
 		boolean end = false;
-		
-		float lastDifference = 0f;
 		
 		robot.adjustMotorspeed(tempo, tempo);
 		
