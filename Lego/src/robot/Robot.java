@@ -162,18 +162,30 @@ public class Robot {
 	 */
 	public void adjustMotorspeed(float leftMotorSpeed, float rightMotorSpeed) {
 		//Braucht man das?
-		int speedLeft = Math.round(leftMotorSpeed);
-		int speedRight = Math.round(rightMotorSpeed);
+		int speedLeft = Math.abs(Math.round(leftMotorSpeed));
+		int speedRight = Math.abs(Math.round(rightMotorSpeed));
 		
 		this.motorLeft.startSynchronization();
 		this.motorRight.startSynchronization();
 		
-		this.motorLeft.setSpeed(speedLeft);
-		this.motorRight.setSpeed(speedRight);
 		
-		this.motorRight.backward();
-		this.motorLeft.backward();
-	
+		if (rightMotorSpeed < 0) {
+			this.motorRight.setSpeed(speedRight);
+			this.motorLeft.setSpeed(speedLeft);
+			this.motorRight.forward();
+			this.motorLeft.backward();
+		} else if (leftMotorSpeed < 0) {
+			this.motorRight.setSpeed(speedRight);
+			this.motorLeft.setSpeed(speedLeft);
+			this.motorRight.backward();
+			this.motorLeft.forward();
+		} else {
+			this.motorLeft.setSpeed(speedLeft);
+			this.motorRight.setSpeed(speedRight);
+			
+			this.motorRight.backward();
+			this.motorLeft.backward();
+		}
 		
 		
 		this.motorLeft.endSynchronization();

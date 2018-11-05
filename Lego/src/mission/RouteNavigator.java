@@ -19,12 +19,12 @@ public class RouteNavigator implements Mission {
 	private final float OFFSET = 0.01f; 
 	private final float OPTIMALVALUE = (WHITE + BLACK) / 2;
 	
-	private final float tempo = 220f;
+	private final float tempo = 150f;
 	
 	/*
 	 * the constant for the p-controller
 	 */
-	private final float kp = 1000;
+	private final float kp = 1200;
 
 	/*
 	 * constructs a new route navigator
@@ -90,7 +90,6 @@ public class RouteNavigator implements Mission {
 				//RobotMotorGeschwindigkeit anpassen mit den übergebenen Werten left right Motor speed
 				
 				this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
-				LCD.drawString("" + tempo, 1, 0);
 			}
 			
 			//after f.e findGab switch to rgb mode to find the end of the line with the blue strip
