@@ -53,7 +53,6 @@ public class Robot {
 		this.ultraSonicSensor = new UltraSonicSensor(this.SENSOR_ULTRA_SONIC);
 		this.pressureSensorLeft = new PressureSensor(this.SENSOR_TOUCH_LEFT);
 		this.pressureSensorRight = new PressureSensor(this.SENSOR_TOUCH_RIGHT);
-
 	}
 
 	/**
@@ -220,34 +219,65 @@ public class Robot {
 		}
 	}
 
+	/**
+	 * Prints a message on the LCD display
+	 * @param message the message
+	 * @param x - position
+	 * @param y y position
+	 */
 	public void drawString(String message, int x, int y) {
 		LCD.drawString(message, x, y);
 	}
 
+	/**
+	 * Clears the LCD display
+	 */
 	public void clearLCD() {
 		LCD.clear();
 	}
 
+	/**
+	 * Makes a beep sound
+	 */
 	public void beep() {
 		Sound.beep();
 	}
 
+	/**
+	 * Makes a beepsquence sound
+	 */
 	public void beepSequence() {
 		Sound.beepSequence();
 	}
 
+	/**
+	 * Returns the measured Color value
+	 * @return the value
+	 */
 	public float getColorValue() {
 		return this.colorSensor.getColor()[1];
 	}
 
+	/**
+	 * Returns the measured distance
+	 * @return the distance
+	 */
 	public float getUltraSonicDistance() {
 		return this.ultraSonicSensor.getDistance();
 	}
 
+	/**
+	 * Returns if the right touchsensor is pressed
+	 * @return true if touched
+	 */
 	public boolean touchSensorRightIsTouched() {
 		return this.pressureSensorRight.isTouched();
 	}
 
+	/**
+	 * Returns if the left touchsensor is pressed
+	 * @returntrue if touched
+	 */
 	public boolean touchSensorLeftIsTouched() {
 		return this.pressureSensorLeft.isTouched();
 	}
