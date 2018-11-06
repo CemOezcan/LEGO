@@ -35,7 +35,7 @@ public class RouteNavigator implements Mission {
 	public void executeMission() {
 		this.robot.beep();
 
-		robot.getColorSensor().setRedMode();
+		this.robot.setRedMode();
 		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, this.kp, this.OPTIMALVALUE);
 
 		this.robot.forward();

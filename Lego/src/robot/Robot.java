@@ -281,4 +281,18 @@ public class Robot {
 	public boolean touchSensorLeftIsTouched() {
 		return this.pressureSensorLeft.isTouched();
 	}
+	
+	/**
+	 * sets Infrared mode of the colorsensor
+	 */
+	public void setRedMode() {
+		this.colorSensor.setRedMode();
+	}
+	
+	/**
+	 * sets RGB mode of the colorsensor
+	 */
+	public void setRGBMode() {
+		this.colorSensor.setRGBMode();
+	}
 }
