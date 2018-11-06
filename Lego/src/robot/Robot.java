@@ -1,5 +1,7 @@
 package robot;
 
+import lejos.hardware.Sound;
+import lejos.hardware.lcd.LCD;
 import lejos.hardware.motor.EV3LargeRegulatedMotor;
 import lejos.hardware.motor.EV3MediumRegulatedMotor;
 import lejos.hardware.port.MotorPort;
@@ -214,4 +216,35 @@ public class Robot {
 		}
 	}
 	
+	public void drawString(String message, int x, int y) {
+		LCD.drawString(message, x, y);
+	}
+	
+	public void clearLCD() {
+		LCD.clear();
+	}
+	
+	public void beep() {
+		Sound.beep();
+	}
+	
+	public void beepSequence() {
+		Sound.beepSequence();
+	}
+	
+	public float getColorValue() {
+		return this.colorSensor.getColor()[1];
+	}
+	
+	public float getUltraSonicDistance() {
+		return this.ultraSonicSensor.getDistance();
+	}
+	
+	public boolean TouchSensorRightIsTouched() {
+		return this.pressureSensorRight.isTouched();
+	}
+	
+	public boolean TouchSensorLeftIsTouched() {
+		return this.pressureSensorLeft.isTouched();
+	}
 }
