@@ -1,10 +1,8 @@
 package mission;
 
-import lejos.hardware.lcd.LCD;
 import robot.RegulatorP;
 import robot.Robot;
 import lejos.hardware.Button;
-import lejos.hardware.Sound;
 
 public class RouteNavigator implements Mission {
 
@@ -35,12 +33,12 @@ public class RouteNavigator implements Mission {
 
 	@Override
 	public void executeMission() {
-		Sound.beep();
+		this.robot.beep();
 
 		robot.getColorSensor().setRedMode();
 		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, this.kp, this.OPTIMALVALUE);
 
-		robot.forward();
+		this.robot.forward();
 
 		boolean end = false;
 
@@ -49,11 +47,11 @@ public class RouteNavigator implements Mission {
 		while (Button.LEFT.isUp() && !end) {
 			float actualSonicValue = robot.getColorSensor().getColor()[0];
 
-			LCD.drawString(" color: " + actualSonicValue, 0, 0);
+			this.robot.drawString(" color: " + actualSonicValue, 0, 0);
 
 			// the touchsensors are touched and the robot has to drive around
 			// the obstacle
-			if (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched()) {
+			if (this.robot.touchSensorLeftIsTouched() || this.robot.touchSensorRightIsTouched()) {
 				robot.pilotStop();
 				robot.motorsStop();
 				driveAroundObstacle();
@@ -87,9 +85,9 @@ public class RouteNavigator implements Mission {
 		this.robot.motorsStop();
 		this.robot.pilotStop();
 
-		LCD.clear();
-		Sound.beepSequence();
-		LCD.drawString("Block umfahren", 0, 0);
+		this.robot.clearLCD();
+		this.robot.beepSequence();
+		this.robot.drawString("Block umfahren", 0, 0);
 		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, kpSonic, OPTIMALVALUE);
 
 		// start()
@@ -98,22 +96,22 @@ public class RouteNavigator implements Mission {
 
 		// Regulator start
 		this.robot.forward();
-		actualColorValue = this.robot.getColorSensor().getColor()[0];
+		actualColorValue = this.robot.getColorValue();
 
 		while (actualColorValue < WHITE - 2 * OFFSET) {
 
-			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
+			actualSonicValue = this.robot.getUltraSonicDistance();
 
-			LCD.drawString("Abstand: " + actualSonicValue, 0, 0);
+			this.robot.drawString("Abstand: " + actualSonicValue, 0, 0);
 
 			regulator.regulate(actualSonicValue);
 
-			actualColorValue = this.robot.getColorSensor().getColor()[0];
-			LCD.drawString("Lichtwert: " + actualColorValue, 0, 10);
+			actualColorValue = this.robot.getColorValue();
+			this.robot.drawString("Lichtwert: " + actualColorValue, 0, 10);
 		}
 
 		// end
-		LCD.drawString("Ende", 0, 0);
+		this.robot.drawString("Ende", 0, 0);
 		this.robot.pilotTravel(1);
 		this.robot.RotateRight(400);
 	}
@@ -122,8 +120,8 @@ public class RouteNavigator implements Mission {
 	 * the robot searches for the line
 	 */
 	public void findLine() {
-		LCD.clear();
-		LCD.drawString("Find Line", 0, 0);
+		this.robot.clearLCD();
+		this.robot.drawString("Find Line", 0, 0);
 
 		this.robot.pilotStop();
 		this.robot.motorsStop();
@@ -133,7 +131,7 @@ public class RouteNavigator implements Mission {
 			int arc = 0;
 			while (arc <= 440 && !found) {
 				this.robot.RotateRight(40);
-				found = this.robot.getColorSensor().getColor()[0] > BLACK + 2 * OFFSET;
+				found = this.robot.getColorValue() > BLACK + 2 * OFFSET;
 				arc += 40;
 			}
 			if (!found) {
@@ -141,7 +139,7 @@ public class RouteNavigator implements Mission {
 				arc = 0;
 				while (arc <= 440 && !found) {
 					this.robot.RotateLeft(40);
-					found = this.robot.getColorSensor().getColor()[0] > BLACK + 2 * OFFSET;
+					found = this.robot.getColorValue() > BLACK + 2 * OFFSET;
 					if (found) {
 						fromRight = true;
 					}
@@ -150,7 +148,7 @@ public class RouteNavigator implements Mission {
 			}
 			if (!found) {
 				this.robot.RotateRight(arc);
-				LCD.drawString("Line not found", 0, 0);
+				this.robot.drawString("Line not found", 0, 0);
 				this.robot.pilotTravel(6);
 			}
 		}
