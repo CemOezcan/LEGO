@@ -79,12 +79,11 @@ public class RouteNavigator implements Mission {
 		float actualSonicValue = 0.0f;
 		float actualColorValue = 0.0f;
 
-		float kpSonic = 1000;
+		float kpSonic = 1500;
 
 		// enter()
 		this.robot.motorsStop();
 		this.robot.pilotStop();
-
 		this.robot.clearLCD();
 		this.robot.beepSequence();
 		this.robot.drawString("Block umfahren", 0, 0);
