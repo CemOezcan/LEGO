@@ -45,9 +45,9 @@ public class RouteNavigator implements Mission {
 		robot.adjustMotorspeed(tempo, tempo);
 
 		while (Button.LEFT.isUp() && !end) {
-			float actualSonicValue = robot.getColorSensor().getColor()[0];
+			float actualColorValue = robot.getColorValue();
 
-			this.robot.drawString(" color: " + actualSonicValue, 0, 0);
+			this.robot.drawString(" color: " + actualColorValue, 0, 0);
 
 			// the touchsensors are touched and the robot has to drive around
 			// the obstacle
@@ -56,13 +56,13 @@ public class RouteNavigator implements Mission {
 				robot.motorsStop();
 				driveAroundObstacle();
 
-			} else if (actualSonicValue < BLACK + OFFSET) { // find line
+			} else if (actualColorValue < BLACK + OFFSET) { // find line
 				robot.pilotStop();
 				robot.motorsStop();
 				findLine();
 
 			} else { // normal case calculate the new speeds for both motors
-				regulator.regulate(actualSonicValue);
+				regulator.regulate(actualColorValue);
 			}
 			// after f.e findGab switch to rgb mode to find the end of the line
 			// with the blue strip

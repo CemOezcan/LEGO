@@ -3,11 +3,11 @@ package sensor;
 import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3TouchSensor;
 
-public class PressureSensor extends AnalogSensor {
+public class TouchSensor extends AnalogSensor {
 	
 	private EV3TouchSensor sensor;
 	
-	public PressureSensor(Port port) {
+	public TouchSensor(Port port) {
 		super(port);
 		this.sensor = new EV3TouchSensor(this.port);
 		this.switchMode(this.sensor.getTouchMode());
