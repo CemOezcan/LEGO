@@ -31,8 +31,8 @@ public class Robot {
 
 	private ColorSensor colorSensor;
 	private UltraSonicSensor ultraSonicSensor;
-	private TouchSensor pressureSensorLeft;
-	private TouchSensor pressureSensorRight;
+	private TouchSensor touchSensorLeft;
+	private TouchSensor touchSensorRight;
 
 	private RegulatedMotor motorRight = new EV3LargeRegulatedMotor(MOTOR_RIGHT);
 	private RegulatedMotor motorLeft = new EV3LargeRegulatedMotor(MOTOR_LEFT);
@@ -51,8 +51,8 @@ public class Robot {
 
 		this.colorSensor = new ColorSensor(this.SENSOR_COLOR);
 		this.ultraSonicSensor = new UltraSonicSensor(this.SENSOR_ULTRA_SONIC);
-		this.pressureSensorLeft = new TouchSensor(this.SENSOR_TOUCH_LEFT);
-		this.pressureSensorRight = new TouchSensor(this.SENSOR_TOUCH_RIGHT);
+		this.touchSensorLeft = new TouchSensor(this.SENSOR_TOUCH_LEFT);
+		this.touchSensorRight = new TouchSensor(this.SENSOR_TOUCH_RIGHT);
 	}
 	
 	/**
@@ -76,7 +76,7 @@ public class Robot {
 	 * @return the left touch sensor
 	 */
 	public TouchSensor getPressureSensorLeft() {
-		return this.pressureSensorLeft;
+		return this.touchSensorLeft;
 	}
 	
 	/**
@@ -84,7 +84,7 @@ public class Robot {
 	 * @return the right touch sensor
 	 */
 	public TouchSensor getPressureSensorRight() {
-		return this.pressureSensorRight;
+		return this.touchSensorRight;
 	}
 
 	/**
