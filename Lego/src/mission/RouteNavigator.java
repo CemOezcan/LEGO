@@ -35,7 +35,7 @@ public class RouteNavigator implements Mission {
 	public void executeMission() {
 		this.robot.beep();
 
-		this.robot.setRedMode();
+		this.robot.getColorSensor().setRedMode();
 		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, this.kp, this.OPTIMALVALUE);
 
 		this.robot.forward();
@@ -45,13 +45,13 @@ public class RouteNavigator implements Mission {
 		robot.adjustMotorspeed(tempo, tempo);
 
 		while (Button.LEFT.isUp() && !end) {
-			float actualColorValue = robot.getColorValue();
+			float actualColorValue = robot.getColorSensor().getColor()[0];
 
 			this.robot.drawString(" color: " + actualColorValue, 0, 0);
 
 			// the touchsensors are touched and the robot has to drive around
 			// the obstacle
-			if (this.robot.touchSensorLeftIsTouched() || this.robot.touchSensorRightIsTouched()) {
+			if (this.robot.getPressureSensorLeft().isTouched() || this.robot.getPressureSensorRight().isTouched()) {
 				robot.pilotStop();
 				robot.motorsStop();
 				driveAroundObstacle();
@@ -95,17 +95,17 @@ public class RouteNavigator implements Mission {
 
 		// Regulator start
 		this.robot.forward();
-		actualColorValue = this.robot.getColorValue();
+		actualColorValue = this.robot.getColorSensor().getColor()[0];
 
 		while (actualColorValue < WHITE - 2 * OFFSET) {
 
-			actualSonicValue = this.robot.getUltraSonicDistance();
+			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
 
 			this.robot.drawString("Abstand: " + actualSonicValue, 0, 0);
 
 			regulator.regulate(actualSonicValue);
 
-			actualColorValue = this.robot.getColorValue();
+			actualColorValue = this.robot.getColorSensor().getColor()[0];
 			this.robot.drawString("Lichtwert: " + actualColorValue, 0, 10);
 		}
 
@@ -130,7 +130,7 @@ public class RouteNavigator implements Mission {
 			int arc = 0;
 			while (arc <= 440 && !found) {
 				this.robot.RotateRight(40);
-				found = this.robot.getColorValue() > BLACK + 2 * OFFSET;
+				found = this.robot.getColorSensor().getColor()[0] > BLACK + 2 * OFFSET;
 				arc += 40;
 			}
 			if (!found) {
@@ -138,7 +138,7 @@ public class RouteNavigator implements Mission {
 				arc = 0;
 				while (arc <= 440 && !found) {
 					this.robot.RotateLeft(40);
-					found = this.robot.getColorValue() > BLACK + 2 * OFFSET;
+					found = this.robot.getColorSensor().getColor()[0] > BLACK + 2 * OFFSET;
 					if (found) {
 						fromRight = true;
 					}

@@ -54,6 +54,38 @@ public class Robot {
 		this.pressureSensorLeft = new TouchSensor(this.SENSOR_TOUCH_LEFT);
 		this.pressureSensorRight = new TouchSensor(this.SENSOR_TOUCH_RIGHT);
 	}
+	
+	/**
+	 * 
+	 * @return the color sensor
+	 */
+	public ColorSensor getColorSensor() {
+		return this.colorSensor;
+	}
+	
+	/**
+	 * 
+	 * @return the ultrasonic sensor
+	 */
+	public UltraSonicSensor getUltraSonicSensor() {
+		return this.ultraSonicSensor;
+	}
+	
+	/**
+	 * 
+	 * @return the left touch sensor
+	 */
+	public TouchSensor getPressureSensorLeft() {
+		return this.pressureSensorLeft;
+	}
+	
+	/**
+	 * 
+	 * @return the right touch sensor
+	 */
+	public TouchSensor getPressureSensorRight() {
+		return this.pressureSensorRight;
+	}
 
 	/**
 	 * Robot starts driving forward.
@@ -218,49 +250,4 @@ public class Robot {
 		Sound.beepSequence();
 	}
 
-	/**
-	 * Returns the measured Color value
-	 * @return the value
-	 */
-	public float getColorValue() {
-		return this.colorSensor.getColor()[1];
-	}
-
-	/**
-	 * Returns the measured distance
-	 * @return the distance
-	 */
-	public float getUltraSonicDistance() {
-		return this.ultraSonicSensor.getDistance();
-	}
-
-	/**
-	 * Returns if the right touchsensor is pressed
-	 * @return true if touched
-	 */
-	public boolean touchSensorRightIsTouched() {
-		return this.pressureSensorRight.isTouched();
-	}
-
-	/**
-	 * Returns if the left touchsensor is pressed
-	 * @returntrue if touched
-	 */
-	public boolean touchSensorLeftIsTouched() {
-		return this.pressureSensorLeft.isTouched();
-	}
-	
-	/**
-	 * sets Infrared mode of the colorsensor
-	 */
-	public void setRedMode() {
-		this.colorSensor.setRedMode();
-	}
-	
-	/**
-	 * sets RGB mode of the colorsensor
-	 */
-	public void setRGBMode() {
-		this.colorSensor.setRGBMode();
-	}
 }
