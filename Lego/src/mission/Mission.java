@@ -4,7 +4,7 @@ public interface Mission {
 
 	/**
 	 * executes the mission
-	 * @return TODO
+	 * @return if the mission completed
 	 */
 	public boolean executeMission();
 	
