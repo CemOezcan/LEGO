@@ -42,14 +42,8 @@ public class BoxShifter implements Mission {
 		}
 
 		// push box to wall
-		this.robot.drawString("push Box to wall", 0, 0);
-
-		this.robot.RotateLeft(550);
-
-		this.robot.pilotTravel(20);
-
+		this.shift();
 		
-
 		// push box to edge
 		this.robot.drawString("push Box to edge", 0, 0);
 
@@ -72,6 +66,41 @@ public class BoxShifter implements Mission {
 		this.robot.pilotStop();
 		this.robot.motorsStop();
 		
+		this.end();
+		
+		this.robot.pilotStop();
+		this.robot.motorsStop();
+		
+	}
+	
+	private void findBox() {
+		
+	}
+	
+	private void shift() {
+		this.robot.drawString("push Box to wall", 0, 0);
+		this.robot.RotateLeft(550);
+		this.robot.forward();
+		
+		float colorValue = this.robot.getColorSensor().getColor()[0];
+		while (colorValue < BLACK + OFFSET) {
+			colorValue = this.robot.getColorSensor().getColor()[0];
+		}
+		
+		this.robot.beep();
+		this.robot.pilotTravel(1);
+		this.robot.forward();
+		
+		while (colorValue < BLACK + OFFSET) {
+			colorValue = this.robot.getColorSensor().getColor()[0];
+		}
+		this.robot.beep();
+		
+		this.robot.pilotTravel(2);
+		
+	}
+	
+	private void end() {
 		//Suche weiße Linie
 		this.robot.pilotTravel(-5);
 		this.robot.RotateRight(550);
@@ -98,8 +127,6 @@ public class BoxShifter implements Mission {
 		while ((value == 1) || (value == 2)) {
 			value = this.robot.getColorSensor().getColor()[0];
 		}
-		this.robot.pilotStop();
-		this.robot.motorsStop();
-		
 	}
+
 }
