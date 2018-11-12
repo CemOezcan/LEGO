@@ -41,7 +41,8 @@ public class RouteNavigator implements Mission {
 		this.robot.forward();
 
 		boolean end = false;
-
+		boolean afterBox = false;
+		int cnt = 0;
 		robot.adjustMotorspeed(tempo, tempo);
 
 		while (Button.LEFT.isUp() && !end) {
@@ -55,12 +56,21 @@ public class RouteNavigator implements Mission {
 				robot.pilotStop();
 				robot.motorsStop();
 				driveAroundObstacle();
+				afterBox = true;
 
 			} else if (actualColorValue < BLACK + OFFSET) { // find line
 				robot.pilotStop();
 				robot.motorsStop();
-				findLine();
-
+				if (!afterBox || cnt < 1) {
+					findLine();
+					if (afterBox) {
+						cnt++;
+					}
+				} else {
+					this.robot.drawString("drive to next mission", 0, 0);
+					driveToNextMission();
+					end = true;
+				}
 			} else { // normal case calculate the new speeds for both motors
 				regulator.regulate(actualColorValue);
 			}
@@ -111,8 +121,6 @@ public class RouteNavigator implements Mission {
 
 		// end
 		this.robot.drawString("Ende", 0, 0);
-//		this.robot.pilotTravel(1);
-//		this.robot.RotateRight(400);
 	}
 
 	/*
@@ -154,6 +162,40 @@ public class RouteNavigator implements Mission {
 
 		if (fromRight) {
 			robot.RotateLeft(100);
+		}
+	}
+	
+	public void driveToNextMission() {
+		float OPTIMALVALUE = 0.1f;
+		float actualSonicValue = 0.0f;
+		float actualBlueValue = 0.0f; //Blue
+
+		float kpSonic = 2000;
+
+		this.robot.drawString("next mission", 0, 0);
+		
+		// enter()
+		this.robot.motorsStop();
+		this.robot.pilotStop();
+		this.robot.clearLCD();
+		this.robot.beepSequence();
+		this.robot.beep();
+		
+		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, kpSonic, OPTIMALVALUE);
+
+		this.robot.getColorSensor().setColorIDMode();;
+		// Regulator start
+		this.robot.forward();
+		actualBlueValue = this.robot.getColorSensor().getColor()[0];
+
+		while (!(actualBlueValue == 1 || actualBlueValue == 2)) {
+
+			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
+			this.robot.drawString("Abstand: " + actualSonicValue, 0, 10);
+			this.robot.drawString("ColorValue: " + actualBlueValue, 0, 0);
+			regulator.regulate(actualSonicValue);
+
+			actualBlueValue = this.robot.getColorSensor().getColor()[0];
 		}
 	}
 
