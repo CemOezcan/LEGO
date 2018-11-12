@@ -156,5 +156,37 @@ public class RouteNavigator implements Mission {
 			robot.RotateLeft(100);
 		}
 	}
+	
+	public void driveToNextMission() {
+		float OPTIMALVALUE = 0.1f;
+		float actualSonicValue = 0.0f;
+		float actualBlueValue = 0.0f; //Blue
+
+		float kpSonic = 1000;
+
+		this.robot.drawString("Find Line", 0, 0);
+		
+		// enter()
+		this.robot.motorsStop();
+		this.robot.pilotStop();
+		this.robot.clearLCD();
+		this.robot.beepSequence();
+		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, kpSonic, OPTIMALVALUE);
+
+		this.robot.getColorSensor().setColorIDMode();;
+		// Regulator start
+		this.robot.forward();
+		actualBlueValue = this.robot.getColorSensor().getColor()[0];
+
+		while (actualBlueValue == 1 || actualBlueValue == 2) {
+
+			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
+			this.robot.drawString("Abstand: " + actualSonicValue, 0, 10);
+			this.robot.drawString("ColorValue: " + actualBlueValue, 0, 0);
+			regulator.regulate(actualSonicValue);
+
+			actualBlueValue = this.robot.getColorSensor().getColor()[0];
+		}
+	}
 
 }
