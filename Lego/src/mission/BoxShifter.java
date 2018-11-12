@@ -102,7 +102,7 @@ public class BoxShifter implements Mission {
 	
 	private void end() {
 		//Suche weiﬂe Linie
-		this.robot.pilotTravel(-5);
+		this.robot.pilotTravel(-7);
 		this.robot.RotateRight(550);
 		
 		this.robot.forward();
@@ -112,8 +112,8 @@ public class BoxShifter implements Mission {
 		}
 		
 		//Suche zweite weiﬂe Linie
-		this.robot.pilotTravel(8);
-		this.robot.RotateLeft(550);
+		this.robot.pilotTravel(5);
+		this.robot.RotateLeft(530);
 		this.robot.forward();
 		value = this.robot.getColorSensor().getColor()[0];
 		while (value < BLACK + OFFSET) {
@@ -124,7 +124,7 @@ public class BoxShifter implements Mission {
 		this.robot.getColorSensor().setColorIDMode();
 		this.robot.forward();
 		value = this.robot.getColorSensor().getColor()[0];
-		while ((value != 1) || (value != 2)) {
+		while (!((value == 1) || (value == 2))) {
 			value = this.robot.getColorSensor().getColor()[0];
 		}
 	}
