@@ -13,8 +13,9 @@ public class BridgeCrosser implements Mission {
 	private final float tempo = 200f;
 	private final float ROBOTHEIGHT = 0.07f;
 	private final float BRIDGEHEIGHT = 0.3f;
-	private final float OPTIMALVALUE = (ROBOTHEIGHT + BRIDGEHEIGHT) / 2;
-	private final float KP = 1000;
+	private final float OPTIMALVALUE = 0.1f;
+	private final float KP = 1500;
+	private final float OFFSET = 0.03f;
 	
 	public BridgeCrosser(Robot robot) {
 		this.robot = robot;
@@ -28,13 +29,11 @@ public class BridgeCrosser implements Mission {
 		this.robot.getColorSensor().setColorIDMode();
 		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, this.KP, this.OPTIMALVALUE);
 
-		//this.robot.forward();
-
 		boolean end = false;
 		robot.adjustMotorspeed(tempo, tempo);
 
 		while (Button.LEFT.isUp() && !end) {
-			float actualGroundDistance = robot.getUltraSonicSensor().getDistance();
+			float actualGroundDistance = getDistanceValue(robot.getUltraSonicSensor().getDistance());
 			float actualColorValue = robot.getColorSensor().getColor()[0];
 			if (actualColorValue == 1 || actualColorValue == 2) {
 				end = true;
@@ -43,6 +42,14 @@ public class BridgeCrosser implements Mission {
 				regulator.sonicRegulate(actualGroundDistance);
 			}
 		}
+	}
+	
+	public float getDistanceValue(float value) {
+		float result = value;
+		if (value > ROBOTHEIGHT + OFFSET) {
+			result = 0.2f;
+		}
+		return result;
 	}
 
 }
