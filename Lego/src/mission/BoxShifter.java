@@ -48,6 +48,8 @@ public class BoxShifter implements Mission {
 
 		this.robot.pilotTravel(20);
 
+		
+
 		// push box to edge
 		this.robot.drawString("push Box to edge", 0, 0);
 
@@ -74,28 +76,30 @@ public class BoxShifter implements Mission {
 		this.robot.pilotTravel(-5);
 		this.robot.RotateRight(550);
 		
+		this.robot.forward();
 		float value = this.robot.getColorSensor().getColor()[0];
 		while (value < BLACK + OFFSET) {
-			this.robot.forward();
 			value = this.robot.getColorSensor().getColor()[0];
 		}
 		
 		//Suche zweite weiße Linie
-		this.robot.pilotTravel(5);
+		this.robot.pilotTravel(8);
 		this.robot.RotateLeft(550);
+		this.robot.forward();
 		value = this.robot.getColorSensor().getColor()[0];
 		while (value < BLACK + OFFSET) {
-			this.robot.forward();
 			value = this.robot.getColorSensor().getColor()[0];
 		}
 		
 		//Suche blaue Linie
 		this.robot.getColorSensor().setColorIDMode();
+		this.robot.forward();
 		value = this.robot.getColorSensor().getColor()[0];
 		while ((value == 1) || (value == 2)) {
-			this.robot.forward();
 			value = this.robot.getColorSensor().getColor()[0];
 		}
+		this.robot.pilotStop();
+		this.robot.motorsStop();
 		
 	}
 }
