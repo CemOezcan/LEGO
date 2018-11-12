@@ -27,4 +27,25 @@ public class RegulatorP {
 
 		this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
 	}
+	
+	public void sonicRegulate(float actualValue) {
+
+		float y = KP * (actualValue - OPTIMALVALUE);
+
+		// if value is = infinity -> turn right
+		if (actualValue > 200) {
+			y = -100;
+		}
+		
+		if(y > 100) {
+			y = 100.0f;
+		} else if (y < - 100){
+			y = -100.0f;
+		}
+		
+		leftMotorSpeed = TEMPO - y;
+		rightMotorSpeed = TEMPO + y;
+
+		this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
+	}
 }
