@@ -121,8 +121,6 @@ public class RouteNavigator implements Mission {
 
 		// end
 		this.robot.drawString("Ende", 0, 0);
-//		this.robot.pilotTravel(1);
-//		this.robot.RotateRight(400);
 	}
 
 	/*
@@ -172,15 +170,17 @@ public class RouteNavigator implements Mission {
 		float actualSonicValue = 0.0f;
 		float actualBlueValue = 0.0f; //Blue
 
-		float kpSonic = 1000;
+		float kpSonic = 2000;
 
-		this.robot.drawString("Find Line", 0, 0);
+		this.robot.drawString("next mission", 0, 0);
 		
 		// enter()
 		this.robot.motorsStop();
 		this.robot.pilotStop();
 		this.robot.clearLCD();
 		this.robot.beepSequence();
+		this.robot.beep();
+		
 		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, kpSonic, OPTIMALVALUE);
 
 		this.robot.getColorSensor().setColorIDMode();;
@@ -188,7 +188,7 @@ public class RouteNavigator implements Mission {
 		this.robot.forward();
 		actualBlueValue = this.robot.getColorSensor().getColor()[0];
 
-		while (actualBlueValue == 1 || actualBlueValue == 2) {
+		while (!(actualBlueValue == 1 || actualBlueValue == 2)) {
 
 			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
 			this.robot.drawString("Abstand: " + actualSonicValue, 0, 10);
