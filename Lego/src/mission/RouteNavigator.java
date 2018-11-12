@@ -182,7 +182,7 @@ public class RouteNavigator implements Mission {
 		this.robot.beep();
 		this.robot.adjustMotorspeed(300, 300);
 		
-		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, kpSonic, OPTIMALVALUE);
+		RegulatorP regulator = new RegulatorP(this.robot, 300f, kpSonic, OPTIMALVALUE);
 
 		this.robot.getColorSensor().setColorIDMode();
 		// Regulator start
