@@ -56,6 +56,7 @@ public class RouteNavigator implements Mission {
 				robot.pilotStop();
 				robot.motorsStop();
 				driveAroundObstacle();
+				afterBox = true;
 
 			} else if (actualColorValue < BLACK + OFFSET) { // find line
 				robot.pilotStop();
