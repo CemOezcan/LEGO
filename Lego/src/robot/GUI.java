@@ -4,7 +4,6 @@ import lejos.hardware.Button;
 import lejos.utility.TextMenu;
 import mission.BoxShifter;
 import mission.BridgeCrosser;
-import mission.MazeRunner;
 import mission.RouteNavigator;
 import mission.Task;
 import mission.RouteNavigator;
@@ -18,7 +17,6 @@ public class GUI extends TextMenu{
 	private RouteNavigator routeNavigator;
 	private BridgeCrosser bridgeCrosser;
 	private BoxShifter boxShifter;
-	private MazeRunner mazeRunner;
 	private TreasureHunter treasureHunter;
 	
 	public GUI(Robot robot) {
@@ -29,7 +27,6 @@ public class GUI extends TextMenu{
 		routeNavigator = new RouteNavigator(robot);
 		bridgeCrosser = new BridgeCrosser(robot);
 		boxShifter = new BoxShifter(robot);
-		mazeRunner = new MazeRunner(robot);
 		treasureHunter = new TreasureHunter(robot);
 	}
 	
@@ -72,12 +69,6 @@ public class GUI extends TextMenu{
 				previousMissionComplete = treasureHunter.executeMission();
 				previousMission = 3;
 				break;
-				
-			case "Maze Runner":
-				lcd.clear();
-				previousMissionComplete = mazeRunner.executeMission();
-				previousMission = 4;
-				break;	
 				
 			default:
 				break;
