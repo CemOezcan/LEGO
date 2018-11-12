@@ -156,7 +156,7 @@ public class RouteNavigator implements Mission {
 			if (!found) {
 				this.robot.RotateRight(arc);
 				this.robot.drawString("Line not found", 0, 0);
-				this.robot.pilotTravel(6);
+				this.robot.pilotTravel(7);
 			}
 		}
 
@@ -198,5 +198,4 @@ public class RouteNavigator implements Mission {
 			actualBlueValue = this.robot.getColorSensor().getColor()[0];
 		}
 	}
-
 }
