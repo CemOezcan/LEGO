@@ -75,7 +75,7 @@ public class RouteNavigator implements Mission {
 	 */
 	public void driveAroundObstacle() {
 
-		float OPTIMALVALUE = 0.05f;
+		float OPTIMALVALUE = 0.1f;
 		float actualSonicValue = 0.0f;
 		float actualColorValue = 0.0f;
 
@@ -90,8 +90,8 @@ public class RouteNavigator implements Mission {
 		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, kpSonic, OPTIMALVALUE);
 
 		// start()
-		this.robot.pilotTravel(-4);
-		this.robot.RotateRight(550); // 90 Grad
+		this.robot.pilotTravel(-3);
+		this.robot.RotateRight(450); // 90 Grad
 
 		// Regulator start
 		this.robot.forward();
@@ -102,8 +102,8 @@ public class RouteNavigator implements Mission {
 			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
 
 			this.robot.drawString("Abstand: " + actualSonicValue, 0, 0);
-
-			regulator.regulate(actualSonicValue);
+			
+			regulator.sonicRegulate(actualSonicValue);
 
 			actualColorValue = this.robot.getColorSensor().getColor()[0];
 			this.robot.drawString("Lichtwert: " + actualColorValue, 0, 10);
@@ -111,8 +111,8 @@ public class RouteNavigator implements Mission {
 
 		// end
 		this.robot.drawString("Ende", 0, 0);
-		this.robot.pilotTravel(1);
-		this.robot.RotateRight(400);
+//		this.robot.pilotTravel(1);
+//		this.robot.RotateRight(400);
 	}
 
 	/*
