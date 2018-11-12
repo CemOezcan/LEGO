@@ -19,19 +19,21 @@ public class BoxShifter implements Mission {
 		Sound.beep();
 
 		float actualSonicValue = 0.0f;
-
+		int distanceCounter = 0;
+		
 		this.robot.getColorSensor().setRedMode();
 
 		// find box
 		this.robot.drawString("find box", 0, 0);
 
-		this.robot.pilotTravel(5);
-		this.robot.RotateLeft(1150);
+		this.robot.pilotTravel(7);
+		this.robot.RotateLeft(1130);
 		this.robot.backward();
 
 		actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
 
 		while (actualSonicValue > 0.17) {
+			distanceCounter++;
 			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
 			this.robot.drawString("" + actualSonicValue, 0, 0);
 		}
@@ -50,19 +52,29 @@ public class BoxShifter implements Mission {
 		// robot.getPressureSensorRight().isTouched(), 0, 10);
 		// }
 
-		this.robot.pilotTravel(23);
+		this.robot.pilotTravel(20);
 
 		// push box to edge
 		this.robot.drawString("push Box to edge", 0, 0);
 
 		this.robot.pilotTravel(-2);
 		this.robot.RotateLeft(550);
-		this.robot.pilotTravel(7);
+		this.robot.pilotTravel(10);
 		this.robot.RotateRight(550);
 		this.robot.pilotTravel(6);
 		this.robot.RotateRight(550);
 
-		this.robot.pilotTravel(15);
+		this.robot.forward();
+		
+		while(distanceCounter > 0) {
+			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
+			this.robot.drawString("egal " + actualSonicValue, 0, 0);
+			distanceCounter--;
+		}
+		
+		this.robot.pilotTravel(5);
+		this.robot.pilotStop();
+		
 
 		// this.robot.forward();
 
