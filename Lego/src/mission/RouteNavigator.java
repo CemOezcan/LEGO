@@ -41,7 +41,8 @@ public class RouteNavigator implements Mission {
 		this.robot.forward();
 
 		boolean end = false;
-
+		boolean afterBox = false;
+		int cnt = 0;
 		robot.adjustMotorspeed(tempo, tempo);
 
 		while (Button.LEFT.isUp() && !end) {
