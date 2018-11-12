@@ -15,7 +15,7 @@ public class BoxShifter implements Mission {
 	}
 	
 	@Override
-	public void executeMission() {
+	public boolean executeMission() {
 		// TODO Auto-generated method stub
 		Sound.beep();
 		Delay.msDelay(1000);
@@ -23,8 +23,9 @@ public class BoxShifter implements Mission {
 			for (int i = 0; i < 100; i++) {
 				LCD.drawString("BoxShifterAlgorithm", 0, 0);
 			}
+			return true;
 		}
-		
+		return false;
 	}
 
 }

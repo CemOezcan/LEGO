@@ -19,7 +19,7 @@ public class GUI extends TextMenu{
 	private BridgeCrosser bridgeCrosser;
 	private BoxShifter boxShifter;
 	private MazeRunner mazeRunner;
-	private TreasureHunter tresureHunter;
+	private TreasureHunter treasureHunter;
 	
 	public GUI(Robot robot) {
 		super(Task.getTaskList());
@@ -30,41 +30,53 @@ public class GUI extends TextMenu{
 		bridgeCrosser = new BridgeCrosser(robot);
 		boxShifter = new BoxShifter(robot);
 		mazeRunner = new MazeRunner(robot);
-		tresureHunter = new TreasureHunter(robot);
+		treasureHunter = new TreasureHunter(robot);
 	}
 	
 	public void showMenu() {
 		RouteNavigator routeNavigator = new RouteNavigator(robot);
+		boolean previousMissionComplete = false;
+		int previousMission = 0;
 		
 		while (Button.ESCAPE.isUp()) {
-			
 			String[] itemList = this.getItems();
+			String nextMission = "";
+			if (previousMissionComplete && previousMission < 4) {
+				nextMission = itemList[previousMission + 1];
+			} else {
+				nextMission = itemList[this.select()];
+			}
 			
-			switch(itemList[this.select()]) {
+			switch(nextMission) {
 			
 			case "Route Navigator":
 				lcd.clear();
-				routeNavigator.executeMission();
+				previousMissionComplete = routeNavigator.executeMission();
+				previousMission = 0;
 				break;
 
 			case "Box Shifter":
 				lcd.clear();
-				boxShifter.executeMission();
+				previousMissionComplete = boxShifter.executeMission();
+				previousMission = 1;
 				break;
 				
 			case "Bridge Crosser":
 				lcd.clear();
-				bridgeCrosser.executeMission();
+				previousMissionComplete = bridgeCrosser.executeMission();
+				previousMission = 2;
 				break;
 				
 			case "Treasure Hunter":
 				lcd.clear();
-				tresureHunter.executeMission();
+				previousMissionComplete = treasureHunter.executeMission();
+				previousMission = 3;
 				break;
 				
 			case "Maze Runner":
 				lcd.clear();
-				mazeRunner.executeMission();
+				previousMissionComplete = mazeRunner.executeMission();
+				previousMission = 4;
 				break;	
 				
 			default:
