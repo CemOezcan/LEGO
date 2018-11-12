@@ -6,14 +6,11 @@ import mission.BoxShifter;
 import mission.BridgeCrosser;
 import mission.RouteNavigator;
 import mission.Task;
-import mission.RouteNavigator;
-import mission.BoxShifter;
-import mission.BridgeCrosser;
 import mission.TreasureHunter;
 
 public class GUI extends TextMenu{
 	
-	private final Robot robot;
+	//private final Robot robot;
 	private RouteNavigator routeNavigator;
 	private BridgeCrosser bridgeCrosser;
 	private BoxShifter boxShifter;
@@ -22,8 +19,6 @@ public class GUI extends TextMenu{
 	public GUI(Robot robot) {
 		super(Task.getTaskList());
 		
-		this.robot = robot;
-		
 		routeNavigator = new RouteNavigator(robot);
 		bridgeCrosser = new BridgeCrosser(robot);
 		boxShifter = new BoxShifter(robot);
@@ -31,7 +26,6 @@ public class GUI extends TextMenu{
 	}
 	
 	public void showMenu() {
-		RouteNavigator routeNavigator = new RouteNavigator(robot);
 		boolean previousMissionComplete = false;
 		int previousMission = 0;
 		
