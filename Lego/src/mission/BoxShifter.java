@@ -10,7 +10,8 @@ public class BoxShifter implements Mission {
 
 	private final Robot robot;
 	private final float BLACK = 0.08f;
-	private final float OFFSET = 0.01f;
+	private final float WHITE = 0.48f;
+	private final float OFFSET = 0.10f;
 
 
 	public BoxShifter(Robot robot) {
@@ -62,7 +63,7 @@ public class BoxShifter implements Mission {
 			distanceCounter--;
 		}
 		
-		this.robot.pilotTravel(5);
+		this.robot.pilotTravel(6);
 		this.robot.pilotStop();
 		this.robot.motorsStop();
 		
@@ -80,23 +81,22 @@ public class BoxShifter implements Mission {
 	private void shift() {
 		this.robot.drawString("push Box to wall", 0, 0);
 		this.robot.RotateLeft(550);
-		this.robot.forward();
 		
+		this.robot.forward();
 		float colorValue = this.robot.getColorSensor().getColor()[0];
 		while (colorValue < BLACK + OFFSET) {
 			colorValue = this.robot.getColorSensor().getColor()[0];
 		}
 		
 		this.robot.beep();
-		this.robot.pilotTravel(1);
 		this.robot.forward();
-		
+		colorValue = this.robot.getColorSensor().getColor()[0];
 		while (colorValue < BLACK + OFFSET) {
 			colorValue = this.robot.getColorSensor().getColor()[0];
 		}
 		this.robot.beep();
 		
-		this.robot.pilotTravel(2);
+		this.robot.pilotTravel(4);
 		
 	}
 	
@@ -124,7 +124,7 @@ public class BoxShifter implements Mission {
 		this.robot.getColorSensor().setColorIDMode();
 		this.robot.forward();
 		value = this.robot.getColorSensor().getColor()[0];
-		while ((value == 1) || (value == 2)) {
+		while ((value != 1) || (value != 2)) {
 			value = this.robot.getColorSensor().getColor()[0];
 		}
 	}
