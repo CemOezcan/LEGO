@@ -9,6 +9,9 @@ import robot.Robot;
 public class BoxShifter implements Mission {
 
 	private final Robot robot;
+	private final float BLACK = 0.08f;
+	private final float OFFSET = 0.01f;
+
 
 	public BoxShifter(Robot robot) {
 		this.robot = robot;
@@ -43,15 +46,6 @@ public class BoxShifter implements Mission {
 
 		this.robot.RotateLeft(550);
 
-		// this.robot.forward();
-		// while(!robot.getPressureSensorLeft().isTouched() &&
-		// !robot.getPressureSensorRight().isTouched()) {
-		// robot.drawString("Left: " +
-		// robot.getPressureSensorLeft().isTouched(), 0, 0);
-		// robot.drawString("Right: " +
-		// robot.getPressureSensorRight().isTouched(), 0, 10);
-		// }
-
 		this.robot.pilotTravel(20);
 
 		// push box to edge
@@ -74,17 +68,34 @@ public class BoxShifter implements Mission {
 		
 		this.robot.pilotTravel(5);
 		this.robot.pilotStop();
+		this.robot.motorsStop();
 		
-
-		// this.robot.forward();
-
-		// while(!robot.getPressureSensorLeft().isTouched() &&
-		// !robot.getPressureSensorRight().isTouched()) {
-		// robot.drawString("Left: " +
-		// robot.getPressureSensorLeft().isTouched(), 0, 0);
-		// robot.drawString("Right: " +
-		// robot.getPressureSensorRight().isTouched(), 0, 10);
-		// }
-		robot.motorsStop();
+		//Suche weiﬂe Linie
+		this.robot.pilotTravel(-5);
+		this.robot.RotateRight(550);
+		
+		float value = this.robot.getColorSensor().getColor()[0];
+		while (value < BLACK + OFFSET) {
+			this.robot.forward();
+			value = this.robot.getColorSensor().getColor()[0];
+		}
+		
+		//Suche zweite weiﬂe Linie
+		this.robot.pilotTravel(5);
+		this.robot.RotateLeft(550);
+		value = this.robot.getColorSensor().getColor()[0];
+		while (value < BLACK + OFFSET) {
+			this.robot.forward();
+			value = this.robot.getColorSensor().getColor()[0];
+		}
+		
+		//Suche blaue Linie
+		this.robot.getColorSensor().setColorIDMode();
+		value = this.robot.getColorSensor().getColor()[0];
+		while ((value == 1) || (value == 2)) {
+			this.robot.forward();
+			value = this.robot.getColorSensor().getColor()[0];
+		}
+		
 	}
 }
