@@ -60,8 +60,16 @@ public class RouteNavigator implements Mission {
 			} else if (actualColorValue < BLACK + OFFSET) { // find line
 				robot.pilotStop();
 				robot.motorsStop();
-				findLine();
-
+				if (!afterBox || cnt < 1) {
+					findLine();
+					if (afterBox) {
+						cnt++;
+					}
+				} else {
+					this.robot.drawString("drive to next mission", 0, 0);
+					driveToNextMission();
+					end = true;
+				}
 			} else { // normal case calculate the new speeds for both motors
 				regulator.regulate(actualColorValue);
 			}
