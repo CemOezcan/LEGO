@@ -50,7 +50,7 @@ public class RegulatorP {
 	}
 	
 	public void bridgeRegulate(float actualValue) {
-
+		
 		float y = KP * (actualValue - OPTIMALVALUE);
 
 		leftMotorSpeed = TEMPO + y;

@@ -11,7 +11,7 @@ public class BridgeCrosser implements Mission {
 	private final Robot robot;
 	
 	private final float tempo = 200f;
-	private final float ROBOTHEIGHT = 0.07f;
+	private final float ROBOTHEIGHT = 0.04f;
 	private final float BRIDGEHEIGHT = 0.3f;
 	private final float OPTIMALVALUE = 0.1f;
 	private final float KP = 1500;
@@ -39,7 +39,7 @@ public class BridgeCrosser implements Mission {
 				end = true;
 			} else {
 				this.robot.drawString(" distance: " + actualGroundDistance, 0, 0);
-				regulator.sonicRegulate(actualGroundDistance);
+				regulator.bridgeRegulate(actualGroundDistance);
 			}
 		}
 	}
