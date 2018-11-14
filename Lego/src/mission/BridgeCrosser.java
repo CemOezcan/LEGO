@@ -14,7 +14,7 @@ public class BridgeCrosser implements Mission {
 	private final float ROBOTHEIGHT = 0.04f;
 	private final float BRIDGEHEIGHT = 0.3f;
 	private final float OPTIMALVALUE = 0.1f;
-	private final float KP = 1500;
+	private final float KP = 2000;
 	private final float OFFSET = 0.03f;
 	
 	public BridgeCrosser(Robot robot) {
