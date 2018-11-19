@@ -9,47 +9,70 @@ import robot.Robot;
 public class BridgeCrosser implements Mission {
 
 	private final Robot robot;
-	
-	private final float tempo = 300f;
+
+	private final float tempo = 250f;
 	private final float ROBOTHEIGHT = 0.03f;
 	private final float OPTIMALVALUE = 0.1f;
 	private final float KP = 2000;
 	private final float OFFSET = 0.03f;
-	
+
 	public BridgeCrosser(Robot robot) {
 		this.robot = robot;
 	}
-	
+
 	@Override
 	public boolean executeMission() {
 		this.robot.beep();
 		this.robot.getColorSensor().setColorIDMode();
 		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, this.KP, this.OPTIMALVALUE);
-
 		boolean end = false;
-		robot.adjustMotorspeed(tempo, tempo);
+		float actualGroundDistance = 0.0f;
+
+		this.robot.pilotTravel(3);
 		this.robot.ultraSonicSensorDown();
+		this.robot.forward();
+		this.robot.adjustMotorspeed(tempo, tempo);
+
 		while (Button.LEFT.isUp() && !end) {
-			float actualGroundDistance = getDistanceValue(robot.getUltraSonicSensor().getDistance());
-			float actualColorValue = robot.getColorSensor().getColor()[0];
-			
-			//if (actualColorValue == 1 || actualColorValue == 2) {
-			//	end = true;
-			//} else {
-				this.robot.drawString(" distance: "  + actualGroundDistance, 0, 0);
+			if (this.robot.getPressureSensorLeft().isTouched()) {
+				endSequence();
+				end = true;
+			} else {
+				actualGroundDistance = getDistanceValue(robot.getUltraSonicSensor().getDistance());
+				this.robot.drawString("Abstand: " + actualGroundDistance, 0, 0);
 				regulator.bridgeRegulate(actualGroundDistance);
-			//}
-				
+			}
 		}
 		return end;
 	}
-	
+
 	public float getDistanceValue(float value) {
 		float result = value;
 		if (value > ROBOTHEIGHT + OFFSET) {
 			result = 0.2f;
 		}
 		return result;
+	}
+
+	public void endSequence() {
+		float actualColorValue = 0.0f;
+
+		this.robot.pilotStop();
+		this.robot.pilotTravel(-4);
+		this.robot.ultraSonicSensorUp();
+		this.robot.RotateRight(50);
+
+		// find blue line
+		this.robot.forward();
+		this.robot.adjustMotorspeed(150, 150);
+		actualColorValue = robot.getColorSensor().getColor()[0];
+		while (!(actualColorValue == 1 || actualColorValue == 2)) {
+			actualColorValue = robot.getColorSensor().getColor()[0];
+			this.robot.drawString("Farbe: " + actualColorValue, 0, 0);
+		}
+		// blue line found
+		this.robot.RotateLeft(30);
+		this.robot.pilotStop();
 	}
 
 }
