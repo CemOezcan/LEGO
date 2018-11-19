@@ -166,11 +166,11 @@ public class RouteNavigator implements Mission {
 	}
 	
 	public void driveToNextMission() {
-		float OPTIMALVALUE = 0.05f;
+		float OPTIMALVALUE = 0.07f;
 		float actualSonicValue = 0.0f;
 		float actualBlueValue = 0.0f; //Blue
 
-		float kpSonic = 2000;
+		float kpSonic = 2200;
 
 		this.robot.drawString("next mission", 0, 0);
 		
