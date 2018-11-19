@@ -32,6 +32,8 @@ public class TreasureHunter implements Mission {
 		this.robot.beep();
 		this.colorSensor.setColorIDMode();
 		boolean leftSide = true;
+		this.foundRed = false;
+		this.foundWhite = false;
 		
 		boolean isTouched;
 		
