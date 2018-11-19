@@ -5,7 +5,7 @@ public class RegulatorP {
 	private final Robot robot;
 
 	private final float TEMPO;
-	private final float KP;
+	private float KP;
 	private final float OPTIMALVALUE;
 
 	float leftMotorSpeed = 0;
@@ -57,5 +57,9 @@ public class RegulatorP {
 		rightMotorSpeed = TEMPO - y;
 
 		this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
+	}
+	
+	public void setKpValue(float kp) {
+		this.KP = kp;
 	}
 }
