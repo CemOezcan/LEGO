@@ -10,9 +10,8 @@ public class BridgeCrosser implements Mission {
 
 	private final Robot robot;
 	
-	private final float tempo = 200f;
+	private final float tempo = 300f;
 	private final float ROBOTHEIGHT = 0.03f;
-	private final float BRIDGEHEIGHT = 0.3f;
 	private final float OPTIMALVALUE = 0.1f;
 	private final float KP = 2000;
 	private final float OFFSET = 0.03f;
@@ -30,18 +29,35 @@ public class BridgeCrosser implements Mission {
 		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, this.KP, this.OPTIMALVALUE);
 
 		boolean end = false;
+		boolean afterFirstCorner = false;
+		boolean afterSecondCorner = false;
 		robot.adjustMotorspeed(tempo, tempo);
-
+		int j = 0;
 		while (Button.LEFT.isUp() && !end) {
 			float actualGroundDistance = getDistanceValue(robot.getUltraSonicSensor().getDistance());
 			float actualColorValue = robot.getColorSensor().getColor()[0];
-			if (actualColorValue == 1 || actualColorValue == 2) {
-				end = true;
+			if (actualGroundDistance < ROBOTHEIGHT + OFFSET) {
+				j++;
 			} else {
-				this.robot.drawString(" distance: " + actualGroundDistance, 0, 0);
-				regulator.bridgeRegulate(actualGroundDistance);
+				j = 0;
 			}
+			if (j > 7000) {
+				if (afterFirstCorner = true) {
+					afterSecondCorner = true;
+				} else {
+					afterFirstCorner = true;
+				}
+			}
+			
+			//if (actualColorValue == 1 || actualColorValue == 2) {
+			//	end = true;
+			//} else {
+				this.robot.drawString(" distance: "  + actualGroundDistance + "  " + j, 0, 0);
+				regulator.bridgeRegulate(actualGroundDistance);
+			//}
 		}
+		this.robot.motorsStop();
+		this.robot.pilotStop();
 	}
 	
 	public float getDistanceValue(float value) {
