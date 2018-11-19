@@ -11,7 +11,7 @@ public class BridgeCrosser implements Mission {
 	private final Robot robot;
 	
 	private final float tempo = 200f;
-	private final float ROBOTHEIGHT = 0.04f;
+	private final float ROBOTHEIGHT = 0.03f;
 	private final float BRIDGEHEIGHT = 0.3f;
 	private final float OPTIMALVALUE = 0.1f;
 	private final float KP = 2000;
