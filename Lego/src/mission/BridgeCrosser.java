@@ -26,6 +26,7 @@ public class BridgeCrosser implements Mission {
 		this.robot.getColorSensor().setColorIDMode();
 		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, this.KP, this.OPTIMALVALUE);
 		boolean end = false;
+		float actualGroundDistance = 0.0f;
 
 		this.robot.pilotTravel(3);
 		this.robot.ultraSonicSensorDown();
@@ -36,10 +37,11 @@ public class BridgeCrosser implements Mission {
 			if (this.robot.getPressureSensorLeft().isTouched()) {
 				endSequence();
 				end = true;
-			}
-				float actualGroundDistance = getDistanceValue(robot.getUltraSonicSensor().getDistance());
-				this.robot.drawString(" distance: " + actualGroundDistance, 0, 0);
+			} else {
+				actualGroundDistance = getDistanceValue(robot.getUltraSonicSensor().getDistance());
+				this.robot.drawString("Abstand: " + actualGroundDistance, 0, 0);
 				regulator.bridgeRegulate(actualGroundDistance);
+			}
 		}
 		return end;
 	}
@@ -66,6 +68,7 @@ public class BridgeCrosser implements Mission {
 		actualColorValue = robot.getColorSensor().getColor()[0];
 		while (!(actualColorValue == 1 || actualColorValue == 2)) {
 			actualColorValue = robot.getColorSensor().getColor()[0];
+			this.robot.drawString("Farbe: " + actualColorValue, 0, 0);
 		}
 		// blue line found
 		this.robot.RotateLeft(30);
