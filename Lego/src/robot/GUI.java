@@ -1,6 +1,7 @@
 package robot;
 
 import lejos.hardware.Button;
+import lejos.hardware.lcd.LCD;
 import lejos.utility.TextMenu;
 import mission.BoxShifter;
 import mission.BridgeCrosser;
@@ -32,6 +33,7 @@ public class GUI extends TextMenu{
 		while (Button.ESCAPE.isUp()) {
 			String[] itemList = this.getItems();
 			String nextMission = "";
+			LCD.clear();
 			if (previousMissionComplete && previousMission < 4) {
 				nextMission = itemList[previousMission + 1];
 			} else {
