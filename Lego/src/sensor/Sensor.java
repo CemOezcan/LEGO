@@ -1,8 +1,6 @@
 package sensor;
 
 import lejos.hardware.port.Port;
-import lejos.hardware.sensor.SensorMode;
-import lejos.robotics.SampleProvider;
 
 public abstract class Sensor {
 	

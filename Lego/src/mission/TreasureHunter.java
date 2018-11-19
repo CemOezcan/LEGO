@@ -13,12 +13,14 @@ public class TreasureHunter implements Mission {
 	}
 	
 	@Override
-	public void executeMission() {
+	public boolean executeMission() {
 		// TODO Auto-generated method stub
 		Sound.beep();
 		for (int i = 0; i < 10; i--) {
 			LCD.drawString("TreasureHunterAlgorithm", 0, 0);
 		}
+		return true;
 	}
+	
 
 }

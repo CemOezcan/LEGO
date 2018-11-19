@@ -22,7 +22,7 @@ public class Robot {
 
 	private final Port MOTOR_LEFT = MotorPort.D;
 	private final Port MOTOR_RIGHT = MotorPort.C;
-	private final Port MOTOR_ULTRA_SONIC = MotorPort.A;
+	private final Port MOTOR_ULTRA_SONIC = MotorPort.B;
 
 	private final Port SENSOR_COLOR = SensorPort.S2;
 	private final Port SENSOR_ULTRA_SONIC = SensorPort.S3;
@@ -38,7 +38,7 @@ public class Robot {
 	private RegulatedMotor motorLeft = new EV3LargeRegulatedMotor(MOTOR_LEFT);
 	private RegulatedMotor motorUltraSonic = new EV3MediumRegulatedMotor(MOTOR_ULTRA_SONIC);
 
-	private boolean motorUltraSonicIsUp = false;
+	private boolean motorUltraSonicIsUp = true;
 
 	public Robot() {
 		// TODO: real values
@@ -203,7 +203,7 @@ public class Robot {
 	 */
 	public void ultraSonicSensorUp() {
 		if (!this.motorUltraSonicIsUp) {
-			this.motorUltraSonic.rotateTo(90);
+			this.motorUltraSonic.rotateTo(-90);
 			this.motorUltraSonicIsUp = true;
 		}
 	}
@@ -214,9 +214,10 @@ public class Robot {
 	 */
 	public void ultraSonicSensorDown() {
 		if (this.motorUltraSonicIsUp) {
-			this.motorUltraSonic.rotateTo(-90);
+			this.motorUltraSonic.rotate(90);
 			this.motorUltraSonicIsUp = false;
 		}
+		
 	}
 
 	/**

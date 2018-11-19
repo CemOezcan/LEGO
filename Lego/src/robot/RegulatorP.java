@@ -48,4 +48,14 @@ public class RegulatorP {
 
 		this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
 	}
+	
+	public void bridgeRegulate(float actualValue) {
+		
+		float y = KP * (actualValue - OPTIMALVALUE);
+
+		leftMotorSpeed = TEMPO + y;
+		rightMotorSpeed = TEMPO - y;
+
+		this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
+	}
 }
