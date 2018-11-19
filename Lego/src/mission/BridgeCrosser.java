@@ -50,8 +50,10 @@ public class BridgeCrosser implements Mission {
 	public void endSequence() {
 		float actualColorValue = 0.0f;
 
-		this.robot.pilotTravel(-2);
-		this.robot.RotateRight(40);
+		this.robot.motorsStop();
+		this.robot.ultraSonicSensorUp();
+		this.robot.pilotTravel(-4);
+		this.robot.RotateRight(80);
 
 		// find blue line
 		this.robot.forward();
