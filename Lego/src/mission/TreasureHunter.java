@@ -12,7 +12,7 @@ public class TreasureHunter implements Mission {
 	
 	private final float tempo = 150f;
 	private final float[] red = {1,1}; //Points to find
-	private final float[] blue = {1,1};
+	private final float[] white = {1,1};
 	
 	public TreasureHunter(Robot robot) {
 		this.robot = robot;
@@ -23,22 +23,20 @@ public class TreasureHunter implements Mission {
 		this.robot.beep();
 
 		this.robot.getColorSensor().setRGBMode();
-		boolean foundBlue = false;
+		boolean foundWhite = false;
 		boolean foundRed = false;
 		boolean leftSide = false;
 		robot.adjustMotorspeed(tempo, tempo);
 
-		this.robot.pilotTravel(2);
-		this.robot.RotateRight(550);
-		while (Button.LEFT.isUp() && !(foundRed && foundBlue)) {
+		while (Button.LEFT.isUp() && !(foundRed && foundWhite)) {
 			robot.forward();
 			float[] actualColorValue = robot.getColorSensor().getColor();
 			boolean isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
 			if (actualColorValue == red) {
 				foundRed = true;
 				Sound.beepSequence();
-			} else if (actualColorValue == blue) {
-				foundBlue = true;
+			} else if (actualColorValue == white) {
+				foundWhite = true;
 				Sound.beepSequence();
 			}
 			if (isTouched) {
