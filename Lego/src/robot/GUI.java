@@ -34,7 +34,7 @@ public class GUI extends TextMenu{
 			String[] itemList = this.getItems();
 			String nextMission = "";
 			LCD.clear();
-			if (previousMissionComplete && previousMission < 4) {
+			if (previousMissionComplete && previousMission < 3) {
 				nextMission = itemList[previousMission + 1];
 			} else {
 				nextMission = itemList[this.select()];
