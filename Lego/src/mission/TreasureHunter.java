@@ -27,13 +27,14 @@ public class TreasureHunter implements Mission {
 	}
 	
 	@Override
-	public void executeMission() {
+	public boolean executeMission() {
 		
 		this.robot.beep();
 		this.colorSensor.setColorIDMode();
 		boolean leftSide = true;
 		this.foundRed = false;
 		this.foundWhite = false;
+    boolean end = false;
 		
 		boolean isTouched;
 		
@@ -53,7 +54,9 @@ public class TreasureHunter implements Mission {
 				this.robot.forward();
 			}
 		}
+    end = true;
 		this.robot.pilotStop();
+    return end;
 	}
 	
 	private void turnLeft() {
@@ -85,5 +88,6 @@ public class TreasureHunter implements Mission {
 			this.robot.beepSequence();
 		}
 	}
+	
 
 }

@@ -1,8 +1,7 @@
 package mission;
 
 public enum Task {
-	RouteNavigator("Route Navigator"), BoxShifter("Box Shifter"), BridgeCrosser("Bridge Crosser"), TreasureHunter("Treasure Hunter"),
-	MazeRunner("Maze Runner");
+	RouteNavigator("Route Navigator"), BoxShifter("Box Shifter"), BridgeCrosser("Bridge Crosser"), TreasureHunter("Treasure Hunter");
 	
 	private String name;
 	

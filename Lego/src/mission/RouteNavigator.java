@@ -13,7 +13,6 @@ public class RouteNavigator implements Mission {
 	 */
 	private final float BLACK = 0.08f;
 	private final float WHITE = 0.48f;
-	private final float BLUE = 0.0f; // TODO: add value
 	private final float OFFSET = 0.01f;
 	private final float OPTIMALVALUE = (WHITE + BLACK) / 2;
 
@@ -32,14 +31,13 @@ public class RouteNavigator implements Mission {
 	}
 
 	@Override
-	public void executeMission() {
+	public boolean executeMission() {
 		this.robot.beep();
 
 		this.robot.getColorSensor().setRedMode();
 		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, this.kp, this.OPTIMALVALUE);
 
 		//this.robot.forward();
-
 		boolean end = false;
 		boolean afterBox = false;
 		int cnt = 0;
@@ -78,6 +76,8 @@ public class RouteNavigator implements Mission {
 			// with the blue strip
 		}
 		robot.pilotStop();
+		return end;
+		
 	}
 
 	/**
@@ -166,11 +166,11 @@ public class RouteNavigator implements Mission {
 	}
 	
 	public void driveToNextMission() {
-		float OPTIMALVALUE = 0.05f;
+		float OPTIMALVALUE = 0.06f;
 		float actualSonicValue = 0.0f;
 		float actualBlueValue = 0.0f; //Blue
 
-		float kpSonic = 2000;
+		float kpSonic = 2200;
 
 		this.robot.drawString("next mission", 0, 0);
 		
