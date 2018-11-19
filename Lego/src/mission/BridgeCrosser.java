@@ -28,8 +28,10 @@ public class BridgeCrosser implements Mission {
 		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, this.KP, this.OPTIMALVALUE);
 
 		boolean end = false;
-		robot.adjustMotorspeed(tempo, tempo);
+
 		this.robot.ultraSonicSensorDown();
+		robot.adjustMotorspeed(tempo, tempo);
+
 		while (Button.LEFT.isUp() && !end && !this.robot.getPressureSensorLeft().isTouched()) {
 			float actualGroundDistance = getDistanceValue(robot.getUltraSonicSensor().getDistance());
 			this.robot.drawString(" distance: " + actualGroundDistance, 0, 0);
