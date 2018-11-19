@@ -34,13 +34,15 @@ public class TreasureHunter implements Mission {
 		boolean leftSide = true;
 		this.foundRed = false;
 		this.foundWhite = false;
-    boolean end = false;
-		
 		boolean isTouched;
 		
 		robot.forward();
 
-		while (Button.LEFT.isUp() && !(foundRed && foundWhite)) {
+		while (!(foundRed && foundWhite)) {
+			if (!Button.LEFT.isUp()) {
+				return false;
+			}
+			
 			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
 			this.scan();
 			if (isTouched) {
@@ -54,9 +56,9 @@ public class TreasureHunter implements Mission {
 				this.robot.forward();
 			}
 		}
-    end = true;
+		
 		this.robot.pilotStop();
-    return end;
+		return true;
 	}
 	
 	private void turnLeft() {
