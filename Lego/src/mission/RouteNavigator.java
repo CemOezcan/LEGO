@@ -162,7 +162,11 @@ public class RouteNavigator implements Mission {
 
 		if (fromRight) {
 			robot.RotateLeft(100);
+		} else {
+			robot.RotateRight(50);
 		}
+		this.robot.pilotStop();
+		this.robot.motorsStop();
 	}
 	
 	public void driveToNextMission() {
