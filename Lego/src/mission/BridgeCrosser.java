@@ -24,11 +24,10 @@ public class BridgeCrosser implements Mission {
 	public boolean executeMission() {
 		this.robot.beep();
 		this.robot.getColorSensor().setColorIDMode();
-
 		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, this.KP, this.OPTIMALVALUE);
-
 		boolean end = false;
 
+		this.robot.pilotTravel(3);
 		this.robot.ultraSonicSensorDown();
 		robot.adjustMotorspeed(tempo, tempo);
 
@@ -56,13 +55,13 @@ public class BridgeCrosser implements Mission {
 		this.robot.pilotStop();
 		this.robot.pilotTravel(-4);
 		this.robot.ultraSonicSensorUp();
-		this.robot.RotateRight(60);
-		
+		this.robot.RotateRight(50);
+
 		// find blue line
 		this.robot.forward();
 		this.robot.adjustMotorspeed(150, 150);
 		actualColorValue = robot.getColorSensor().getColor()[0];
-		while (!(actualColorValue == 1 || actualColorValue == 2 )) {
+		while (!(actualColorValue == 1 || actualColorValue == 2)) {
 			actualColorValue = robot.getColorSensor().getColor()[0];
 		}
 		// blue line found
