@@ -10,7 +10,7 @@ public class BridgeCrosser implements Mission {
 
 	private final Robot robot;
 
-	private final float tempo = 300f;
+	private final float tempo = 250f;
 	private final float ROBOTHEIGHT = 0.03f;
 	private final float OPTIMALVALUE = 0.1f;
 	private final float KP = 2000;
@@ -38,6 +38,7 @@ public class BridgeCrosser implements Mission {
 			regulator.bridgeRegulate(actualGroundDistance);
 		}
 		endSequence();
+		end = true;
 		return end;
 	}
 
@@ -52,19 +53,20 @@ public class BridgeCrosser implements Mission {
 	public void endSequence() {
 		float actualColorValue = 0.0f;
 
-		this.robot.motorsStop();
-		this.robot.ultraSonicSensorUp();
+		this.robot.pilotStop();
 		this.robot.pilotTravel(-4);
-		this.robot.RotateRight(80);
-
+		this.robot.ultraSonicSensorUp();
+		this.robot.RotateRight(60);
+		
 		// find blue line
 		this.robot.forward();
+		this.robot.adjustMotorspeed(150, 150);
 		actualColorValue = robot.getColorSensor().getColor()[0];
-		while (!(actualColorValue == 1 || actualColorValue == 2)) {
+		while (!(actualColorValue == 1 || actualColorValue == 2 )) {
 			actualColorValue = robot.getColorSensor().getColor()[0];
 		}
 		// blue line found
-		this.robot.motorsStop();
+		this.robot.pilotStop();
 	}
 
 }
