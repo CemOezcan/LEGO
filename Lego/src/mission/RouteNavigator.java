@@ -16,12 +16,12 @@ public class RouteNavigator implements Mission {
 	private final float OFFSET = 0.01f;
 	private final float OPTIMALVALUE = (WHITE + BLACK) / 2;
 
-	private final float tempo = 150f;
+	private final float tempo = 200f; //150
 
 	/*
-	 * the constant for the p-controller
+	 * the constant for the p-controller 1200
 	 */
-	private final float kp = 1200;
+	private final float kp = 1500;
 
 	/*
 	 * constructs a new route navigator
@@ -40,6 +40,7 @@ public class RouteNavigator implements Mission {
 		//this.robot.forward();
 		boolean end = false;
 		boolean afterBox = false;
+		boolean findLine = false;
 		int cnt = 0;
 		robot.adjustMotorspeed(tempo, tempo);
 
@@ -56,21 +57,30 @@ public class RouteNavigator implements Mission {
 				driveAroundObstacle();
 				afterBox = true;
 
-			} else if (actualColorValue < BLACK + OFFSET) { // find line
+			} else if (actualColorValue < BLACK + 0.005f) { // find line
 				robot.pilotStop();
 				robot.motorsStop();
 				if (!afterBox || cnt < 1) {
 					findLine();
+					findLine = true;
 					if (afterBox) {
 						cnt++;
 					}
+					robot.beep();
 				} else {
 					this.robot.drawString("drive to next mission", 0, 0);
 					driveToNextMission();
 					end = true;
 				}
 			} else { // normal case calculate the new speeds for both motors
-				regulator.regulate(actualColorValue);
+				if (findLine) {
+					regulator.setKpValue(900);
+					regulator.regulate(actualColorValue);
+					regulator.setKpValue(kp);
+					findLine = false;
+				} else {
+					regulator.regulate(actualColorValue);
+				}
 			}
 			// after f.e findGab switch to rgb mode to find the end of the line
 			// with the blue strip
@@ -138,15 +148,16 @@ public class RouteNavigator implements Mission {
 			int arc = 0;
 			while (arc <= 440 && !found) {
 				this.robot.RotateRight(40);
-				found = this.robot.getColorSensor().getColor()[0] > WHITE - 10 * OFFSET;
+				found = this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET;
 				arc += 40;
 			}
 			if (!found) {
 				this.robot.RotateLeft(arc);
+				this.robot.pilotTravel(1);
 				arc = 0;
 				while (arc <= 440 && !found) {
 					this.robot.RotateLeft(40);
-					found = this.robot.getColorSensor().getColor()[0] > WHITE - 10 * OFFSET;
+					found = this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET;
 					if (found) {
 						fromRight = true;
 					}
@@ -154,7 +165,7 @@ public class RouteNavigator implements Mission {
 				}
 			}
 			if (!found) {
-				this.robot.RotateRight(arc);
+				this.robot.RotateRight(arc - 100);
 				this.robot.drawString("Line not found", 0, 0);
 				this.robot.pilotTravel(7);
 			}
@@ -163,6 +174,8 @@ public class RouteNavigator implements Mission {
 		if (fromRight) {
 			robot.RotateLeft(100);
 		}
+		this.robot.pilotStop();
+		this.robot.motorsStop();
 	}
 	
 	public void driveToNextMission() {
