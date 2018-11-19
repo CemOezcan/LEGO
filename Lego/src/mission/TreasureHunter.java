@@ -64,20 +64,20 @@ public class TreasureHunter implements Mission {
 	}
 	
 	private void turnLeft() {
-		this.robot.pilotTravel(-4);
-		this.robot.RotateLeft(550);
+		this.robot.pilotTravel(-3);
+		this.robot.RotateLeft(560);
 		this.scan();
-		this.robot.pilotTravel(2);
+		this.robot.pilotTravel(2.5);
 		this.scan();
-		this.robot.RotateLeft(550);
+		this.robot.RotateLeft(570);
 		this.scan();
 	}
 	
 	private void turnRight() {
-		this.robot.pilotTravel(-4);
+		this.robot.pilotTravel(-3);
 		this.robot.RotateRight(550);
 		this.scan();
-		this.robot.pilotTravel(2);
+		this.robot.pilotTravel(2.5);
 		this.scan();
 		this.robot.RotateRight(550);
 		this.scan();
