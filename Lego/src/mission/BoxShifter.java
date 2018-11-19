@@ -13,10 +13,11 @@ public class BoxShifter implements Mission {
 	}
 
 	@Override
-	public void executeMission() {
+	public boolean executeMission() {
 		this.robot.beep();
 
 		int distanceCounter = 0;
+		boolean end = false;
 
 		this.robot.getColorSensor().setRedMode();
 
@@ -35,6 +36,8 @@ public class BoxShifter implements Mission {
 
 		this.robot.pilotStop();
 		this.robot.motorsStop();
+		
+		return end; //return the correct value
 	}
 
 	private int findBox() {

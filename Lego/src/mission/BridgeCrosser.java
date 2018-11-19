@@ -21,7 +21,7 @@ public class BridgeCrosser implements Mission {
 	}
 	
 	@Override
-	public void executeMission() {
+	public boolean executeMission() {
 		this.robot.beep();
 
 		this.robot.ultraSonicSensorDown();
@@ -55,9 +55,9 @@ public class BridgeCrosser implements Mission {
 				this.robot.drawString(" distance: "  + actualGroundDistance + "  " + j, 0, 0);
 				regulator.bridgeRegulate(actualGroundDistance);
 			//}
+				
 		}
-		this.robot.motorsStop();
-		this.robot.pilotStop();
+		return end;
 	}
 	
 	public float getDistanceValue(float value) {

@@ -4,7 +4,8 @@ public interface Mission {
 
 	/**
 	 * executes the mission
+	 * @return if the mission completed
 	 */
-	public void executeMission();
+	public boolean executeMission();
 	
 }
