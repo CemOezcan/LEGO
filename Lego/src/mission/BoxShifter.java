@@ -1,5 +1,6 @@
 package mission;
 
+import lejos.hardware.Button;
 import robot.Robot;
 
 public class BoxShifter implements Mission {
@@ -21,21 +22,24 @@ public class BoxShifter implements Mission {
 
 		this.robot.getColorSensor().setRedMode();
 
-		// turn around
-		this.robot.pilotTravel(7);
-		this.robot.RotateLeft(1130);
+		while (Button.LEFT.isUp() && !end) {
+			// turn around
+			this.robot.pilotTravel(7);
+			this.robot.RotateLeft(1130);
 
-		// find box
-		distanceCounter = this.findBox();
+			// find box
+			distanceCounter = this.findBox();
 
-		this.shiftToWall();
+			this.shiftToWall();
 
-		this.shiftToEdge(distanceCounter);
+			this.shiftToEdge(distanceCounter);
 
-		this.findBlueLine();
+			this.findBlueLine();
 
-		this.robot.pilotStop();
-		this.robot.motorsStop();
+			this.robot.pilotStop();
+			this.robot.motorsStop();
+			end = true;
+		}
 		
 		return end; //return the correct value
 	}
