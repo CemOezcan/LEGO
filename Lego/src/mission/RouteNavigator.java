@@ -166,7 +166,7 @@ public class RouteNavigator implements Mission {
 	}
 	
 	public void driveToNextMission() {
-		float OPTIMALVALUE = 0.07f;
+		float OPTIMALVALUE = 0.06f;
 		float actualSonicValue = 0.0f;
 		float actualBlueValue = 0.0f; //Blue
 
