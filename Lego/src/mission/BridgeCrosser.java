@@ -23,36 +23,20 @@ public class BridgeCrosser implements Mission {
 	@Override
 	public boolean executeMission() {
 		this.robot.beep();
-
-		this.robot.ultraSonicSensorDown();
 		this.robot.getColorSensor().setColorIDMode();
 		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, this.KP, this.OPTIMALVALUE);
 
 		boolean end = false;
-		boolean afterFirstCorner = false;
-		boolean afterSecondCorner = false;
 		robot.adjustMotorspeed(tempo, tempo);
-		int j = 0;
+		this.robot.ultraSonicSensorDown();
 		while (Button.LEFT.isUp() && !end) {
 			float actualGroundDistance = getDistanceValue(robot.getUltraSonicSensor().getDistance());
 			float actualColorValue = robot.getColorSensor().getColor()[0];
-			if (actualGroundDistance < ROBOTHEIGHT + OFFSET) {
-				j++;
-			} else {
-				j = 0;
-			}
-			if (j > 7000) {
-				if (afterFirstCorner = true) {
-					afterSecondCorner = true;
-				} else {
-					afterFirstCorner = true;
-				}
-			}
 			
 			//if (actualColorValue == 1 || actualColorValue == 2) {
 			//	end = true;
 			//} else {
-				this.robot.drawString(" distance: "  + actualGroundDistance + "  " + j, 0, 0);
+				this.robot.drawString(" distance: "  + actualGroundDistance, 0, 0);
 				regulator.bridgeRegulate(actualGroundDistance);
 			//}
 				
