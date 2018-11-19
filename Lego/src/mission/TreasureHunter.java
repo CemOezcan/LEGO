@@ -3,6 +3,7 @@ package mission;
 import lejos.hardware.Button;
 import lejos.hardware.Sound;
 import lejos.hardware.lcd.LCD;
+import lejos.utility.Delay;
 import robot.RegulatorP;
 import robot.Robot;
 
@@ -11,8 +12,8 @@ public class TreasureHunter implements Mission {
 	private final Robot robot;
 	
 	private final float tempo = 150f;
-	private final float[] red = {1,1}; //Points to find
-	private final float[] white = {1,1};
+	private final float RED = 0;
+	private final float WHITE = 6;
 	
 	public TreasureHunter(Robot robot) {
 		this.robot = robot;
@@ -20,28 +21,31 @@ public class TreasureHunter implements Mission {
 	
 	@Override
 	public void executeMission() {
+		
 		this.robot.beep();
-
-		this.robot.getColorSensor().setRGBMode();
+		this.robot.getColorSensor().setColorIDMode();
 		boolean foundWhite = false;
 		boolean foundRed = false;
-		boolean leftSide = false;
-		robot.adjustMotorspeed(tempo, tempo);
+		boolean leftSide = true;
+		
+		float actualColorValue = robot.getColorSensor().getColor()[0];
+		boolean isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
+		
+		robot.forward();
 
-		while (Button.LEFT.isUp() && !(foundRed && foundWhite)) {
-			robot.forward();
-			float[] actualColorValue = robot.getColorSensor().getColor();
-			boolean isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
-			if (actualColorValue == red) {
+		while (Button.LEFT.isUp() && foundRed && foundWhite) {
+			actualColorValue = robot.getColorSensor().getColor()[0];
+			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
+			if (actualColorValue == this.RED) {
 				foundRed = true;
 				Sound.beepSequence();
-			} else if (actualColorValue == white) {
+			} else if (actualColorValue == this.WHITE) {
 				foundWhite = true;
-				Sound.beepSequence();
+				break;
 			}
 			if (isTouched) {
 				if (leftSide) {
-					turnLeft();
+					this.turnLeft();
 					leftSide = false;
 				} else {
 					turnRight();
@@ -49,16 +53,17 @@ public class TreasureHunter implements Mission {
 				}
 			}
 		}
+		this.robot.pilotStop();
 	}
 	
-	public void turnLeft() {
+	private void turnLeft() {
 		this.robot.pilotTravel(-2);
 		this.robot.RotateLeft(550);
 		this.robot.pilotTravel(3);
 		this.robot.RotateLeft(550);
 	}
 	
-	public void turnRight() {
+	private void turnRight() {
 		this.robot.pilotTravel(-2);
 		this.robot.RotateRight(550);
 		this.robot.pilotTravel(3);
