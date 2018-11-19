@@ -46,17 +46,17 @@ public class BridgeCrosser implements Mission {
 		}
 		return result;
 	}
-	
+
 	public void endSequence() {
 		float actualColorValue = 0.0f;
-		
+
 		this.robot.pilotTravel(-2);
 		this.robot.RotateRight(40);
-		
-		//find blue line
+
+		// find blue line
 		this.robot.forward();
 		actualColorValue = robot.getColorSensor().getColor()[0];
-		while(!(actualColorValue == 1 || actualColorValue == 2)) {
+		while (!(actualColorValue == 1 || actualColorValue == 2)) {
 			actualColorValue = robot.getColorSensor().getColor()[0];
 		}
 		// blue line found
