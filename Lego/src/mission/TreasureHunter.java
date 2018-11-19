@@ -33,7 +33,7 @@ public class TreasureHunter implements Mission {
 		
 		robot.forward();
 
-		while (Button.LEFT.isUp() && foundRed && foundWhite) {
+		while (Button.LEFT.isUp() && !(foundRed && foundWhite)) {
 			actualColorValue = robot.getColorSensor().getColor()[0];
 			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
 			if (actualColorValue == this.RED) {
