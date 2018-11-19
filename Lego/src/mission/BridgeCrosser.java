@@ -29,15 +29,18 @@ public class BridgeCrosser implements Mission {
 
 		this.robot.pilotTravel(3);
 		this.robot.ultraSonicSensorDown();
-		robot.adjustMotorspeed(tempo, tempo);
+		this.robot.forward();
+		this.robot.adjustMotorspeed(tempo, tempo);
 
-		while (Button.LEFT.isUp() && !end && !this.robot.getPressureSensorLeft().isTouched()) {
-			float actualGroundDistance = getDistanceValue(robot.getUltraSonicSensor().getDistance());
-			this.robot.drawString(" distance: " + actualGroundDistance, 0, 0);
-			regulator.bridgeRegulate(actualGroundDistance);
+		while (Button.LEFT.isUp() && !end) {
+			if (this.robot.getPressureSensorLeft().isTouched()) {
+				endSequence();
+				end = true;
+			}
+				float actualGroundDistance = getDistanceValue(robot.getUltraSonicSensor().getDistance());
+				this.robot.drawString(" distance: " + actualGroundDistance, 0, 0);
+				regulator.bridgeRegulate(actualGroundDistance);
 		}
-		endSequence();
-		end = true;
 		return end;
 	}
 
@@ -65,6 +68,7 @@ public class BridgeCrosser implements Mission {
 			actualColorValue = robot.getColorSensor().getColor()[0];
 		}
 		// blue line found
+		this.robot.RotateLeft(30);
 		this.robot.pilotStop();
 	}
 
