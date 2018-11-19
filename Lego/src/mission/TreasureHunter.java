@@ -33,20 +33,13 @@ public class TreasureHunter implements Mission {
 		this.colorSensor.setColorIDMode();
 		boolean leftSide = true;
 		
-		float actualColorValue;
 		boolean isTouched;
 		
 		robot.forward();
 
 		while (Button.LEFT.isUp() && !(foundRed && foundWhite)) {
-			actualColorValue = this.colorSensor.getColor()[0];
 			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
-			if (actualColorValue == this.RED) {
-				this.foundRed = true;
-				Sound.beepSequence();
-			} else if (actualColorValue == this.WHITE) {
-				this.foundWhite = true;
-			}
+			this.scan();
 			if (isTouched) {
 				if (leftSide) {
 					this.turnLeft();
@@ -87,7 +80,7 @@ public class TreasureHunter implements Mission {
 			this.foundWhite = true;
 		} else if (value == this.RED) {
 			this.foundRed = true;
-			this.robot.beep();
+			this.robot.beepSequence();
 		}
 	}
 
