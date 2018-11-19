@@ -57,7 +57,7 @@ public class RouteNavigator implements Mission {
 				driveAroundObstacle();
 				afterBox = true;
 
-			} else if (actualColorValue < BLACK + OFFSET) { // find line
+			} else if (actualColorValue < BLACK + 0.005f) { // find line
 				robot.pilotStop();
 				robot.motorsStop();
 				if (!afterBox || cnt < 1) {
@@ -148,7 +148,7 @@ public class RouteNavigator implements Mission {
 			int arc = 0;
 			while (arc <= 440 && !found) {
 				this.robot.RotateRight(40);
-				found = this.robot.getColorSensor().getColor()[0] > WHITE - 5 * OFFSET;
+				found = this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET;
 				arc += 40;
 			}
 			if (!found) {
@@ -157,7 +157,7 @@ public class RouteNavigator implements Mission {
 				arc = 0;
 				while (arc <= 440 && !found) {
 					this.robot.RotateLeft(40);
-					found = this.robot.getColorSensor().getColor()[0] > WHITE - 5 * OFFSET;
+					found = this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET;
 					if (found) {
 						fromRight = true;
 					}
@@ -165,7 +165,7 @@ public class RouteNavigator implements Mission {
 				}
 			}
 			if (!found) {
-				this.robot.RotateRight(arc - 50);
+				this.robot.RotateRight(arc - 100);
 				this.robot.drawString("Line not found", 0, 0);
 				this.robot.pilotTravel(7);
 			}
@@ -173,8 +173,6 @@ public class RouteNavigator implements Mission {
 
 		if (fromRight) {
 			robot.RotateLeft(100);
-		} else {
-			robot.RotateRight(20);
 		}
 		this.robot.pilotStop();
 		this.robot.motorsStop();
