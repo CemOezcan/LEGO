@@ -48,20 +48,19 @@ public class BridgeCrosser implements Mission {
 	}
 	
 	public void endSequence() {
-		this.robot.motorsStop();
+		float actualColorValue = 0.0f;
+		
 		this.robot.pilotTravel(-2);
 		this.robot.RotateRight(40);
 		
 		//find blue line
-		float actualColorValue = robot.getColorSensor().getColor()[0];
 		this.robot.forward();
-		
-		while(actualColorValue == 1 || actualColorValue == 2) {
-			
+		actualColorValue = robot.getColorSensor().getColor()[0];
+		while(!(actualColorValue == 1 || actualColorValue == 2)) {
+			actualColorValue = robot.getColorSensor().getColor()[0];
 		}
-		
-		
-		
+		// blue line found
+		this.robot.motorsStop();
 	}
 
 }
