@@ -71,7 +71,7 @@ public class BridgeCrosser implements Mission {
 			this.robot.drawString("Farbe: " + actualColorValue, 0, 0);
 		}
 		// blue line found
-		this.robot.RotateLeft(30);
+		this.robot.RotateLeft(60);
 		this.robot.pilotStop();
 	}
 
