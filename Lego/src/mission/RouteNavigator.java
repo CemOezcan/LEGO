@@ -95,7 +95,7 @@ public class RouteNavigator implements Mission {
 	 */
 	public void driveAroundObstacle() {
 
-		float OPTIMALVALUE = 0.07f; //0.1
+		float OPTIMALVALUE = 0.06f; //0.1
 		float actualSonicValue = 0.0f;
 		float actualColorValue = 0.0f;
 
