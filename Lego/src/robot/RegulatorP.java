@@ -37,10 +37,10 @@ public class RegulatorP {
 			y = -100;
 		}
 		
-		if(y > 100) {
-			y = 100.0f;
-		} else if (y < - 100){
-			y = -100.0f;
+		if(y > 200) {
+			y = 200.0f;
+		} else if (y < - 200){
+			y = -200.0f;
 		}
 		
 		leftMotorSpeed = TEMPO - y;

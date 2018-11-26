@@ -43,6 +43,9 @@ public class BridgeCrosser implements Mission {
 				regulator.bridgeRegulate(actualGroundDistance);
 			}
 		}
+		robot.motorsStop();
+		robot.pilotStop();
+		
 		return end;
 	}
 
