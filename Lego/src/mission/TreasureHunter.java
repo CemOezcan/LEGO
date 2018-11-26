@@ -114,7 +114,10 @@ public class TreasureHunter implements Mission {
 			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
 			this.robot.forward();
 		}
-		this.robot.RotateLeft(550);
+		
+		this.robot.pilotTravel(-3);
+		this.robot.RotateRight(550);
+		
 		float kpSonic = 1500;
 		float actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
 		float optimalValue = 0.1f;
