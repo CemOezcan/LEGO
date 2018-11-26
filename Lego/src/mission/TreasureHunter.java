@@ -12,34 +12,38 @@ public class TreasureHunter implements Mission {
 
 	private final Robot robot;
 	
-	private final float tempo = 150f;
 	private final float RED = 0;
 	private final float WHITE = 6;
+	private final float BLUE = 2;
+	private final float SPEED = 150;
+	private final float KP = 1500;
+	private final float OPTIMAL_VALUE = 0.11f;
 	
-	private boolean foundWhite = false;
-	private boolean foundRed = false;
+	private boolean foundWhite;
+	private boolean foundRed;
+	private boolean leftSide;
 	
 	private ColorSensor colorSensor;
 	
 	public TreasureHunter(Robot robot) {
 		this.robot = robot;
-		colorSensor = this.robot.getColorSensor();
+		this.leftSide = true;
+		this.foundWhite = false;
+		this.foundRed = false;
+		this.robot.setTravelSpeed(5);
+		this.robot.setRotateSpeed(5);
+		this.colorSensor = this.robot.getColorSensor();
+		this.colorSensor.setColorIDMode();
 	}
 	
 	@Override
 	public boolean executeMission() {
 		
 		this.robot.beep();
-		colorSensor = this.robot.getColorSensor();
-		this.colorSensor.setColorIDMode();
-		boolean leftSide = true;
-		this.foundRed = false;
-		this.foundWhite = false;
 		boolean isTouched;
-		
 		robot.forward();
 
-		while (!(foundRed && foundWhite)) {
+		while (!(this.foundRed && this.foundWhite)) {
 			if (!Button.LEFT.isUp()) {
 				this.robot.pilotStop();
 				return false;
@@ -48,12 +52,12 @@ public class TreasureHunter implements Mission {
 			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
 			this.scan();
 			if (isTouched) {
-				if (leftSide) {
+				if (this.leftSide) {
 					this.turnLeft();
-					leftSide = false;
+					this.leftSide = false;
 				} else {
 					turnRight();
-					leftSide = true;
+					this.leftSide = true;
 				}
 				this.robot.forward();
 			}
@@ -65,33 +69,83 @@ public class TreasureHunter implements Mission {
 	
 	private void turnLeft() {
 		this.robot.pilotTravel(-3);
-		this.robot.RotateLeft(580);
-		this.scan();
+		for(int i = 0; i < 2; i++) {
+			this.robot.RotateLeft(280);
+			this.scan();
+		}
+		
 		this.robot.pilotTravel(2.5);
 		this.scan();
-		this.robot.RotateLeft(580);
-		this.scan();
+		for(int i = 0; i < 2; i++) {
+			this.robot.RotateLeft(280);
+			this.scan();
+		}
 	}
 	
 	private void turnRight() {
 		this.robot.pilotTravel(-3);
-		this.robot.RotateRight(580);
-		this.scan();
+		for(int i = 0; i < 2; i++) {
+			this.robot.RotateRight(280);
+			this.scan();
+		}
 		this.robot.pilotTravel(2.5);
 		this.scan();
-		this.robot.RotateRight(580);
-		this.scan();
+		for(int i = 0; i < 2; i++) {
+			this.robot.RotateRight(280);
+			this.scan();
+		}
 	}
 	
 	private void scan() {
 		float value = this.colorSensor.getColor()[0];
 		if (value == this.WHITE) {
 			this.foundWhite = true;
-		} else if (value == this.RED) {
-			this.foundRed = true;
 			this.robot.beepSequence();
+		} else if ((value == this.RED) && (!this.foundRed)) {
+			this.robot.beepSequence();
+			this.foundRed = true;
+			if (!this.foundWhite) {
+				this.findWhite();
+			}
 		}
 	}
 	
+	private void findWhite() {
+		
+		if (this.leftSide) {
+			this.robot.RotateRight(1050);
+		}
+		
+		boolean isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
+		this.robot.forward();
+		
+		while (!isTouched) {
+			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
+		}
+		
+		this.robot.pilotTravel(-3);
+		this.robot.RotateLeft(1650);
+		
+		float actualSonicValue;
+		RegulatorP regulator = new RegulatorP(this.robot, this.SPEED, this.KP, this.OPTIMAL_VALUE);
+		
+		while (!foundWhite) {
+			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
+			if (isTouched) {
+				this.robot.pilotTravel(-3);
+				this.robot.RotateLeft(1650);
+			}
+			
+			if (this.colorSensor.getColor()[0] == this.BLUE) {
+				this.executeMission();
+			}
+			
+			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
+			regulator.sonicRegulate(actualSonicValue);
+			this.scan();
+			
+		}
+	
+	}	
 
 }
