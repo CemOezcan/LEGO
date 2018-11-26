@@ -169,7 +169,6 @@ public class Robot {
 	 *            the new speed of the right motor
 	 */
 	public void adjustMotorspeed(float leftMotorSpeed, float rightMotorSpeed) {
-		// Braucht man das?
 		int speedLeft = Math.abs(Math.round(leftMotorSpeed));
 		int speedRight = Math.abs(Math.round(rightMotorSpeed));
 
