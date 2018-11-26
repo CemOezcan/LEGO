@@ -179,7 +179,7 @@ public class RouteNavigator implements Mission {
 	}
 	
 	public void driveToNextMission() {
-		float OPTIMALVALUE = 0.06f;
+		float OPTIMALVALUE = 0.04f;
 		float actualSonicValue = 0.0f;
 		float actualBlueValue = 0.0f; //Blue
 
@@ -199,7 +199,7 @@ public class RouteNavigator implements Mission {
 
 		this.robot.getColorSensor().setColorIDMode();
 		// Regulator start
-		this.robot.RotateLeft(60);
+		this.robot.RotateLeft(90);
 		this.robot.forward();
 		actualBlueValue = this.robot.getColorSensor().getColor()[0];
 
