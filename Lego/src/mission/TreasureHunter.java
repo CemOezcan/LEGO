@@ -123,7 +123,7 @@ public class TreasureHunter implements Mission {
 		
 		float kpSonic = 1500;
 		float actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
-		float optimalValue = 0.1f;
+		float optimalValue = 0.11f;
 		RegulatorP regulator = new RegulatorP(this.robot, 150f, kpSonic, optimalValue);
 		
 		while (!foundWhite) {
