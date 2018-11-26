@@ -109,7 +109,7 @@ public class TreasureHunter implements Mission {
 	}
 	
 	private void findWhite() {
-		if (!this.leftSide) {
+		if (this.leftSide) {
 			this.robot.RotateRight(1050);
 		}
 		boolean isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
@@ -118,18 +118,22 @@ public class TreasureHunter implements Mission {
 			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
 		}
 		
-		this.robot.pilotTravel(-1);
+		this.robot.pilotTravel(-3);
 		this.robot.RotateLeft(1650);
 		
 		float kpSonic = 1500;
 		float actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
-		float optimalValue = 0.05f;
+		float optimalValue = 0.1f;
 		RegulatorP regulator = new RegulatorP(this.robot, 150f, kpSonic, optimalValue);
-		isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
 		
-		while (!isTouched) {
+		while (!foundWhite) {
+			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
+			if (isTouched) {
+				this.robot.pilotTravel(-3);
+				this.robot.RotateLeft(1650);
+			}
 			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
-			regulator.sonicRegulateBackward(actualSonicValue);
+			regulator.sonicRegulate(actualSonicValue);
 			if (this.robot.getColorSensor().getColor()[0] == this.WHITE) {
 				this.foundWhite = true;
 				break;
