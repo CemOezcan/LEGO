@@ -15,33 +15,31 @@ public class TreasureHunter implements Mission {
 	private final float RED = 0;
 	private final float WHITE = 6;
 	
-	private boolean foundWhite = false;
-	private boolean foundRed = false;
-	boolean leftSide;
+	private boolean foundWhite;
+	private boolean foundRed;
+	private boolean leftSide;
 	
 	private ColorSensor colorSensor;
 	
 	public TreasureHunter(Robot robot) {
 		this.robot = robot;
 		this.leftSide = true;
+		this.foundWhite = false;
+		this.foundRed = false;
 		this.robot.setTravelSpeed(5);
 		this.robot.setRotateSpeed(5);
-		colorSensor = this.robot.getColorSensor();
+		this.colorSensor = this.robot.getColorSensor();
+		this.colorSensor.setColorIDMode();
 	}
 	
 	@Override
 	public boolean executeMission() {
 		
 		this.robot.beep();
-		colorSensor = this.robot.getColorSensor();
-		this.colorSensor.setColorIDMode();
-		this.foundRed = false;
-		this.foundWhite = false;
 		boolean isTouched;
-		
 		robot.forward();
 
-		while (!(foundRed && foundWhite)) {
+		while (!(this.foundRed && this.foundWhite)) {
 			if (!Button.LEFT.isUp()) {
 				this.robot.pilotStop();
 				return false;
@@ -99,12 +97,12 @@ public class TreasureHunter implements Mission {
 		if (value == this.WHITE) {
 			this.foundWhite = true;
 			this.robot.beepSequence();
-		} else if (value == this.RED) {
+		} else if ((value == this.RED) && (!this.foundRed)) {
+			this.robot.beepSequence();
 			this.foundRed = true;
 			if (!this.foundWhite) {
 				this.findWhite();
 			}
-			this.robot.beepSequence();
 		}
 	}
 	
@@ -134,10 +132,7 @@ public class TreasureHunter implements Mission {
 			}
 			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
 			regulator.sonicRegulate(actualSonicValue);
-			if (this.robot.getColorSensor().getColor()[0] == this.WHITE) {
-				this.foundWhite = true;
-				break;
-			}
+			this.scan();
 		}
 	
 	}	
