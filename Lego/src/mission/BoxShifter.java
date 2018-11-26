@@ -20,6 +20,7 @@ public class BoxShifter implements Mission {
 		int distanceCounter = 0;
 		boolean end = false;
 
+		this.robot.ultraSonicSensorUp();
 		this.robot.getColorSensor().setRedMode();
 
 		while (Button.LEFT.isUp() && !end) {
@@ -54,7 +55,7 @@ public class BoxShifter implements Mission {
 
 		actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
 
-		while (actualSonicValue > 0.17) {
+		while (actualSonicValue > 0.24) {
 			distanceCounter++;
 			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
 			this.robot.drawString("Abstand: " + actualSonicValue, 0, 0);
@@ -110,7 +111,7 @@ public class BoxShifter implements Mission {
 		}
 
 		// roboter l‰nge weiterfahren
-		this.robot.pilotTravel(6);
+		this.robot.pilotTravel(8);
 	}
 
 	private void findBlueLine() {
@@ -126,7 +127,7 @@ public class BoxShifter implements Mission {
 		}
 
 		// Suche zweite weiﬂe Linie
-		this.robot.pilotTravel(5);
+		this.robot.pilotTravel(4);
 		this.robot.RotateLeft(530);
 
 		this.robot.forward();
