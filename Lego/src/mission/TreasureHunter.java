@@ -17,13 +17,15 @@ public class TreasureHunter implements Mission {
 	
 	private boolean foundWhite = false;
 	private boolean foundRed = false;
+	boolean leftSide;
 	
 	private ColorSensor colorSensor;
 	
 	public TreasureHunter(Robot robot) {
 		this.robot = robot;
-		this.robot.setTravelSpeed(8);
-		this.robot.setRotateSpeed(8);
+		this.leftSide = true;
+		this.robot.setTravelSpeed(6);
+		this.robot.setRotateSpeed(6);
 		colorSensor = this.robot.getColorSensor();
 	}
 	
@@ -33,7 +35,6 @@ public class TreasureHunter implements Mission {
 		this.robot.beep();
 		colorSensor = this.robot.getColorSensor();
 		this.colorSensor.setColorIDMode();
-		boolean leftSide = true;
 		this.foundRed = false;
 		this.foundWhite = false;
 		boolean isTouched;
@@ -49,12 +50,12 @@ public class TreasureHunter implements Mission {
 			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
 			this.scan();
 			if (isTouched) {
-				if (leftSide) {
+				if (this.leftSide) {
 					this.turnLeft();
-					leftSide = false;
+					this.leftSide = false;
 				} else {
 					turnRight();
-					leftSide = true;
+					this.leftSide = true;
 				}
 				this.robot.forward();
 			}
@@ -67,14 +68,14 @@ public class TreasureHunter implements Mission {
 	private void turnLeft() {
 		this.robot.pilotTravel(-3);
 		for(int i = 0; i < 2; i++) {
-			this.robot.RotateLeft(275);
+			this.robot.RotateLeft(290);
 			this.scan();
 		}
 		
 		this.robot.pilotTravel(2.5);
 		this.scan();
 		for(int i = 0; i < 2; i++) {
-			this.robot.RotateLeft(280);
+			this.robot.RotateLeft(290);
 			this.scan();
 		}
 	}
@@ -82,13 +83,13 @@ public class TreasureHunter implements Mission {
 	private void turnRight() {
 		this.robot.pilotTravel(-3);
 		for(int i = 0; i < 2; i++) {
-			this.robot.RotateRight(280);
+			this.robot.RotateRight(290);
 			this.scan();
 		}
 		this.robot.pilotTravel(2.5);
 		this.scan();
 		for(int i = 0; i < 2; i++) {
-			this.robot.RotateRight(280);
+			this.robot.RotateRight(290);
 			this.scan();
 		}
 	}
@@ -99,9 +100,35 @@ public class TreasureHunter implements Mission {
 			this.foundWhite = true;
 		} else if (value == this.RED) {
 			this.foundRed = true;
+			this.findWhite();
 			this.robot.beepSequence();
 		}
 	}
 	
+	private void findWhite() {
+		if (!this.leftSide) {
+			this.robot.RotateRight(1050);
+		}
+		boolean isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
+		while (!isTouched) {
+			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
+			this.robot.forward();
+		}
+		this.robot.RotateLeft(1050);
+		float kpSonic = 0;
+		float actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
+		float optimalValue = 5;
+		RegulatorP regulator = new RegulatorP(this.robot, 300f, kpSonic, optimalValue);
+		isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
+		
+		while (!isTouched) {
+			regulator.sonicRegulate(actualSonicValue);
+			if (this.robot.getColorSensor().getColor()[0] == this.WHITE) {
+				this.foundWhite = true;
+				break;
+			}
+		}
+	
+	}	
 
 }
