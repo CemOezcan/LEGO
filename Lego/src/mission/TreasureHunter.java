@@ -68,14 +68,14 @@ public class TreasureHunter implements Mission {
 	private void turnLeft() {
 		this.robot.pilotTravel(-3);
 		for(int i = 0; i < 2; i++) {
-			this.robot.RotateLeft(290);
+			this.robot.RotateLeft(275);
 			this.scan();
 		}
 		
 		this.robot.pilotTravel(2.5);
 		this.scan();
 		for(int i = 0; i < 2; i++) {
-			this.robot.RotateLeft(290);
+			this.robot.RotateLeft(275);
 			this.scan();
 		}
 	}
@@ -83,13 +83,13 @@ public class TreasureHunter implements Mission {
 	private void turnRight() {
 		this.robot.pilotTravel(-3);
 		for(int i = 0; i < 2; i++) {
-			this.robot.RotateRight(290);
+			this.robot.RotateRight(275);
 			this.scan();
 		}
 		this.robot.pilotTravel(2.5);
 		this.scan();
 		for(int i = 0; i < 2; i++) {
-			this.robot.RotateRight(290);
+			this.robot.RotateRight(275);
 			this.scan();
 		}
 	}
@@ -114,10 +114,10 @@ public class TreasureHunter implements Mission {
 			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
 			this.robot.forward();
 		}
-		this.robot.RotateLeft(1050);
-		float kpSonic = 0;
+		this.robot.RotateLeft(550);
+		float kpSonic = 1500;
 		float actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
-		float optimalValue = 5;
+		float optimalValue = 0.1f;
 		RegulatorP regulator = new RegulatorP(this.robot, 300f, kpSonic, optimalValue);
 		isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
 		
