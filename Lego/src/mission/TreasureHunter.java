@@ -12,7 +12,6 @@ public class TreasureHunter implements Mission {
 
 	private final Robot robot;
 	
-	private final float tempo = 150f;
 	private final float RED = 0;
 	private final float WHITE = 6;
 	
@@ -23,6 +22,8 @@ public class TreasureHunter implements Mission {
 	
 	public TreasureHunter(Robot robot) {
 		this.robot = robot;
+		this.robot.setTravelSpeed(8);
+		this.robot.setRotateSpeed(8);
 		colorSensor = this.robot.getColorSensor();
 	}
 	
@@ -73,7 +74,7 @@ public class TreasureHunter implements Mission {
 		this.robot.pilotTravel(2.5);
 		this.scan();
 		for(int i = 0; i < 2; i++) {
-			this.robot.RotateLeft(275);
+			this.robot.RotateLeft(280);
 			this.scan();
 		}
 	}
@@ -81,13 +82,13 @@ public class TreasureHunter implements Mission {
 	private void turnRight() {
 		this.robot.pilotTravel(-3);
 		for(int i = 0; i < 2; i++) {
-			this.robot.RotateRight(275);
+			this.robot.RotateRight(280);
 			this.scan();
 		}
 		this.robot.pilotTravel(2.5);
 		this.scan();
 		for(int i = 0; i < 2; i++) {
-			this.robot.RotateRight(275);
+			this.robot.RotateRight(280);
 			this.scan();
 		}
 	}

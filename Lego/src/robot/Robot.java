@@ -57,10 +57,12 @@ public class Robot {
 	
 	public void setTravelSpeed(float travelSpeed) {
 		this.travelSpeed = travelSpeed;
+		this.pilot.setTravelSpeed(this.travelSpeed);
 	}
 	
 	public void setRotateSpeed(float rotateSpeed) {
 		this.rotateSpeed = rotateSpeed;
+		this.pilot.setRotateSpeed(this.rotateSpeed);
 	}
 	
 	/**
