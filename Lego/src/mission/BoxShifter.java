@@ -25,7 +25,7 @@ public class BoxShifter implements Mission {
 		while (Button.LEFT.isUp() && !end) {
 			// turn around
 			this.robot.pilotTravel(7);
-			this.robot.RotateRight(1130);
+			this.robot.RotateRight(1050);
 
 			// find box
 			distanceCounter = this.findBox();
