@@ -118,17 +118,18 @@ public class TreasureHunter implements Mission {
 			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
 		}
 		
-		this.robot.pilotTravel(-3);
-		this.robot.RotateRight(550);
+		this.robot.pilotTravel(-1);
+		this.robot.RotateLeft(1650);
 		
 		float kpSonic = 1500;
 		float actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
-		float optimalValue = 0.1f;
-		RegulatorP regulator = new RegulatorP(this.robot, 300f, kpSonic, optimalValue);
+		float optimalValue = 0.05f;
+		RegulatorP regulator = new RegulatorP(this.robot, 150f, kpSonic, optimalValue);
 		isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
 		
 		while (!isTouched) {
-			regulator.sonicRegulate(actualSonicValue);
+			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
+			regulator.sonicRegulateBackward(actualSonicValue);
 			if (this.robot.getColorSensor().getColor()[0] == this.WHITE) {
 				this.foundWhite = true;
 				break;
