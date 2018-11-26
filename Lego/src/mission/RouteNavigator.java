@@ -99,7 +99,7 @@ public class RouteNavigator implements Mission {
 		float actualSonicValue = 0.0f;
 		float actualColorValue = 0.0f;
 
-		float kpSonic = 1500;
+		float kpSonic = 2000;
 
 		// enter()
 		this.robot.motorsStop();
@@ -107,7 +107,7 @@ public class RouteNavigator implements Mission {
 		this.robot.clearLCD();
 		this.robot.beepSequence();
 		this.robot.drawString("Block umfahren", 0, 0);
-		RegulatorP regulator = new RegulatorP(this.robot, this.tempo + 100, kpSonic, OPTIMALVALUE);
+		RegulatorP regulator = new RegulatorP(this.robot, this.tempo + 150, kpSonic, OPTIMALVALUE);
 
 		// start()
 		this.robot.pilotTravel(-3);
