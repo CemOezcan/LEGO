@@ -38,7 +38,6 @@ public class BoxShifter implements Mission {
 			this.findBlueLine();
 
 			this.robot.pilotStop();
-			this.robot.motorsStop();
 			end = true;
 		}
 		
@@ -141,8 +140,16 @@ public class BoxShifter implements Mission {
 		this.robot.getColorSensor().setColorIDMode();
 		this.robot.forward();
 		colorValue = this.robot.getColorSensor().getColor()[0];
+		int turn = 0;
 		while (!((colorValue == 1) || (colorValue == 2))) {
+			if (robot.getPressureSensorLeft().isTouched()) {
+				robot.pilotTravel(-3);
+				robot.RotateRight(40);
+				turn += 40;
+				this.robot.forward();
+			}
 			colorValue = this.robot.getColorSensor().getColor()[0];
 		}
+		robot.RotateLeft(turn);
 	}
 }
