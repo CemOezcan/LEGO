@@ -16,6 +16,8 @@ public class BoxShifter implements Mission {
 	@Override
 	public boolean executeMission() {
 		
+		this.robot.setTravelSpeed(5);
+		
 		this.robot.beep();
 
 		int distanceCounter = 0;
@@ -111,7 +113,7 @@ public class BoxShifter implements Mission {
 		}
 
 		// roboter länge weiterfahren
-		this.robot.pilotTravel(8);
+		this.robot.pilotTravel(5);
 	}
 
 	private void findBlueLine() {
