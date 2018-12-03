@@ -42,12 +42,15 @@ public class RouteNavigator implements Mission {
 		boolean afterBox = false;
 		boolean findLine = false;
 		int cnt = 0;
+		int i = 0;
 		robot.adjustMotorspeed(tempo, tempo);
 
 		while (Button.LEFT.isUp() && !end) {
 			float actualColorValue = robot.getColorSensor().getColor()[0];
 
-			this.robot.drawString(" color: " + actualColorValue, 0, 0);
+			//this.robot.drawString(" color: " + actualColorValue, 0, 0);
+			robot.clearLCD();
+			robot.drawString("value = " + i, 0, 0);
 
 			// the touchsensors are touched and the robot has to drive around
 			// the obstacle
@@ -58,6 +61,14 @@ public class RouteNavigator implements Mission {
 				afterBox = true;
 
 			} else if (actualColorValue < BLACK + 0.005f) { // find line
+				i++;
+				robot.adjustMotorspeed(200, -66);
+				robot.drawString("value = " + i, 0, 0);
+				if (i > 50) {
+					findLine();
+					i = 0;
+				}
+				/*
 				robot.pilotStop();
 				robot.motorsStop();
 				if (!afterBox || cnt < 1) {
@@ -72,7 +83,9 @@ public class RouteNavigator implements Mission {
 					driveToNextMission();
 					end = true;
 				}
+				*/
 			} else { // normal case calculate the new speeds for both motors
+				i = 0;
 				if (findLine) {
 					regulator.setKpValue(900);
 					regulator.regulate(actualColorValue);
