@@ -67,7 +67,7 @@ public class BridgeCrosser implements Mission {
 
 		// find blue line
 		this.robot.forward();
-		this.robot.adjustMotorspeed(150, 150);
+		this.robot.adjustMotorspeed(200, 200);
 		actualColorValue = robot.getColorSensor().getColor()[0];
 		while (!(actualColorValue == 1 || actualColorValue == 2)) {
 			actualColorValue = robot.getColorSensor().getColor()[0];
