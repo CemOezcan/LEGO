@@ -10,7 +10,7 @@ public class BridgeCrosser implements Mission {
 
 	private final Robot robot;
 
-	private final float tempo = 250f;
+	private final float tempo = 300f;
 	private final float ROBOTHEIGHT = 0.03f;
 	private final float OPTIMALVALUE = 0.1f;
 	private final float KP = 2000;
@@ -28,10 +28,9 @@ public class BridgeCrosser implements Mission {
 		boolean end = false;
 		float actualGroundDistance = 0.0f;
 
-		this.robot.pilotTravel(3);
+		this.robot.pilotTravel(5);
 		this.robot.ultraSonicSensorDown();
 		this.robot.forward();
-		this.robot.adjustMotorspeed(tempo, tempo);
 
 		while (Button.LEFT.isUp() && !end) {
 			if (this.robot.getPressureSensorLeft().isTouched()) {
@@ -43,7 +42,6 @@ public class BridgeCrosser implements Mission {
 				regulator.bridgeRegulate(actualGroundDistance);
 			}
 		}
-		robot.motorsStop();
 		robot.pilotStop();
 		
 		return end;
