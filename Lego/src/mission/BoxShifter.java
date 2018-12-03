@@ -15,14 +15,15 @@ public class BoxShifter implements Mission {
 
 	@Override
 	public boolean executeMission() {
+		
 		this.robot.beep();
 
 		int distanceCounter = 0;
 		boolean end = false;
-
+		
 		this.robot.ultraSonicSensorUp();
 		this.robot.getColorSensor().setRedMode();
-
+		
 		while (Button.LEFT.isUp() && !end) {
 			// turn around
 			this.robot.pilotTravel(7);
@@ -38,7 +39,6 @@ public class BoxShifter implements Mission {
 			this.findBlueLine();
 
 			this.robot.pilotStop();
-			this.robot.motorsStop();
 			end = true;
 		}
 		
@@ -142,6 +142,11 @@ public class BoxShifter implements Mission {
 		this.robot.forward();
 		colorValue = this.robot.getColorSensor().getColor()[0];
 		while (!((colorValue == 1) || (colorValue == 2))) {
+			if (robot.getPressureSensorLeft().isTouched()) {
+				robot.pilotTravel(-3);
+				robot.RotateRight(60);
+				this.robot.forward();
+			}
 			colorValue = this.robot.getColorSensor().getColor()[0];
 		}
 	}
