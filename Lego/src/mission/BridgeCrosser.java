@@ -28,6 +28,8 @@ public class BridgeCrosser implements Mission {
 		boolean end = false;
 		float actualGroundDistance = 0.0f;
 
+		this.robot.adjustMotorspeed(tempo, tempo);
+		
 		this.robot.pilotTravel(5);
 		this.robot.ultraSonicSensorDown();
 		this.robot.forward();
