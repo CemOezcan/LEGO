@@ -3,6 +3,8 @@ package mission;
 import robot.RegulatorP;
 import robot.Robot;
 import lejos.hardware.Button;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class RouteNavigator implements Mission {
 
@@ -33,7 +35,7 @@ public class RouteNavigator implements Mission {
 	@Override
 	public boolean executeMission() {
 		this.robot.beep();
-
+		Timer timer = new Timer();
 		this.robot.getColorSensor().setRedMode();
 		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, this.kp, this.OPTIMALVALUE);
 
@@ -42,7 +44,8 @@ public class RouteNavigator implements Mission {
 		boolean afterBox = false;
 		boolean findLine = false;
 		int cnt = 0;
-		int i = 0;
+		boolean fst = true;
+		
 		robot.adjustMotorspeed(tempo, tempo);
 
 		while (Button.LEFT.isUp() && !end) {
@@ -50,7 +53,6 @@ public class RouteNavigator implements Mission {
 
 			//this.robot.drawString(" color: " + actualColorValue, 0, 0);
 			robot.clearLCD();
-			robot.drawString("value = " + i, 0, 0);
 
 			// the touchsensors are touched and the robot has to drive around
 			// the obstacle
@@ -60,14 +62,18 @@ public class RouteNavigator implements Mission {
 				driveAroundObstacle();
 				afterBox = true;
 
-			} else if (actualColorValue < BLACK + 0.005f) { // find line
-				i++;
+			} else if (actualColorValue < BLACK + 0.01f) { // find line
 				robot.adjustMotorspeed(200, -66);
-				robot.drawString("value = " + i, 0, 0);
-				if (i > 50) {
-					findLine();
-					i = 0;
+				if (fst) {
+					robot.beep();
+					timer.schedule(new FindLineTask(), 2000);
+					fst = false;
 				}
+				
+				if (actualColorValue >= BLACK + 0.01f) {
+					timer.cancel();
+				}
+				
 				/*
 				robot.pilotStop();
 				robot.motorsStop();
@@ -85,21 +91,25 @@ public class RouteNavigator implements Mission {
 				}
 				*/
 			} else { // normal case calculate the new speeds for both motors
-				i = 0;
-				if (findLine) {
-					regulator.setKpValue(900);
-					regulator.regulate(actualColorValue);
-					regulator.setKpValue(kp);
-					findLine = false;
-				} else {
-					regulator.regulate(actualColorValue);
-				}
+				regulator.regulate(actualColorValue);
+				fst = true;
 			}
 			// after f.e findGab switch to rgb mode to find the end of the line
 			// with the blue strip
 		}
 		robot.pilotStop();
 		return end;
+	}
+		
+	
+	
+	private class FindLineTask extends TimerTask {
+
+		@Override
+		public void run() {
+			
+			findLine();
+		}
 		
 	}
 
@@ -112,7 +122,7 @@ public class RouteNavigator implements Mission {
 		float actualSonicValue = 0.0f;
 		float actualColorValue = 0.0f;
 
-		float kpSonic = 2000;
+		float kpSonic = 2500;
 
 		// enter()
 		this.robot.motorsStop();
@@ -150,6 +160,18 @@ public class RouteNavigator implements Mission {
 	 * the robot searches for the line
 	 */
 	public void findLine() {
+		this.robot.drawString("Find Line", 0, 0);
+		this.robot.beep();
+		this.robot.pilotStop();
+		this.robot.motorsStop();
+		this.robot.RotateLeft(560);
+		this.robot.pilotTravel(8);
+		float actualColor = this.robot.getColorSensor().getColor()[0];
+		this.robot.adjustMotorspeed(200, -66);
+		while (actualColor < BLACK + 0.01f) {
+			actualColor = this.robot.getColorSensor().getColor()[0];
+		}
+		/*
 		this.robot.clearLCD();
 		this.robot.drawString("Find Line", 0, 0);
 
@@ -189,6 +211,7 @@ public class RouteNavigator implements Mission {
 		}
 		this.robot.pilotStop();
 		this.robot.motorsStop();
+		*/
 	}
 	
 	public void driveToNextMission() {
