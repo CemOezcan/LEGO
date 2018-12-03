@@ -10,7 +10,7 @@ public class BridgeCrosser implements Mission {
 
 	private final Robot robot;
 
-	private final float tempo = 300f;
+	private final float tempo = 250f;
 	private final float ROBOTHEIGHT = 0.03f;
 	private final float OPTIMALVALUE = 0.1f;
 	private final float KP = 2000;
@@ -65,7 +65,7 @@ public class BridgeCrosser implements Mission {
 
 		// find blue line
 		this.robot.forward();
-		this.robot.adjustMotorspeed(200, 200);
+		this.robot.adjustMotorspeed(300, 300);
 		actualColorValue = robot.getColorSensor().getColor()[0];
 		while (!(actualColorValue == 1 || actualColorValue == 2)) {
 			actualColorValue = robot.getColorSensor().getColor()[0];
