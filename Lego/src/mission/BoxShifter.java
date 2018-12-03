@@ -88,7 +88,7 @@ public class BoxShifter implements Mission {
 		this.robot.beep();
 
 		// push box to wall
-		this.robot.pilotTravel(4);
+		this.robot.pilotTravel(2);
 	}
 
 	private void shiftToEdge(int distanceCounter) {
