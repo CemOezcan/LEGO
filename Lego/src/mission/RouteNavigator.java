@@ -44,7 +44,6 @@ public class RouteNavigator implements Mission {
 		boolean afterBox = false;
 		boolean findLine = false;
 		int cnt = 0;
-		boolean fst = true;
 		
 		robot.adjustMotorspeed(tempo, tempo);
 
@@ -64,14 +63,9 @@ public class RouteNavigator implements Mission {
 
 			} else if (actualColorValue < BLACK + 0.01f) { // find line
 				robot.adjustMotorspeed(200, -66);
-				if (fst) {
-					robot.beep();
-					timer.schedule(new FindLineTask(), 2000);
-					fst = false;
-				}
-				
-				if (actualColorValue >= BLACK + 0.01f) {
-					timer.cancel();
+				cnt ++;
+				if (cnt > 110) {
+					findLine();
 				}
 				
 				/*
@@ -92,25 +86,13 @@ public class RouteNavigator implements Mission {
 				*/
 			} else { // normal case calculate the new speeds for both motors
 				regulator.regulate(actualColorValue);
-				fst = true;
+				cnt = 0;
 			}
 			// after f.e findGab switch to rgb mode to find the end of the line
 			// with the blue strip
 		}
 		robot.pilotStop();
 		return end;
-	}
-		
-	
-	
-	private class FindLineTask extends TimerTask {
-
-		@Override
-		public void run() {
-			
-			findLine();
-		}
-		
 	}
 
 	/**
@@ -166,11 +148,7 @@ public class RouteNavigator implements Mission {
 		this.robot.motorsStop();
 		this.robot.RotateLeft(560);
 		this.robot.pilotTravel(8);
-		float actualColor = this.robot.getColorSensor().getColor()[0];
-		this.robot.adjustMotorspeed(200, -66);
-		while (actualColor < BLACK + 0.01f) {
-			actualColor = this.robot.getColorSensor().getColor()[0];
-		}
+		
 		/*
 		this.robot.clearLCD();
 		this.robot.drawString("Find Line", 0, 0);
