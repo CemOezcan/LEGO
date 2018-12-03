@@ -41,7 +41,7 @@ public class TreasureHunter implements Mission {
 		
 		this.robot.beep();
 		boolean isTouched;
-		robot.forward();
+		this.robot.forward();
 
 		while (!(this.foundRed && this.foundWhite)) {
 			if (!Button.LEFT.isUp()) {
