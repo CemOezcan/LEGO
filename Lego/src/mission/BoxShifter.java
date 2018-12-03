@@ -67,7 +67,7 @@ public class BoxShifter implements Mission {
 
 	private void shiftToWall() {
 		this.robot.drawString("push Box to wall", 0, 0);
-		this.robot.RotateLeft(550);
+		this.robot.RotateLeft(560);
 
 		this.robot.forward();
 
@@ -88,7 +88,7 @@ public class BoxShifter implements Mission {
 		this.robot.beep();
 
 		// push box to wall
-		this.robot.pilotTravel(2);
+		this.robot.pilotTravel(3);
 	}
 
 	private void shiftToEdge(int distanceCounter) {
@@ -97,11 +97,11 @@ public class BoxShifter implements Mission {
 		this.robot.drawString("push Box to edge", 0, 0);
 
 		this.robot.pilotTravel(-2);
-		this.robot.RotateLeft(550);
+		this.robot.RotateLeft(560);
 		this.robot.pilotTravel(10);
 		this.robot.RotateRight(550);
-		this.robot.pilotTravel(6);
-		this.robot.RotateRight(550);
+		this.robot.pilotTravel(5);
+		this.robot.RotateRight(530);
 
 		this.robot.forward();
 
@@ -113,13 +113,13 @@ public class BoxShifter implements Mission {
 		}
 
 		// roboter l‰nge weiterfahren
-		this.robot.pilotTravel(5);
+		this.robot.pilotTravel(7);
 	}
 
 	private void findBlueLine() {
 		// Suche weiﬂe Linie
 		this.robot.pilotTravel(-7);
-		this.robot.RotateRight(550);
+		this.robot.RotateRight(520);
 
 		this.robot.forward();
 
@@ -130,7 +130,7 @@ public class BoxShifter implements Mission {
 
 		// Suche zweite weiﬂe Linie
 		this.robot.pilotTravel(4);
-		this.robot.RotateLeft(530);
+		this.robot.RotateLeft(575);
 
 		this.robot.forward();
 
@@ -145,7 +145,7 @@ public class BoxShifter implements Mission {
 		colorValue = this.robot.getColorSensor().getColor()[0];
 		while (!((colorValue == 1) || (colorValue == 2))) {
 			if (robot.getPressureSensorLeft().isTouched()) {
-				robot.pilotTravel(-3);
+				robot.pilotTravel(-5);
 				robot.RotateRight(60);
 				this.robot.forward();
 			}
