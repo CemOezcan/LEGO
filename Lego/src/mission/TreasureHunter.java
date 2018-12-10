@@ -15,7 +15,7 @@ public class TreasureHunter implements Mission {
 	private final float RED = 0;
 	private final float WHITE = 6;
 	private final float BLUE = 2;
-	private final float SPEED = 150;
+	private final float SPEED = 500;
 	private final float KP = 1500;
 	private final float OPTIMAL_VALUE = 0.11f;
 	
@@ -30,7 +30,7 @@ public class TreasureHunter implements Mission {
 		this.leftSide = true;
 		this.foundWhite = false;
 		this.foundRed = false;
-		this.robot.setTravelSpeed(5);
+		this.robot.setTravelSpeed(6);
 		this.robot.setRotateSpeed(5);
 		this.colorSensor = this.robot.getColorSensor();
 		this.colorSensor.setColorIDMode();
@@ -40,7 +40,7 @@ public class TreasureHunter implements Mission {
 	public boolean executeMission() {
 		this.robot.beep();
 		boolean isTouched;
-		robot.forward();
+		this.robot.forward();
 
 		while (!(this.foundRed && this.foundWhite)) {
 			if (!Button.LEFT.isUp()) {
@@ -67,13 +67,13 @@ public class TreasureHunter implements Mission {
 	}
 	
 	private void turnLeft() {
-		this.robot.pilotTravel(-3);
+		this.robot.pilotTravel(-4);
 		for(int i = 0; i < 2; i++) {
 			this.robot.RotateLeft(280);
 			this.scan();
 		}
 		
-		this.robot.pilotTravel(2.5);
+		this.robot.pilotTravel(2);
 		this.scan();
 		for(int i = 0; i < 2; i++) {
 			this.robot.RotateLeft(280);
@@ -82,12 +82,12 @@ public class TreasureHunter implements Mission {
 	}
 	
 	private void turnRight() {
-		this.robot.pilotTravel(-3);
+		this.robot.pilotTravel(-4);
 		for(int i = 0; i < 2; i++) {
 			this.robot.RotateRight(280);
 			this.scan();
 		}
-		this.robot.pilotTravel(2.5);
+		this.robot.pilotTravel(2);
 		this.scan();
 		for(int i = 0; i < 2; i++) {
 			this.robot.RotateRight(280);
@@ -123,7 +123,7 @@ public class TreasureHunter implements Mission {
 		}
 		
 		this.robot.pilotTravel(-3);
-		this.robot.RotateLeft(1650);
+		this.robot.RotateRight(550);
 		
 		float actualSonicValue;
 		RegulatorP regulator = new RegulatorP(this.robot, this.SPEED, this.KP, this.OPTIMAL_VALUE);
@@ -132,7 +132,7 @@ public class TreasureHunter implements Mission {
 			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
 			if (isTouched) {
 				this.robot.pilotTravel(-3);
-				this.robot.RotateLeft(1650);
+				this.robot.RotateRight(550);
 			}
 			
 			if (this.colorSensor.getColor()[0] == this.BLUE) {
