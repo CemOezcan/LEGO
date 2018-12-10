@@ -34,9 +34,9 @@ public class Robot {
 	private TouchSensor touchSensorLeft;
 	private TouchSensor touchSensorRight;
 
-	private RegulatedMotor motorRight = new EV3LargeRegulatedMotor(MOTOR_RIGHT);
-	private RegulatedMotor motorLeft = new EV3LargeRegulatedMotor(MOTOR_LEFT);
-	private RegulatedMotor motorUltraSonic = new EV3MediumRegulatedMotor(MOTOR_ULTRA_SONIC);
+	private EV3LargeRegulatedMotor motorRight = new EV3LargeRegulatedMotor(MOTOR_RIGHT);
+	private EV3LargeRegulatedMotor motorLeft = new EV3LargeRegulatedMotor(MOTOR_LEFT);
+	private EV3MediumRegulatedMotor motorUltraSonic = new EV3MediumRegulatedMotor(MOTOR_ULTRA_SONIC);
 
 	private boolean motorUltraSonicIsUp = true;
 
@@ -258,6 +258,14 @@ public class Robot {
 	 */
 	public void beepSequence() {
 		Sound.beepSequence();
+	}
+	
+	public RegulatedMotor getMotorLeft() {
+		return this.motorLeft;
+	}
+	
+	public RegulatedMotor getMotorRight() {
+		return this.motorRight;
 	}
 
 }

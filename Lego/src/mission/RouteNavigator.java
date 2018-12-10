@@ -2,7 +2,11 @@ package mission;
 
 import robot.RegulatorP;
 import robot.Robot;
+import sensor.ColorSensor;
+import sensor.Sensor;
 import lejos.hardware.Button;
+import lejos.hardware.motor.Motor;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -62,28 +66,20 @@ public class RouteNavigator implements Mission {
 				afterBox = true;
 
 			} else if (actualColorValue < BLACK + 0.01f) { // find line
-				robot.adjustMotorspeed(200, -66);
-				cnt ++;
-				if (cnt > 110) {
-					findLine();
-				}
-				
-				/*
-				robot.pilotStop();
-				robot.motorsStop();
-				if (!afterBox || cnt < 1) {
-					findLine();
-					findLine = true;
-					if (afterBox) {
-						cnt++;
-					}
+				this.robot.clearLCD();
+				this.robot.drawString("findLine", 0, 0);
+				//robot.adjustMotorspeed(200, -66);
+				boolean find = false;
+				while (!find) {
+					find = searchLineRight(robot.getColorSensor());
 					robot.beep();
-				} else {
-					this.robot.drawString("drive to next mission", 0, 0);
-					driveToNextMission();
-					end = true;
+					if (!find) {
+						this.robot.pilotStop();
+						this.robot.motorsStop();
+						this.robot.RotateLeft(670);
+						this.robot.pilotTravel(5);
+					}
 				}
-				*/
 			} else { // normal case calculate the new speeds for both motors
 				regulator.regulate(actualColorValue);
 				cnt = 0;
@@ -93,6 +89,37 @@ public class RouteNavigator implements Mission {
 		}
 		robot.pilotStop();
 		return end;
+	}
+	
+	public boolean searchLineRight(ColorSensor sensor) {
+		this.robot.clearLCD();
+		final int start_tacho = robot.getMotorRight().getTachoCount();
+		robot.getMotorRight().forward();
+		robot.getMotorLeft().backward();
+		
+		while (true) {
+			this.robot.drawString("" + robot.getMotorLeft().getTachoCount(), 0, 0);
+			if (searchLineTask(sensor)) {
+				return true;
+			}
+			if (turnRobotTask(start_tacho)) {
+				return false;
+			}
+		}
+	}
+	
+	public boolean searchLineTask(ColorSensor sensor) {
+		if (sensor.getColor()[0] > BLACK + 0.01f) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean turnRobotTask(int start_tacho) {
+		if (robot.getMotorLeft().getTachoCount() < start_tacho - 580) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
