@@ -17,7 +17,7 @@ public class TreasureHunter implements Mission {
 	private final float BLUE = 2;
 	private final float SPEED = 500;
 	private final float KP = 1500;
-	private final float OPTIMAL_VALUE = 0.11f;
+	private final float OPTIMAL_VALUE = 0.13f;
 	
 	private boolean foundWhite;
 	private boolean foundRed;
@@ -27,10 +27,7 @@ public class TreasureHunter implements Mission {
 	
 	public TreasureHunter(Robot robot) {
 		this.robot = robot;
-		this.leftSide = true;
-		this.foundWhite = false;
-		this.foundRed = false;
-		this.robot.setTravelSpeed(6);
+		this.robot.setTravelSpeed(5);
 		this.robot.setRotateSpeed(5);
 		this.colorSensor = this.robot.getColorSensor();
 		this.colorSensor.setColorIDMode();
@@ -39,6 +36,9 @@ public class TreasureHunter implements Mission {
 	@Override
 	public boolean executeMission() {
 		this.robot.beep();
+		this.leftSide = true;
+		this.foundWhite = false;
+		this.foundRed = false;
 		boolean isTouched;
 		this.robot.forward();
 
@@ -48,9 +48,9 @@ public class TreasureHunter implements Mission {
 				return false;
 			}
 			
-			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
+			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched() || (this.colorSensor.getColor()[0] == this.BLUE) );
 			this.scan();
-			if (isTouched) {
+			if (isTouched && !(this.foundWhite && this.foundRed)) {
 				if (this.leftSide) {
 					this.turnLeft();
 					this.leftSide = false;
@@ -58,41 +58,12 @@ public class TreasureHunter implements Mission {
 					turnRight();
 					this.leftSide = true;
 				}
-				this.robot.forward();
 			}
 		}
 		
 		this.robot.pilotStop();
+		this.robot.fire();
 		return true;
-	}
-	
-	private void turnLeft() {
-		this.robot.pilotTravel(-4);
-		for(int i = 0; i < 2; i++) {
-			this.robot.RotateLeft(280);
-			this.scan();
-		}
-		
-		this.robot.pilotTravel(2);
-		this.scan();
-		for(int i = 0; i < 2; i++) {
-			this.robot.RotateLeft(280);
-			this.scan();
-		}
-	}
-	
-	private void turnRight() {
-		this.robot.pilotTravel(-4);
-		for(int i = 0; i < 2; i++) {
-			this.robot.RotateRight(280);
-			this.scan();
-		}
-		this.robot.pilotTravel(2);
-		this.scan();
-		for(int i = 0; i < 2; i++) {
-			this.robot.RotateRight(280);
-			this.scan();
-		}
 	}
 	
 	private void scan() {
@@ -115,9 +86,8 @@ public class TreasureHunter implements Mission {
 			this.robot.RotateRight(1050);
 		}
 		
-		boolean isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
+		boolean isTouched = false;
 		this.robot.forward();
-		
 		while (!isTouched) {
 			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
 		}
@@ -128,23 +98,50 @@ public class TreasureHunter implements Mission {
 		float actualSonicValue;
 		RegulatorP regulator = new RegulatorP(this.robot, this.SPEED, this.KP, this.OPTIMAL_VALUE);
 		
-		while (!foundWhite) {
-			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched());
+		while (!this.foundWhite) {
+			isTouched = (this.robot.getPressureSensorLeft().isTouched() || this.robot.getPressureSensorRight().isTouched());
 			if (isTouched) {
 				this.robot.pilotTravel(-3);
 				this.robot.RotateRight(550);
 			}
 			
-			if (this.colorSensor.getColor()[0] == this.BLUE) {
-				this.executeMission();
-			}
-			
 			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
 			regulator.sonicRegulate(actualSonicValue);
-			this.scan();
+			this.foundWhite = this.colorSensor.getColor()[0] == this.WHITE;
 			
 		}
 	
 	}	
+	
+	private void turnRight() {
+		this.robot.pilotTravel(-4);
+		for(int i = 0; i < 2; i++) {
+			this.robot.RotateRight(275);
+			this.scan();
+		}
+		this.robot.pilotTravel(2.5);
+		this.scan();
+		for(int i = 0; i < 2; i++) {
+			this.robot.RotateRight(275);
+			this.scan();
+		}
+		this.robot.forward();
+	}
+	
+	private void turnLeft() {
+		this.robot.pilotTravel(-4);
+		for(int i = 0; i < 2; i++) {
+			this.robot.RotateLeft(275);
+			this.scan();
+		}
+		
+		this.robot.pilotTravel(2.5);
+		this.scan();
+		for(int i = 0; i < 2; i++) {
+			this.robot.RotateLeft(275);
+			this.scan();
+		}
+		this.robot.forward();
+	}
 
 }
