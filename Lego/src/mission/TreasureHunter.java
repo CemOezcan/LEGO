@@ -17,7 +17,7 @@ public class TreasureHunter implements Mission {
 	private final float BLUE = 2;
 	private final float SPEED = 500;
 	private final float KP = 1500;
-	private final float OPTIMAL_VALUE = 0.12f;
+	private final float OPTIMAL_VALUE = 0.13f;
 	
 	private boolean foundWhite;
 	private boolean foundRed;
@@ -101,7 +101,7 @@ public class TreasureHunter implements Mission {
 		while (!this.foundWhite) {
 			isTouched = (this.robot.getPressureSensorLeft().isTouched() || this.robot.getPressureSensorRight().isTouched());
 			if (isTouched) {
-				this.robot.pilotTravel(-4);
+				this.robot.pilotTravel(-3);
 				this.robot.RotateRight(550);
 			}
 			
