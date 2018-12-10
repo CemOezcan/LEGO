@@ -94,18 +94,20 @@ public class RouteNavigator implements Mission {
 	public boolean searchLineRight(ColorSensor sensor) {
 		this.robot.clearLCD();
 		
-		robot.getMotorRight().resetTachoCount();
+		//robot.getMotorRight().resetTachoCount();
 		final int start_tacho = robot.getMotorRight().getTachoCount();
 		
 		robot.getMotorRight().forward();
 		robot.getMotorLeft().backward();
 		
 		while (true) {
-			this.robot.drawString("Tacho: " + robot.getMotorLeft().getTachoCount(), 0, 0);
+			this.robot.drawString("Tacho: " + robot.getMotorRight().getTachoCount(), 0, 0);
 			if (searchLineTask(sensor)) {
+				robot.beepSequence();
 				return true;
 			}
 			if (turnRobotTask(start_tacho)) {
+				robot.beep();
 				return false;
 			}
 		}
@@ -119,7 +121,7 @@ public class RouteNavigator implements Mission {
 	}
 	
 	public boolean turnRobotTask(int start_tacho) {
-		if (robot.getMotorLeft().getTachoCount() < start_tacho - 10000) {
+		if (robot.getMotorRight().getTachoCount() > start_tacho + 300) {
 			return true;
 		}
 		return false;
