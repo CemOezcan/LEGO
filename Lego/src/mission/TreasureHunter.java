@@ -35,7 +35,6 @@ public class TreasureHunter implements Mission {
 	
 	@Override
 	public boolean executeMission() {
-		
 		this.robot.beep();
 		this.leftSide = true;
 		this.foundWhite = false;
