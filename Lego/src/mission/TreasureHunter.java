@@ -38,7 +38,6 @@ public class TreasureHunter implements Mission {
 	
 	@Override
 	public boolean executeMission() {
-		
 		this.robot.beep();
 		boolean isTouched;
 		this.robot.forward();

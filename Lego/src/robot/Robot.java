@@ -23,6 +23,7 @@ public class Robot {
 	private final Port MOTOR_LEFT = MotorPort.D;
 	private final Port MOTOR_RIGHT = MotorPort.C;
 	private final Port MOTOR_ULTRA_SONIC = MotorPort.B;
+	private final Port MOTOR_FIRE = MotorPort.A;
 
 	private final Port SENSOR_COLOR = SensorPort.S2;
 	private final Port SENSOR_ULTRA_SONIC = SensorPort.S3;
@@ -37,6 +38,7 @@ public class Robot {
 	private RegulatedMotor motorRight = new EV3LargeRegulatedMotor(MOTOR_RIGHT);
 	private RegulatedMotor motorLeft = new EV3LargeRegulatedMotor(MOTOR_LEFT);
 	private RegulatedMotor motorUltraSonic = new EV3MediumRegulatedMotor(MOTOR_ULTRA_SONIC);
+	private RegulatedMotor motorFire = new EV3MediumRegulatedMotor(MOTOR_FIRE);
 
 	private boolean motorUltraSonicIsUp = true;
 
@@ -258,6 +260,11 @@ public class Robot {
 	 */
 	public void beepSequence() {
 		Sound.beepSequence();
+	}
+	
+	public void fire() {
+		this.motorFire.rotate(-300);
+		this.motorFire.rotate(300);
 	}
 
 }
