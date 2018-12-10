@@ -17,7 +17,7 @@ public class TreasureHunter implements Mission {
 	private final float BLUE = 2;
 	private final float SPEED = 500;
 	private final float KP = 1500;
-	private final float OPTIMAL_VALUE = 0.11f;
+	private final float OPTIMAL_VALUE = 0.12f;
 	
 	private boolean foundWhite;
 	private boolean foundRed;
