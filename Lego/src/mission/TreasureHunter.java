@@ -62,6 +62,7 @@ public class TreasureHunter implements Mission {
 		}
 		
 		this.robot.pilotStop();
+		this.robot.fire();
 		return true;
 	}
 	
@@ -100,7 +101,7 @@ public class TreasureHunter implements Mission {
 		while (!this.foundWhite) {
 			isTouched = (this.robot.getPressureSensorLeft().isTouched() || this.robot.getPressureSensorRight().isTouched());
 			if (isTouched) {
-				this.robot.pilotTravel(-3);
+				this.robot.pilotTravel(-4);
 				this.robot.RotateRight(550);
 			}
 			
