@@ -64,6 +64,7 @@ public class TreasureHunter implements Mission {
 		}
 		
 		this.robot.pilotStop();
+		this.robot.fire();
 		return true;
 	}
 	
