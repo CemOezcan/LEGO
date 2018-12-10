@@ -121,7 +121,7 @@ public class RouteNavigator implements Mission {
 	}
 	
 	public boolean turnRobotTask(int start_tacho) {
-		if (robot.getMotorRight().getTachoCount() > start_tacho + 300) {
+		if (robot.getMotorRight().getTachoCount() < start_tacho + 300) {
 			return true;
 		}
 		return false;
