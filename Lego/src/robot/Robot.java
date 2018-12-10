@@ -38,7 +38,7 @@ public class Robot {
 	private RegulatedMotor motorRight = new EV3LargeRegulatedMotor(MOTOR_RIGHT);
 	private RegulatedMotor motorLeft = new EV3LargeRegulatedMotor(MOTOR_LEFT);
 	private RegulatedMotor motorUltraSonic = new EV3MediumRegulatedMotor(MOTOR_ULTRA_SONIC);
-	private RegulatedMotor motorFire = new EV3LargeRegulatedMotor(MOTOR_FIRE);
+	private RegulatedMotor motorFire = new EV3MediumRegulatedMotor(MOTOR_FIRE);
 
 	private boolean motorUltraSonicIsUp = true;
 
@@ -263,7 +263,8 @@ public class Robot {
 	}
 	
 	public void fire() {
-		this.motorFire.rotate(-20);
+		this.motorFire.rotate(-300);
+		this.motorFire.rotate(300);
 	}
 
 }
