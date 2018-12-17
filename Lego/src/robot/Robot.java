@@ -23,7 +23,6 @@ public class Robot {
 	private final Port MOTOR_LEFT = MotorPort.D;
 	private final Port MOTOR_RIGHT = MotorPort.C;
 	private final Port MOTOR_ULTRA_SONIC = MotorPort.B;
-	private final Port MOTOR_FIRE = MotorPort.A;
 
 	private final Port SENSOR_COLOR = SensorPort.S2;
 	private final Port SENSOR_ULTRA_SONIC = SensorPort.S3;
@@ -35,10 +34,9 @@ public class Robot {
 	private TouchSensor touchSensorLeft;
 	private TouchSensor touchSensorRight;
 
-	private RegulatedMotor motorRight = new EV3LargeRegulatedMotor(MOTOR_RIGHT);
-	private RegulatedMotor motorLeft = new EV3LargeRegulatedMotor(MOTOR_LEFT);
-	private RegulatedMotor motorUltraSonic = new EV3MediumRegulatedMotor(MOTOR_ULTRA_SONIC);
-	private RegulatedMotor motorFire = new EV3MediumRegulatedMotor(MOTOR_FIRE);
+	private EV3LargeRegulatedMotor motorRight = new EV3LargeRegulatedMotor(MOTOR_RIGHT);
+	private EV3LargeRegulatedMotor motorLeft = new EV3LargeRegulatedMotor(MOTOR_LEFT);
+	private EV3MediumRegulatedMotor motorUltraSonic = new EV3MediumRegulatedMotor(MOTOR_ULTRA_SONIC);
 
 	private boolean motorUltraSonicIsUp = true;
 
@@ -168,8 +166,8 @@ public class Robot {
 	 * stops the robot
 	 */
 	public void motorsStop() {
-		this.motorLeft.stop();
-		this.motorRight.stop();
+		this.motorLeft.stop(true);
+		this.motorRight.stop(true);
 	}
 
 	/**
@@ -262,9 +260,12 @@ public class Robot {
 		Sound.beepSequence();
 	}
 	
-	public void fire() {
-		this.motorFire.rotate(-300);
-		this.motorFire.rotate(300);
+	public RegulatedMotor getMotorLeft() {
+		return this.motorLeft;
+	}
+	
+	public RegulatedMotor getMotorRight() {
+		return this.motorRight;
 	}
 
 }
