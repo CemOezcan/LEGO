@@ -166,8 +166,8 @@ public class Robot {
 	 * stops the robot
 	 */
 	public void motorsStop() {
-		this.motorLeft.stop();
-		this.motorRight.stop();
+		this.motorLeft.stop(true);
+		this.motorRight.stop(true);
 	}
 
 	/**
