@@ -259,4 +259,32 @@ public class RouteNavigator implements Mission {
 			actualBlueValue = this.robot.getColorSensor().getColor()[0];
 		}
 	}
+
+	private boolean findLeft() {
+		this.robot.getMotorRight().forward();
+		
+		for (int i = 0; i < 1000; i++ ) {
+			if (this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET) {
+				this.robot.motorsStop();
+				this.robot.pilotStop();
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean findRight() {
+		this.robot.getMotorLeft().forward();
+		
+		for (int i = 0; i < 1000; i++ ) {
+			if (this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET) {
+				this.robot.motorsStop();
+				this.robot.pilotStop();
+				return true;
+			}
+		}
+		return false;
+	}
+
+
 }
