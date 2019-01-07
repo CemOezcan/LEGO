@@ -130,7 +130,7 @@ public class BoxShifter implements Mission {
 
 		// Suche zweite weiﬂe Linie
 		this.robot.pilotTravel(4);
-		this.robot.RotateLeft(575);
+		this.robot.RotateLeft(555);
 
 		this.robot.forward();
 
