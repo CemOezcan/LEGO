@@ -162,7 +162,7 @@ public class RouteNavigator implements Mission {
 		float actualSonicValue = 0.0f;
 		float actualBlueValue = 0.0f; // Blue
 
-		float kpSonic = 2200;
+		float kpSonic = 4000;
 
 		this.robot.drawString("next mission", 0, 0);
 
@@ -186,7 +186,7 @@ public class RouteNavigator implements Mission {
 		while (!(actualBlueValue == 1 || actualBlueValue == 2)) {
 
 			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
-			this.robot.drawString("Abstand: " + actualSonicValue, 0, 10);
+			this.robot.drawString("Abstand: " + actualSonicValue, 0, 1);
 			this.robot.drawString("ColorValue: " + actualBlueValue, 0, 0);
 			regulator.sonicRegulate(actualSonicValue);
 
