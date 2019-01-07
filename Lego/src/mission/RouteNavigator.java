@@ -23,12 +23,15 @@ public class RouteNavigator implements Mission {
 	private final float OFFSET = 0.01f;
 	private final float OPTIMALVALUE = (WHITE + BLACK) / 2;
 
-	private final float tempo = 250f; //150
+	private final float tempo = 250f; // 150
 
 	/*
 	 * the constant for the p-controller 1200
 	 */
 	private final float kp = 1900;
+
+	private boolean afterBox = false;
+	private boolean nextMission = false;
 
 	/*
 	 * constructs a new route navigator
@@ -45,9 +48,7 @@ public class RouteNavigator implements Mission {
 		RegulatorP regulator = new RegulatorP(this.robot, this.tempo, this.kp, this.OPTIMALVALUE);
 
 		boolean end = false;
-		boolean afterBox = false;
 		boolean findLine = false;
-		int cnt = 0;
 		robot.adjustMotorspeed(tempo, tempo);
 
 		while (Button.LEFT.isUp() && !end) {
@@ -64,20 +65,13 @@ public class RouteNavigator implements Mission {
 				afterBox = true;
 
 			} else if (actualColorValue < BLACK + 0.005f) { // find line
-				//robot.pilotStop();
-				//robot.motorsStop();
-				if (!afterBox || cnt < 2) {
-					findLine();
-					findLine = true;
-					if (afterBox) {
-						cnt++;
-					}
-					robot.beep();
-				} else {
-					this.robot.drawString("drive to next mission", 0, 0);
-					driveToNextMission();
+				findLine();
+				findLine = true;
+				if (this.nextMission) {
 					end = true;
+					break;
 				}
+
 			} else { // normal case calculate the new speeds for both motors
 				if (findLine) {
 					regulator.setKpValue(900);
@@ -91,9 +85,10 @@ public class RouteNavigator implements Mission {
 			// after f.e findGab switch to rgb mode to find the end of the line
 			// with the blue strip
 		}
+		this.driveToNextMission();
 		robot.pilotStop();
 		return end;
-		
+
 	}
 
 	/**
@@ -101,7 +96,7 @@ public class RouteNavigator implements Mission {
 	 */
 	public void driveAroundObstacle() {
 
-		float OPTIMALVALUE = 0.06f; //0.1
+		float OPTIMALVALUE = 0.06f; // 0.1
 		float actualSonicValue = 0.0f;
 		float actualColorValue = 0.0f;
 
@@ -128,7 +123,7 @@ public class RouteNavigator implements Mission {
 			actualSonicValue = this.robot.getUltraSonicSensor().getDistance();
 
 			this.robot.drawString("Abstand: " + actualSonicValue, 0, 0);
-			
+
 			regulator.sonicRegulate(actualSonicValue);
 
 			actualColorValue = this.robot.getColorSensor().getColor()[0];
@@ -153,20 +148,24 @@ public class RouteNavigator implements Mission {
 			this.robot.motorsStop();
 			this.rotateLeft();
 			this.robot.motorsStop();
+			if (afterBox) {
+				this.nextMission = true;  
+				break;
+			}
 			this.robot.pilotTravel(8);
 		}
 		this.robot.motorsStop();
 	}
-	
+
 	public void driveToNextMission() {
 		float OPTIMALVALUE = 0.04f;
 		float actualSonicValue = 0.0f;
-		float actualBlueValue = 0.0f; //Blue
+		float actualBlueValue = 0.0f; // Blue
 
 		float kpSonic = 2200;
 
 		this.robot.drawString("next mission", 0, 0);
-		
+
 		// enter()
 		this.robot.motorsStop();
 		this.robot.pilotStop();
@@ -174,12 +173,13 @@ public class RouteNavigator implements Mission {
 		this.robot.beepSequence();
 		this.robot.beep();
 		this.robot.adjustMotorspeed(300, 300);
-		
+
 		RegulatorP regulator = new RegulatorP(this.robot, 300f, kpSonic, OPTIMALVALUE);
 
 		this.robot.getColorSensor().setColorIDMode();
 		// Regulator start
 		this.robot.RotateLeft(110);
+		this.robot.pilotTravel(5);
 		this.robot.forward();
 		actualBlueValue = this.robot.getColorSensor().getColor()[0];
 
@@ -196,7 +196,7 @@ public class RouteNavigator implements Mission {
 
 	private boolean findRight() {
 		this.robot.adjustMotorspeed(400, -133);
-		for (int i = 0; i < 1000; i++ ) {
+		for (int i = 0; i < 1000; i++) {
 			if (this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET) {
 				this.robot.motorsStop();
 				return true;
@@ -205,17 +205,16 @@ public class RouteNavigator implements Mission {
 		}
 		return false;
 	}
-	
+
 	private void rotateLeft() {
 		this.robot.adjustMotorspeed(-133, 400);
-		for (int i = 0; i < 1000; i++ ) {
+		for (int i = 0; i < 1000; i++) {
 			if (this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET) {
-				
+
 			}
 			Delay.msDelay(1);
 		}
 		Delay.msDelay(350);
 	}
-
 
 }
