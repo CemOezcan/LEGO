@@ -113,7 +113,7 @@ public class BoxShifter implements Mission {
 		}
 
 		// roboter länge weiterfahren
-		this.robot.pilotTravel(8);
+		this.robot.pilotTravel(7.5);
 	}
 
 	private void findBlueLine() {
