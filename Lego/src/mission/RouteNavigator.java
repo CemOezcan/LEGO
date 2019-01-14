@@ -21,17 +21,26 @@ public class RouteNavigator implements Mission {
 	private final float BLACK = 0.08f;
 	private final float WHITE = 0.48f;
 	private final float OFFSET = 0.01f;
-	private final float OPTIMALVALUE = (WHITE + BLACK) / 2;
+	private final float OPTIMALVALUE = (WHITE + BLACK) / 2;/*
+	private int state = 0;
+	private int ctr = 0;
+	private boolean next = false;
+	private final boolean[] findRight = {true, true, false, true, true};
+	private final float[] speed = {350, 250, 350, 250, 350};
+	private final float[] kpValue = {2100, 1950, 2100, 1950, 2100};*/
+	
+	private int state = 0;
 
-	private final float tempo = 250f; // 150
+	private float tempo = 350f; // 250
 
 	/*
 	 * the constant for the p-controller 1200
 	 */
-	private final float kp = 1900;
+	private float kp = 2100; //1950
 
 	private boolean afterBox = false;
 	private boolean nextMission = false;
+	private boolean complete = false;
 
 	/*
 	 * constructs a new route navigator
@@ -52,9 +61,9 @@ public class RouteNavigator implements Mission {
 		robot.adjustMotorspeed(tempo, tempo);
 
 		while (Button.LEFT.isUp() && !end) {
+			this.robot.clearLCD();
+			this.robot.drawString("" + this.state, 0, 0);
 			float actualColorValue = robot.getColorSensor().getColor()[0];
-
-			this.robot.drawString(" color: " + actualColorValue, 0, 0);
 
 			// the touchsensors are touched and the robot has to drive around
 			// the obstacle
@@ -95,6 +104,8 @@ public class RouteNavigator implements Mission {
 	 * the robot drives around the obstacle
 	 */
 	public void driveAroundObstacle() {
+		this.tempo = 250f;
+		this.kp = 1950;
 
 		float OPTIMALVALUE = 0.06f; // 0.1
 		float actualSonicValue = 0.0f;
@@ -132,27 +143,35 @@ public class RouteNavigator implements Mission {
 
 		// end
 		this.robot.drawString("Ende", 0, 0);
+		this.tempo = 350;
+		this.kp = 2100;
 	}
 
 	/*
 	 * the robot searches for the line
 	 */
 	public void findLine() {
-		this.robot.clearLCD();
-		this.robot.drawString("Find Line", 0, 0);
-
 		while (true) {
 			if (this.findRight()) {
+				if (this.state == 2) {
+					this.setSpeedSlow();
+				}
 				break;
 			}
-			this.robot.motorsStop();
 			this.rotateLeft();
-			this.robot.motorsStop();
+			if (this.findLeft()) {
+				break;
+			}
+			this.rotateRight();
 			if (afterBox) {
 				this.nextMission = true;  
 				break;
 			}
+			this.state ++;
+			this.robot.clearLCD();
+			this.robot.drawString("" + state, 0, 0);
 			this.robot.pilotTravel(8);
+			
 		}
 		this.robot.motorsStop();
 	}
@@ -196,19 +215,33 @@ public class RouteNavigator implements Mission {
 
 	private boolean findRight() {
 		this.robot.adjustMotorspeed(400, -133);
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 1100; i++) {
+			Delay.msDelay(1);
 			if (this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET) {
 				this.robot.motorsStop();
 				return true;
 			}
-			Delay.msDelay(1);
 		}
 		return false;
 	}
+	 
+	
+	private boolean findLeft() {
+		this.robot.adjustMotorspeed(-133, 400);
+		for (int i = 0; i < 1000; i++) {
+			Delay.msDelay(1);
+			if (this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET) {
+				this.robot.motorsStop();
+				return true;
+			}
+		}
+		return false;
+	}
+	
 
 	private void rotateLeft() {
 		this.robot.adjustMotorspeed(-133, 400);
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 1100; i++) {
 			if (this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET) {
 
 			}
@@ -216,5 +249,27 @@ public class RouteNavigator implements Mission {
 		}
 		Delay.msDelay(350);
 	}
+	
+	
+	private void rotateRight() {
+		this.robot.adjustMotorspeed(400, -133);
+		for (int i = 0; i < 750; i++) {
+			if (this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET) {
 
+			}
+			Delay.msDelay(1);
+		}
+		Delay.msDelay(260);
+	}
+	
+	private void setSpeedFast() {
+		this.tempo = 350f;
+		this.tempo = 2100f;
+	}
+	
+	private void setSpeedSlow() {
+		this.tempo = 250f;
+		this.tempo = 1950f;
+	}
+	
 }

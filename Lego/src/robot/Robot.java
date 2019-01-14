@@ -268,4 +268,11 @@ public class Robot {
 		return this.motorRight;
 	}
 
+	private boolean almostEqual(int value1, int value2) {
+		if ((value1 + 30 >= value2) && (value2 + 30 >= value1)) {
+			return true;
+		}
+		return false;
+	}
+	
 }
