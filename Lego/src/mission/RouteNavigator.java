@@ -22,15 +22,19 @@ public class RouteNavigator implements Mission {
 	private final float WHITE = 0.48f;
 	private final float OFFSET = 0.01f;
 	private final float OPTIMALVALUE = (WHITE + BLACK) / 2;
-	private int state = 0;
-	private int ctr = 0;
+	//private int state = 0;
+	//private int ctr = 0;
+	//private boolean next = true;
+	//private final boolean[] findRight = {true, true, false, true, true};
+	//private final float[] speed = {350, 250, 350, 250, 350};
+	//private final float[] kpValue = {2200, 1950, 2200, 1950, 2200};
 
-	private final float tempo = 350f; // 250
+	private float tempo = 250f; // 250
 
 	/*
 	 * the constant for the p-controller 1200
 	 */
-	private final float kp = 2100; //1950
+	private float kp = 1950; //1950
 
 	private boolean afterBox = false;
 	private boolean nextMission = false;
@@ -52,7 +56,7 @@ public class RouteNavigator implements Mission {
 
 		boolean end = false;
 		boolean findLine = false;
-		robot.adjustMotorspeedFast(tempo, tempo);
+		robot.adjustMotorspeed(tempo, tempo);
 
 		while (Button.LEFT.isUp() && !end) {
 			float actualColorValue = robot.getColorSensor().getColor()[0];
@@ -143,7 +147,6 @@ public class RouteNavigator implements Mission {
 	public void findLine() {
 		this.robot.clearLCD();
 		this.robot.drawString("Find Line", 0, 0);
-
 		while (true) {
 			if (this.findRight()) {
 				break;
@@ -158,9 +161,11 @@ public class RouteNavigator implements Mission {
 				this.nextMission = true;  
 				break;
 			}
-			this.robot.pilotTravel(9);
+			this.robot.pilotTravel(8);
 		}
 		this.robot.motorsStop();
+
+		
 	}
 
 	public void driveToNextMission() {
@@ -247,4 +252,5 @@ public class RouteNavigator implements Mission {
 		Delay.msDelay(260);
 	}
 
+	
 }

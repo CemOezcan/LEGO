@@ -25,7 +25,7 @@ public class RegulatorP {
 		leftMotorSpeed = TEMPO - y;
 		rightMotorSpeed = TEMPO + y;
 
-		this.robot.adjustMotorspeedFast(leftMotorSpeed, rightMotorSpeed);
+		this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
 	}
 	
 	public void sonicRegulate(float actualValue) {
@@ -46,7 +46,7 @@ public class RegulatorP {
 		leftMotorSpeed = TEMPO - y;
 		rightMotorSpeed = TEMPO + y;
 
-		this.robot.adjustMotorspeedFast(leftMotorSpeed, rightMotorSpeed);
+		this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
 	}
 	
 	public void bridgeRegulate(float actualValue) {
@@ -56,7 +56,7 @@ public class RegulatorP {
 		leftMotorSpeed = TEMPO + y;
 		rightMotorSpeed = TEMPO - y;
 
-		this.robot.adjustMotorspeedFast(leftMotorSpeed, rightMotorSpeed);
+		this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
 	}
 	
 	public void setKpValue(float kp) {

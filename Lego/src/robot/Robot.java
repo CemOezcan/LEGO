@@ -209,43 +209,6 @@ public class Robot {
 		this.motorLeft.endSynchronization();
 		this.motorRight.endSynchronization();
 	}
-	
-	public void adjustMotorspeedFast(float leftMotorSpeed, float rightMotorSpeed) {
-		int speedLeft = Math.abs(Math.round(leftMotorSpeed));
-		int speedRight = Math.abs(Math.round(rightMotorSpeed));
-
-		this.motorLeft.startSynchronization();
-		this.motorRight.startSynchronization();
-		this.clearLCD();
-		this.drawString(speedLeft + " " + speedRight, 0, 0);
-
-		if (rightMotorSpeed < 0) {
-			this.motorRight.setSpeed(3 * speedRight);
-			this.motorLeft.setSpeed(speedLeft);
-			this.motorRight.forward();
-			this.motorLeft.backward();
-		} else if (leftMotorSpeed < 0) {
-			this.motorRight.setSpeed(speedRight);
-			this.motorLeft.setSpeed(3 * speedLeft);
-			this.motorRight.backward();
-			this.motorLeft.forward();
-		} else if (this.almostEqual(speedLeft, speedRight)) {
-			this.motorLeft.setSpeed(2 * speedLeft);
-			this.motorRight.setSpeed(2 * speedRight);
-
-			this.motorRight.backward();
-			this.motorLeft.backward();
-		} else {
-			this.motorLeft.setSpeed(speedLeft);
-			this.motorRight.setSpeed(speedRight);
-
-			this.motorRight.backward();
-			this.motorLeft.backward();
-		}
-
-		this.motorLeft.endSynchronization();
-		this.motorRight.endSynchronization();
-	}
 
 	/**
 	 * Turns ultrasonic sensor to the left. Useful to navigate around obstacles.
