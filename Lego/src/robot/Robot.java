@@ -195,7 +195,6 @@ public class Robot {
 			this.motorLeft.setSpeed(3 * speedLeft);
 			this.motorRight.backward();
 			this.motorLeft.forward();
-			this.motorLeft.backward();
 		} else {
 			this.motorLeft.setSpeed(speedLeft);
 			this.motorRight.setSpeed(speedRight);

@@ -21,20 +21,20 @@ public class RouteNavigator implements Mission {
 	private final float BLACK = 0.08f;
 	private final float WHITE = 0.48f;
 	private final float OFFSET = 0.01f;
-	private final float OPTIMALVALUE = (WHITE + BLACK) / 2;
-	//private int state = 0;
-	//private int ctr = 0;
-	//private boolean next = true;
-	//private final boolean[] findRight = {true, true, false, true, true};
-	//private final float[] speed = {350, 250, 350, 250, 350};
-	//private final float[] kpValue = {2200, 1950, 2200, 1950, 2200};
+	private final float OPTIMALVALUE = (WHITE + BLACK) / 2;/*
+	private int state = 0;
+	private int ctr = 0;
+	private boolean next = false;
+	private final boolean[] findRight = {true, true, false, true, true};
+	private final float[] speed = {350, 250, 350, 250, 350};
+	private final float[] kpValue = {2100, 1950, 2100, 1950, 2100};*/
 
-	private float tempo = 250f; // 250
+	private float tempo = 350f; // 250
 
 	/*
 	 * the constant for the p-controller 1200
 	 */
-	private float kp = 1950; //1950
+	private float kp = 2100; //1950
 
 	private boolean afterBox = false;
 	private boolean nextMission = false;
@@ -100,6 +100,8 @@ public class RouteNavigator implements Mission {
 	 * the robot drives around the obstacle
 	 */
 	public void driveAroundObstacle() {
+		this.tempo = 250f;
+		this.kp = 1900;
 
 		float OPTIMALVALUE = 0.06f; // 0.1
 		float actualSonicValue = 0.0f;
@@ -137,33 +139,23 @@ public class RouteNavigator implements Mission {
 
 		// end
 		this.robot.drawString("Ende", 0, 0);
+		this.tempo = 350;
+		this.kp = 2100;
 	}
 
 	/*
 	 * the robot searches for the line
 	 */
 	public void findLine() {
-		this.robot.clearLCD();
-		
 		while (true) {
-			this.robot.clearLCD();
-			this.robot.drawString("Find Right", 0, 0);
 			if (this.findRight()) {
 				break;
 			}
-			
-			this.robot.clearLCD();
-			this.robot.drawString("RotateLeft", 0, 0);
 			this.rotateLeft();
-			this.robot.clearLCD();
-			this.robot.drawString("FindLeft", 0, 0);
 			if (this.findLeft()) {
 				break;
 			}
-			this.robot.clearLCD();
-			this.robot.drawString("RotateRight", 0, 0);
 			this.rotateRight();
-			
 			if (afterBox) {
 				this.nextMission = true;  
 				break;
@@ -218,22 +210,23 @@ public class RouteNavigator implements Mission {
 				this.robot.motorsStop();
 				return true;
 			}
-			
 		}
 		return false;
 	}
+	 
 	
 	private boolean findLeft() {
 		this.robot.adjustMotorspeed(-133, 400);
 		for (int i = 0; i < 1000; i++) {
+			Delay.msDelay(1);
 			if (this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET) {
 				this.robot.motorsStop();
 				return true;
 			}
-			Delay.msDelay(1);
 		}
 		return false;
 	}
+	
 
 	private void rotateLeft() {
 		this.robot.adjustMotorspeed(-133, 400);
@@ -246,6 +239,7 @@ public class RouteNavigator implements Mission {
 		Delay.msDelay(350);
 	}
 	
+	
 	private void rotateRight() {
 		this.robot.adjustMotorspeed(400, -133);
 		for (int i = 0; i < 750; i++) {
@@ -256,6 +250,5 @@ public class RouteNavigator implements Mission {
 		}
 		Delay.msDelay(260);
 	}
-
 	
 }
