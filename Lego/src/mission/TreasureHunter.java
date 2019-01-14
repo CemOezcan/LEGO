@@ -53,7 +53,7 @@ public class TreasureHunter implements Mission {
 
 		this.robot.pilotTravel(4);
 		this.robot.forward();
-		// colorTest();
+//		colorTest();
 
 		while (!(this.foundRed && this.foundWhite)) {
 			if (!Button.LEFT.isUp()) {
@@ -166,9 +166,9 @@ public class TreasureHunter implements Mission {
 	}
 
 	private boolean isWhite(float[] color) {
-		if ((color[0] < white[0] + rgbOffset && color[0] > white[0] - rgbOffset)
-				&& (color[1] < white[1] + rgbOffset && color[1] > white[1] - rgbOffset)
-				&& (color[2] < white[2] + rgbOffset && color[2] > white[2] - rgbOffset)) {
+		if ((color[0] < white[0] + rgbOffset)
+				&& (color[1] < white[1] + rgbOffset)
+				&& (color[2] > white[2] - rgbOffset)) {
 			return true;
 		} else {
 			return false;
