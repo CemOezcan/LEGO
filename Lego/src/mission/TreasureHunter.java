@@ -1,9 +1,6 @@
 package mission;
 
 import lejos.hardware.Button;
-import lejos.hardware.Sound;
-import lejos.hardware.lcd.LCD;
-import lejos.utility.Delay;
 import robot.RegulatorP;
 import robot.Robot;
 import sensor.ColorSensor;
@@ -15,19 +12,26 @@ public class TreasureHunter implements Mission {
 	private final float RED = 0;
 	private final float WHITE = 6;
 	private final float BLUE = 2;
-	private final float SPEED = 300;
+	private final float SPEED = 7;
 	private final float KP = 1500;
 	private final float OPTIMAL_VALUE = 0.13f;
+	
+	//Regulator
+	
 
 	// RGB
 	float[] red = new float[] { 0.095f, 0.25f, 0.013f };
 	float[] blue = new float[] { 0.016f, 0.06f, 0.05f };
 	float[] white = new float[] { 0.1f, 0.2f, 0.09f };
-	float rgbOffset = 0.03f;
+	float rgbOffset = 0.02f;
 
 	private boolean foundWhite;
 	private boolean foundRed;
+	private boolean foundBlue;
 	private boolean leftSide;
+	private boolean isTouched;
+	
+	private RegulatorP regulator;
 
 	private ColorSensor colorSensor;
 
@@ -46,14 +50,15 @@ public class TreasureHunter implements Mission {
 		this.leftSide = true;
 		this.foundWhite = false;
 		this.foundRed = false;
-		boolean isTouched = false;
+		this.foundBlue = false;
+		this.isTouched = false;
 
 		this.robot.setTravelSpeed(SPEED);
 		robot.getColorSensor().setRGBMode();
 
 		this.robot.pilotTravel(4);
 		this.robot.forward();
-//		colorTest();
+		// colorTest();
 
 		while (!(this.foundRed && this.foundWhite)) {
 			if (!Button.LEFT.isUp()) {
@@ -64,10 +69,11 @@ public class TreasureHunter implements Mission {
 			robot.drawString("White: " + this.foundWhite, 0, 0);
 			robot.drawString("Red: " + this.foundRed, 0, 1);
 
-			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched()
-					|| (isBlue(this.colorSensor.getColor())));
+			isTouched = (robot.getPressureSensorLeft().isTouched() || robot.getPressureSensorRight().isTouched()); // ||
+																													// (isBlue(this.colorSensor.getColor())
 			this.scan();
-			if (isTouched && !(this.foundWhite && this.foundRed)) {
+
+			if (isTouched) {
 				robot.pilotStop();
 				if (this.leftSide) {
 					this.turnLeft();
@@ -77,18 +83,44 @@ public class TreasureHunter implements Mission {
 					this.leftSide = true;
 				}
 			}
+			if (this.foundWhite && this.foundRed) {
+				robot.pilotStop();
+				robot.drawString("FERTIG!" + this.foundWhite, 0, 2);
+			}
 		}
 		this.robot.pilotStop();
 		return true;
 	}
 
 	private void scan() {
-		if (isWhite(this.colorSensor.getColor())) {
+		float[] colorValue = this.colorSensor.getColor();
+		
+		if (isWhite(colorValue)) {
 			this.foundWhite = true;
 			this.robot.beepSequence();
-		} else if (isRed(this.colorSensor.getColor()) && (!this.foundRed)) {
+		}else if (isRed(colorValue) && (!this.foundRed)) {
 			this.robot.beepSequence();
 			this.foundRed = true;
+		}else if (isBlue(colorValue) && !foundBlue) {
+			foundBlue = true;
+			this.robot.drawString("blue = " + foundBlue, 0, 4);
+			this.robot.pilotTravel(-4);
+			for (int i = 0; i < 2; i++) {
+				this.robot.RotateRight(275);
+				this.scan();
+			}
+			this.robot.pilotTravel(3);
+			this.scan();
+			for (int i = 0; i < 2; i++) {
+				this.robot.RotateRight(275);
+				this.scan();
+			}
+			this.robot.forward();
+			this.leftSide = true;
+		}
+		if (this.foundRed && this.foundWhite) {
+			robot.pilotStop();
+			robot.drawString("FERTIG!" + this.foundWhite, 0, 2);
 		}
 	}
 
@@ -132,12 +164,14 @@ public class TreasureHunter implements Mission {
 			this.robot.RotateRight(275);
 			this.scan();
 		}
-		this.robot.pilotTravel(2.5);
+		this.robot.pilotTravel(3);
 		this.scan();
 		for (int i = 0; i < 2; i++) {
 			this.robot.RotateRight(275);
 			this.scan();
 		}
+
+		this.robot.pilotTravel(-5);
 		this.robot.forward();
 	}
 
@@ -148,12 +182,14 @@ public class TreasureHunter implements Mission {
 			this.scan();
 		}
 
-		this.robot.pilotTravel(2); // 2.5
+		this.robot.pilotTravel(3); // 2.5
 		this.scan();
 		for (int i = 0; i < 2; i++) {
 			this.robot.RotateLeft(275);
 			this.scan();
 		}
+
+		this.robot.pilotTravel(-5);
 		this.robot.forward();
 	}
 
@@ -166,8 +202,7 @@ public class TreasureHunter implements Mission {
 	}
 
 	private boolean isWhite(float[] color) {
-		if ((color[0] < white[0] + rgbOffset)
-				&& (color[1] < white[1] + rgbOffset)
+		if ((color[0] < white[0] + rgbOffset) && (color[1] < white[1] + rgbOffset)
 				&& (color[2] > white[2] - rgbOffset)) {
 			return true;
 		} else {
@@ -200,4 +235,13 @@ public class TreasureHunter implements Mission {
 		}
 	}
 
+	//Berechnet einen Mittelwert von 50 Messungen
+	private float getDistance() {
+		float distance = 0f;
+		int times = 0;
+		for (times = 0; times < 20; times++) {
+			distance += robot.getUltraSonicSensor().getDistance();
+		}
+		return (distance/times);
+	}
 }
