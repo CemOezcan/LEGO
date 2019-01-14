@@ -19,8 +19,9 @@ public class RegulatorP {
 	}
 
 	public void regulate(float actualValue) {
-
+		
 		float y = KP * (actualValue - OPTIMALVALUE);
+		
 
 		leftMotorSpeed = TEMPO - y;
 		rightMotorSpeed = TEMPO + y;

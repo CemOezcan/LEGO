@@ -184,8 +184,6 @@ public class Robot {
 
 		this.motorLeft.startSynchronization();
 		this.motorRight.startSynchronization();
-		this.clearLCD();
-		this.drawString(speedLeft + " " + speedRight, 0, 0);
 
 		if (rightMotorSpeed < 0) {
 			this.motorRight.setSpeed(3 * speedRight);

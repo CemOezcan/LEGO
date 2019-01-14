@@ -61,8 +61,6 @@ public class RouteNavigator implements Mission {
 		while (Button.LEFT.isUp() && !end) {
 			float actualColorValue = robot.getColorSensor().getColor()[0];
 
-			this.robot.drawString(" color: " + actualColorValue, 0, 0);
-
 			// the touchsensors are touched and the robot has to drive around
 			// the obstacle
 			if (this.robot.getPressureSensorLeft().isTouched() || this.robot.getPressureSensorRight().isTouched()) {
@@ -146,15 +144,24 @@ public class RouteNavigator implements Mission {
 	 */
 	public void findLine() {
 		this.robot.clearLCD();
-		this.robot.drawString("Find Line", 0, 0);
+		
 		while (true) {
+			this.robot.clearLCD();
+			this.robot.drawString("Find Right", 0, 0);
 			if (this.findRight()) {
 				break;
 			}
+			
+			this.robot.clearLCD();
+			this.robot.drawString("RotateLeft", 0, 0);
 			this.rotateLeft();
+			this.robot.clearLCD();
+			this.robot.drawString("FindLeft", 0, 0);
 			if (this.findLeft()) {
 				break;
 			}
+			this.robot.clearLCD();
+			this.robot.drawString("RotateRight", 0, 0);
 			this.rotateRight();
 			
 			if (afterBox) {
@@ -164,8 +171,6 @@ public class RouteNavigator implements Mission {
 			this.robot.pilotTravel(8);
 		}
 		this.robot.motorsStop();
-
-		
 	}
 
 	public void driveToNextMission() {
