@@ -22,6 +22,8 @@ public class RouteNavigator implements Mission {
 	private final float WHITE = 0.48f;
 	private final float OFFSET = 0.01f;
 	private final float OPTIMALVALUE = (WHITE + BLACK) / 2;
+	private int state = 0;
+	private int ctr = 0;
 
 	private final float tempo = 350f; // 250
 
