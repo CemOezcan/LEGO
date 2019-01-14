@@ -19,12 +19,16 @@ public class RegulatorP {
 	}
 
 	public void regulate(float actualValue) {
-		
 		float y = KP * (actualValue - OPTIMALVALUE);
 		
-
-		leftMotorSpeed = TEMPO - y;
-		rightMotorSpeed = TEMPO + y;
+		if (Math.abs(actualValue - OPTIMALVALUE) <= 0.05f) {
+			leftMotorSpeed = TEMPO + 100 - y;
+			rightMotorSpeed = TEMPO + 100 + y;
+		} else {
+			leftMotorSpeed = TEMPO - y;
+			rightMotorSpeed = TEMPO + y;
+		}
+		
 
 		this.robot.adjustMotorspeed(leftMotorSpeed, rightMotorSpeed);
 	}

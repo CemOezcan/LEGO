@@ -204,7 +204,7 @@ public class RouteNavigator implements Mission {
 
 	private boolean findRight() {
 		this.robot.adjustMotorspeed(400, -133);
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 1100; i++) {
 			Delay.msDelay(1);
 			if (this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET) {
 				this.robot.motorsStop();
@@ -230,7 +230,7 @@ public class RouteNavigator implements Mission {
 
 	private void rotateLeft() {
 		this.robot.adjustMotorspeed(-133, 400);
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 1100; i++) {
 			if (this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET) {
 
 			}
