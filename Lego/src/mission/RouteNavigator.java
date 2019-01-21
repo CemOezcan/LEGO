@@ -40,6 +40,7 @@ public class RouteNavigator implements Mission {
 	private boolean afterBox = false;
 	private boolean nextMission = false;
 	private boolean complete = false;
+	private boolean secondGap = false;
 
 	/*
 	 * constructs a new route navigator
@@ -154,7 +155,6 @@ public class RouteNavigator implements Mission {
 			}
 			this.rotateLeft();
 			if (this.findLeft()) {
-				
 				break;
 			}
 			this.rotateRight();
@@ -162,7 +162,12 @@ public class RouteNavigator implements Mission {
 				this.nextMission = true;  
 				break;
 			}
-			this.robot.pilotTravel(8.5);
+			if (this.secondGap) {
+				this.robot.pilotTravel(6.5);
+			} else {
+				this.robot.pilotTravel(8);
+				this.secondGap = true;
+			}
 			
 		}
 		this.robot.motorsStop();
@@ -210,7 +215,7 @@ public class RouteNavigator implements Mission {
 		for (int i = 0; i < 1100; i++) {
 			Delay.msDelay(1);
 			if (this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET) {
-				//this.robot.motorsStop();
+				this.robot.motorsStop();
 				return true;
 			}
 		}
@@ -246,7 +251,7 @@ public class RouteNavigator implements Mission {
 	
 	private void rotateRight() {
 		this.robot.adjustMotorspeed(400, -133);
-		for (int i = 0; i < 600; i++) {
+		for (int i = 0; i < 750; i++) {
 			if (this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET) {
 
 			}
