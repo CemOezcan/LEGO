@@ -55,14 +55,16 @@ public class TreasureHunter implements Mission {
 		this.robot.setTravelSpeed(SPEED);
 		robot.getColorSensor().setRGBMode();
 
-		// Start
+		// Alternate Start
 		this.robot.pilotTravel(4);
 
-		regulator = new RegulatorP(this.robot, TempoSonic, 100, 0.74f);
+		regulator = new RegulatorP(this.robot, TempoSonic, 300, 0.70f);
 
 		this.robot.forward();
 
 		// colorTest();
+
+		// start();
 
 		while (!(this.foundRed && this.foundWhite)) {
 			if (!Button.LEFT.isUp()) {
@@ -142,7 +144,7 @@ public class TreasureHunter implements Mission {
 			this.robot.RotateRight(275);
 			this.scan();
 		}
-		this.robot.pilotTravel(2);
+		this.robot.pilotTravel(1.5);
 		this.scan();
 		for (int i = 0; i < 2; i++) {
 			this.robot.RotateRight(275);
@@ -159,11 +161,11 @@ public class TreasureHunter implements Mission {
 			this.robot.RotateLeft(275);
 			this.scan();
 		}
-		if(firstRound) {
+		if (firstRound) {
 			this.robot.pilotTravel(7);
 			firstRound = false;
 		} else {
-			this.robot.pilotTravel(2);
+			this.robot.pilotTravel(4);
 		}
 		this.scan();
 		for (int i = 0; i < 2; i++) {
@@ -225,5 +227,15 @@ public class TreasureHunter implements Mission {
 			distance += robot.getUltraSonicSensor().getDistance();
 		}
 		return (distance / times);
+	}
+
+	private void alternateStart() {
+		this.robot.pilotTravel(8);
+		this.robot.RotateLeft(550);
+		this.robot.pilotTravel(5);
+		this.robot.RotateRight(550);
+		this.robot.pilotTravel(-4);
+		regulator = new RegulatorP(this.robot, TempoSonic, KpSonic, getDistance());
+		this.robot.forward();
 	}
 }
