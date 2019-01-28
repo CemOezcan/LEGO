@@ -56,9 +56,12 @@ public class TreasureHunter implements Mission {
 		robot.getColorSensor().setRGBMode();
 
 		// // Alternate Start
-		this.robot.pilotTravel(2);
+		this.robot.pilotTravel(3);
 
 		turnStart();
+		
+//		oldStart();
+		
 
 		this.robot.forward();
 
@@ -162,10 +165,10 @@ public class TreasureHunter implements Mission {
 			this.scan();
 		}
 		if (firstRound) {
-			this.robot.pilotTravel(7);
+			this.robot.pilotTravel(6);
 			firstRound = false;
 		} else {
-			this.robot.pilotTravel(4);
+			this.robot.pilotTravel(3.5);
 		}
 		this.scan();
 		for (int i = 0; i < 2; i++) {
@@ -230,6 +233,7 @@ public class TreasureHunter implements Mission {
 	}
 
 	private void turnStart() {
+		firstRound = false;
 		robot.adjustMotorspeed(20, 300);
 		while (getDistance() > 0.06) {
 
@@ -242,4 +246,8 @@ public class TreasureHunter implements Mission {
 		regulator = new RegulatorP(this.robot, TempoSonic, KpSonic, getDistance());
 	}
 
+	private void oldStart() {
+		firstRound = true;
+		regulator = new RegulatorP(this.robot, TempoSonic, 500, 0.74f);
+	}
 }
