@@ -163,7 +163,7 @@ public class RouteNavigator implements Mission {
 				break;
 			}
 			if (this.secondGap) {
-				this.robot.pilotTravel(7);
+				this.robot.pilotTravel(6.5);
 			} else {
 				this.robot.pilotTravel(7);
 				this.secondGap = true;
