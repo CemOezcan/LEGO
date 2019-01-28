@@ -28,8 +28,7 @@ public class RouteNavigator implements Mission {
 	private final boolean[] findRight = {true, true, false, true, true};
 	private final float[] speed = {350, 250, 350, 250, 350};
 	private final float[] kpValue = {2100, 1950, 2100, 1950, 2100};*/
-	
-	private int state = 0;
+
 
 	private float tempo = 350f; // 250
 
@@ -41,6 +40,7 @@ public class RouteNavigator implements Mission {
 	private boolean afterBox = false;
 	private boolean nextMission = false;
 	private boolean complete = false;
+	private boolean secondGap = false;
 
 	/*
 	 * constructs a new route navigator
@@ -61,8 +61,6 @@ public class RouteNavigator implements Mission {
 		robot.adjustMotorspeed(tempo, tempo);
 
 		while (Button.LEFT.isUp() && !end) {
-			this.robot.clearLCD();
-			this.robot.drawString("" + this.state, 0, 0);
 			float actualColorValue = robot.getColorSensor().getColor()[0];
 
 			// the touchsensors are touched and the robot has to drive around
@@ -153,9 +151,6 @@ public class RouteNavigator implements Mission {
 	public void findLine() {
 		while (true) {
 			if (this.findRight()) {
-				if (this.state == 2) {
-					this.setSpeedSlow();
-				}
 				break;
 			}
 			this.rotateLeft();
@@ -167,10 +162,12 @@ public class RouteNavigator implements Mission {
 				this.nextMission = true;  
 				break;
 			}
-			this.state ++;
-			this.robot.clearLCD();
-			this.robot.drawString("" + state, 0, 0);
-			this.robot.pilotTravel(8);
+			if (this.secondGap) {
+				this.robot.pilotTravel(6.5);
+			} else {
+				this.robot.pilotTravel(8);
+				this.secondGap = true;
+			}
 			
 		}
 		this.robot.motorsStop();
@@ -228,9 +225,10 @@ public class RouteNavigator implements Mission {
 	
 	private boolean findLeft() {
 		this.robot.adjustMotorspeed(-133, 400);
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 750; i++) {
 			Delay.msDelay(1);
 			if (this.robot.getColorSensor().getColor()[0] > WHITE - 12 * OFFSET) {
+				Delay.msDelay(100);
 				this.robot.motorsStop();
 				return true;
 			}
@@ -259,7 +257,6 @@ public class RouteNavigator implements Mission {
 			}
 			Delay.msDelay(1);
 		}
-		Delay.msDelay(260);
 	}
 	
 	private void setSpeedFast() {
