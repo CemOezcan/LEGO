@@ -174,7 +174,7 @@ public class RouteNavigator implements Mission {
 	}
 
 	public void driveToNextMission() {
-		float OPTIMALVALUE = 0.04f;
+		float OPTIMALVALUE = 0.03f;
 		float actualSonicValue = 0.0f;
 		float actualBlueValue = 0.0f; // Blue
 
@@ -185,16 +185,13 @@ public class RouteNavigator implements Mission {
 		// enter()
 		this.robot.motorsStop();
 		this.robot.pilotStop();
-		this.robot.clearLCD();
-		this.robot.beepSequence();
-		this.robot.beep();
 		this.robot.adjustMotorspeed(300, 300);
 
 		RegulatorP regulator = new RegulatorP(this.robot, 300f, kpSonic, OPTIMALVALUE);
 
 		this.robot.getColorSensor().setColorIDMode();
 		// Regulator start
-		this.robot.RotateLeft(110);
+		//this.robot.RotateLeft(110);
 		this.robot.pilotTravel(5);
 		this.robot.forward();
 		actualBlueValue = this.robot.getColorSensor().getColor()[0];
