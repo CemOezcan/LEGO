@@ -1,6 +1,7 @@
 package mission;
 
 import lejos.hardware.Button;
+import lejos.utility.Delay;
 import robot.Robot;
 
 public class BoxShifter implements Mission {
@@ -69,6 +70,8 @@ public class BoxShifter implements Mission {
 		this.robot.drawString("push Box to wall", 0, 0);
 		this.robot.RotateLeft(560);
 
+		this.robot.pilotTravel(-4);
+		
 		this.robot.forward();
 
 		// first white line
@@ -113,7 +116,7 @@ public class BoxShifter implements Mission {
 		}
 
 		// roboter l‰nge weiterfahren
-		this.robot.pilotTravel(7.5);
+		this.robot.pilotTravel(10); //7.5
 	}
 
 	private void findBlueLine() {
@@ -121,6 +124,8 @@ public class BoxShifter implements Mission {
 		this.robot.pilotTravel(-7);
 		this.robot.RotateRight(520);
 
+		this.robot.pilotTravel(-4);
+		
 		this.robot.forward();
 
 		float colorValue = this.robot.getColorSensor().getColor()[0];
@@ -130,23 +135,25 @@ public class BoxShifter implements Mission {
 
 		// Suche zweite weiﬂe Linie
 		this.robot.pilotTravel(4);
-		this.robot.RotateLeft(555);
-
-		this.robot.forward();
+		this.robot.RotateLeft(565);
 
 		colorValue = this.robot.getColorSensor().getColor()[0];
+		this.robot.forward();
 		while (colorValue < BLACK + OFFSET) {
 			colorValue = this.robot.getColorSensor().getColor()[0];
 		}
 
+		robot.pilotTravel(2);
+		
 		// Suche blaue Linie
 		this.robot.getColorSensor().setColorIDMode();
-		this.robot.forward();
 		colorValue = this.robot.getColorSensor().getColor()[0];
+		Delay.msDelay(50);
+		this.robot.forward();
 		while (!((colorValue == 1) || (colorValue == 2))) {
 			if (robot.getPressureSensorLeft().isTouched()) {
 				robot.pilotTravel(-5);
-				robot.RotateRight(60);
+				robot.RotateRight(50);
 				this.robot.forward();
 			}
 			colorValue = this.robot.getColorSensor().getColor()[0];

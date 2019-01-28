@@ -56,7 +56,7 @@ public class TreasureHunter implements Mission {
 		robot.getColorSensor().setRGBMode();
 
 		// // Alternate Start
-		this.robot.pilotTravel(3);
+		this.robot.pilotTravel(3.5);
 
 		turnStart();
 		
