@@ -103,6 +103,7 @@ public class TreasureHunter implements Mission {
 			}
 		}
 		this.robot.pilotStop();
+		endSequence();
 		return true;
 	}
 
@@ -239,7 +240,7 @@ public class TreasureHunter implements Mission {
 
 		}
 		robot.pilotTravel(-5);
-		robot.pilotTravel(8);
+		robot.pilotTravel(7);
 		robot.RotateRight(550);
 		robot.pilotTravel(-3);
 		leftSide = true;
@@ -249,5 +250,14 @@ public class TreasureHunter implements Mission {
 	private void oldStart() {
 		firstRound = true;
 		regulator = new RegulatorP(this.robot, TempoSonic, 500, 0.74f);
+	}
+
+	private void endSequence() {
+		robot.ultraSonicSensorDown();
+		robot.ultraSonicSensorUp();
+		robot.ultraSonicSensorDown();
+		robot.ultraSonicSensorUp();
+		robot.ultraSonicSensorDown();
+		robot.ultraSonicSensorUp();
 	}
 }
