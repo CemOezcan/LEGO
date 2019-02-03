@@ -165,12 +165,14 @@ public class TreasureHunter implements Mission {
 			this.robot.RotateLeft(275);
 			this.scan();
 		}
-		if (firstRound) {
+		/*if (firstRound) {
 			this.robot.pilotTravel(6);
 			firstRound = false;
 		} else {
 			this.robot.pilotTravel(3.5);
-		}
+		} */
+		this.robot.pilotTravel(3.5);
+		
 		this.scan();
 		for (int i = 0; i < 2; i++) {
 			this.robot.RotateLeft(275);
