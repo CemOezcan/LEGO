@@ -223,11 +223,11 @@ public class TreasureHunter implements Mission {
 		}
 	}
 
-	// Berechnet einen Mittelwert von 20 Messungen
+	// Berechnet einen Mittelwert von 2000 Messungen
 	private float getDistance() {
 		float distance = 0f;
 		int times = 0;
-		for (times = 0; times < 20; times++) {
+		for (times = 0; times < 2000; times++) {
 			distance += robot.getUltraSonicSensor().getDistance();
 		}
 		return (distance / times);
@@ -240,7 +240,7 @@ public class TreasureHunter implements Mission {
 
 		}
 		robot.pilotTravel(-5);
-		robot.pilotTravel(4); //7
+		robot.pilotTravel(3.5); //7
 		robot.RotateRight(550);
 		//robot.pilotTravel(-3);
 		leftSide = true;
