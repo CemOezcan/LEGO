@@ -171,7 +171,7 @@ public class TreasureHunter implements Mission {
 		} else {
 			this.robot.pilotTravel(3.5);
 		} */
-		this.robot.pilotTravel(3.5);
+		this.robot.pilotTravel(3.5); //change
 		
 		this.scan();
 		for (int i = 0; i < 2; i++) {
