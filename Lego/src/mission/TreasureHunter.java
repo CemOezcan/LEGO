@@ -155,7 +155,7 @@ public class TreasureHunter implements Mission {
 			this.scan();
 		}
 
-		this.robot.pilotTravel(-4);
+		this.robot.pilotTravel(-4.5); //4
 		this.robot.forward();
 	}
 
@@ -177,7 +177,7 @@ public class TreasureHunter implements Mission {
 			this.scan();
 		}
 
-		this.robot.pilotTravel(-4);
+		this.robot.pilotTravel(-4.5); //4
 		this.robot.forward();
 	}
 
@@ -240,9 +240,9 @@ public class TreasureHunter implements Mission {
 
 		}
 		robot.pilotTravel(-5);
-		robot.pilotTravel(7);
+		robot.pilotTravel(4); //7
 		robot.RotateRight(550);
-		robot.pilotTravel(-3);
+		//robot.pilotTravel(-3);
 		leftSide = true;
 		regulator = new RegulatorP(this.robot, TempoSonic, KpSonic, getDistance());
 	}
