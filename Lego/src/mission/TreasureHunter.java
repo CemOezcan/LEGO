@@ -16,7 +16,7 @@ public class TreasureHunter implements Mission {
 	private final float KpSonic = 2500;
 
 	// RGB
-	float[] red = new float[] { 0.095f, 0.25f, 0.013f };
+	float[] red = new float[] { 0.059f, 0.25f, 0.013f };
 	float[] blue = new float[] { 0.016f, 0.06f, 0.05f };
 	float[] white = new float[] { 0.1f, 0.2f, 0.09f };
 	float rgbOffset = 0.02f;
@@ -65,7 +65,7 @@ public class TreasureHunter implements Mission {
 
 		this.robot.forward();
 
-		// colorTest();
+		//colorTest();
 
 		// start();
 
@@ -184,7 +184,7 @@ public class TreasureHunter implements Mission {
 	}
 
 	private boolean isRed(float[] color) {
-		if ((color[0] > 0.09) && (color[1] < 0.03) && (color[2] < 0.03)) {
+		if ((color[0] > 0.03) && (color[1] < 0.03) && (color[2] < 0.03)) {
 			return true;
 		} else {
 			return false;
@@ -229,7 +229,7 @@ public class TreasureHunter implements Mission {
 	private float getDistance() {
 		float distance = 0f;
 		int times = 0;
-		for (times = 0; times < 2000; times++) {
+		for (times = 0; times < 1000; times++) {
 			distance += robot.getUltraSonicSensor().getDistance();
 		}
 		return (distance / times);
