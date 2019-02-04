@@ -170,7 +170,7 @@ public class TreasureHunter implements Mission {
 			firstRound = false;
 		} else {
 			this.robot.pilotTravel(3.5);
-		} */
+		}*/
 		this.robot.pilotTravel(3.5); //change
 		
 		this.scan();
@@ -242,9 +242,9 @@ public class TreasureHunter implements Mission {
 
 		}
 		robot.pilotTravel(-5);
-		robot.pilotTravel(3.5); //7
+		robot.pilotTravel(12); //7
 		robot.RotateRight(550);
-		//robot.pilotTravel(-3);
+		robot.pilotTravel(-3.5);
 		leftSide = true;
 		regulator = new RegulatorP(this.robot, TempoSonic, KpSonic, getDistance());
 	}
