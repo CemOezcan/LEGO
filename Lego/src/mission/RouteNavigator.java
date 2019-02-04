@@ -40,7 +40,7 @@ public class RouteNavigator implements Mission {
 	private boolean afterBox = false;
 	private boolean nextMission = false;
 	private boolean complete = false;
-	private boolean secondGap = false;
+	private int secondGap = 0;
 
 	/*
 	 * constructs a new route navigator
@@ -162,11 +162,11 @@ public class RouteNavigator implements Mission {
 				this.nextMission = true;  
 				break;
 			}
-			if (this.secondGap) {
+			if (this.secondGap == 2) {
 				this.robot.pilotTravel(6.5);
 			} else {
 				this.robot.pilotTravel(8);
-				this.secondGap = true;
+				this.secondGap++;
 			}
 			
 		}

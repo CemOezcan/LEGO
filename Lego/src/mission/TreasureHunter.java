@@ -45,7 +45,7 @@ public class TreasureHunter implements Mission {
 
 		// Initialisierung
 		this.robot.beep();
-		firstRound = true;
+		this.firstRound = true;
 		this.leftSide = true;
 		this.foundWhite = false;
 		this.foundRed = false;
@@ -148,7 +148,7 @@ public class TreasureHunter implements Mission {
 			this.robot.RotateRight(275);
 			this.scan();
 		}
-		this.robot.pilotTravel(1.5);
+		this.robot.pilotTravel(1);
 		this.scan();
 		for (int i = 0; i < 2; i++) {
 			this.robot.RotateRight(275);
@@ -165,13 +165,13 @@ public class TreasureHunter implements Mission {
 			this.robot.RotateLeft(275);
 			this.scan();
 		}
-		/*if (firstRound) {
-			this.robot.pilotTravel(6);
+		if (firstRound) {
+			this.robot.pilotTravel(7);
 			firstRound = false;
 		} else {
-			this.robot.pilotTravel(3.5);
-		}*/
-		this.robot.pilotTravel(3.5); //change
+			this.robot.pilotTravel(3);
+		}
+		//this.robot.pilotTravel(3.5); //change
 		
 		this.scan();
 		for (int i = 0; i < 2; i++) {
@@ -184,7 +184,7 @@ public class TreasureHunter implements Mission {
 	}
 
 	private boolean isRed(float[] color) {
-		if ((color[0] > 0.03) && (color[1] < 0.03) && (color[2] < 0.03)) {
+		if ((color[0] > 0.025) && (color[1] < 0.03) && (color[2] < 0.03)) {
 			return true;
 		} else {
 			return false;
@@ -242,7 +242,7 @@ public class TreasureHunter implements Mission {
 
 		}
 		robot.pilotTravel(-5);
-		robot.pilotTravel(12); //7
+		robot.pilotTravel(7); //7
 		robot.RotateRight(550);
 		robot.pilotTravel(-3.5);
 		leftSide = true;
