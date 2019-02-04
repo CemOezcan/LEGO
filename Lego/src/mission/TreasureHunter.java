@@ -16,7 +16,7 @@ public class TreasureHunter implements Mission {
 	private final float KpSonic = 2500;
 
 	// RGB
-	float[] red = new float[] { 0.095f, 0.25f, 0.013f };
+	float[] red = new float[] { 0.059f, 0.25f, 0.013f };
 	float[] blue = new float[] { 0.016f, 0.06f, 0.05f };
 	float[] white = new float[] { 0.1f, 0.2f, 0.09f };
 	float rgbOffset = 0.02f;
@@ -65,7 +65,7 @@ public class TreasureHunter implements Mission {
 
 		this.robot.forward();
 
-		// colorTest();
+		//colorTest();
 
 		// start();
 
@@ -155,7 +155,7 @@ public class TreasureHunter implements Mission {
 			this.scan();
 		}
 
-		this.robot.pilotTravel(-4);
+		this.robot.pilotTravel(-4.5); //4
 		this.robot.forward();
 	}
 
@@ -165,24 +165,26 @@ public class TreasureHunter implements Mission {
 			this.robot.RotateLeft(275);
 			this.scan();
 		}
-		if (firstRound) {
+		/*if (firstRound) {
 			this.robot.pilotTravel(6);
 			firstRound = false;
 		} else {
 			this.robot.pilotTravel(3.5);
-		}
+		} */
+		this.robot.pilotTravel(3.5); //change
+		
 		this.scan();
 		for (int i = 0; i < 2; i++) {
 			this.robot.RotateLeft(275);
 			this.scan();
 		}
 
-		this.robot.pilotTravel(-4);
+		this.robot.pilotTravel(-4.5); //4
 		this.robot.forward();
 	}
 
 	private boolean isRed(float[] color) {
-		if ((color[0] > 0.09) && (color[1] < 0.03) && (color[2] < 0.03)) {
+		if ((color[0] > 0.03) && (color[1] < 0.03) && (color[2] < 0.03)) {
 			return true;
 		} else {
 			return false;
@@ -223,11 +225,11 @@ public class TreasureHunter implements Mission {
 		}
 	}
 
-	// Berechnet einen Mittelwert von 20 Messungen
+	// Berechnet einen Mittelwert von 2000 Messungen
 	private float getDistance() {
 		float distance = 0f;
 		int times = 0;
-		for (times = 0; times < 20; times++) {
+		for (times = 0; times < 1000; times++) {
 			distance += robot.getUltraSonicSensor().getDistance();
 		}
 		return (distance / times);
@@ -240,9 +242,9 @@ public class TreasureHunter implements Mission {
 
 		}
 		robot.pilotTravel(-5);
-		robot.pilotTravel(7);
+		robot.pilotTravel(3.5); //7
 		robot.RotateRight(550);
-		robot.pilotTravel(-3);
+		//robot.pilotTravel(-3);
 		leftSide = true;
 		regulator = new RegulatorP(this.robot, TempoSonic, KpSonic, getDistance());
 	}
